@@ -9,10 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<NewsStory> productsList = null;
     private ListView listView                               = null;
     private NewsAdapter newsAdapter                         = null;
+    private FoldingCellListAdapter foldingCellListAdapter   = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +58,21 @@ public class MainActivity extends AppCompatActivity {
         productsList            = new ArrayList<>();
 
         listView                = (ListView)findViewById(R.id.list1);
-        newsAdapter =  new NewsAdapter(this, productsList);
-        listView.setAdapter(newsAdapter);
-        new LoadFeedDataAsync(newsAdapter).execute();
+        foldingCellListAdapter  = new FoldingCellListAdapter(this, productsList);
+        //newsAdapter =  new NewsAdapter(this, productsList);
+        listView.setAdapter(foldingCellListAdapter);
+        new LoadFeedDataAsync(foldingCellListAdapter).execute();
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                // toggle clicked cell state
+                ((FoldingCell) view).toggle(false);
+                // register in adapter that state for selected cell is toggled
+                foldingCellListAdapter.registerToggle(pos);
+            }
+        });
 
     }
 

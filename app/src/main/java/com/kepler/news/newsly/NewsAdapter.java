@@ -45,6 +45,7 @@ public class NewsAdapter extends BaseAdapter {
         this.productsList = productsList;
     }
 
+
     @Override
     public int getCount() {
         return productsList.size();
@@ -59,7 +60,6 @@ public class NewsAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout itemView;

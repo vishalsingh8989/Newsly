@@ -32,6 +32,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
 
 
     private NewsAdapter newsAdapter                         = null;
+    private FoldingCellListAdapter foldingCellListAdapter   = null;
     private ArrayList<NewsStory> productsList = null;
     private static String  DESCRIPTION                       = "description";
     private static String  SOURCE                            = "source";
@@ -40,8 +41,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
 
 
 
-    public LoadFeedDataAsync(NewsAdapter adapter) {
-        this.newsAdapter = adapter;
+    public LoadFeedDataAsync(FoldingCellListAdapter adapter) {
+        this.foldingCellListAdapter = adapter;
         this.productsList = new ArrayList<>();
     }
 
@@ -206,7 +207,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
 
-        newsAdapter.upDateEntries(result);
+        foldingCellListAdapter.upDateEntries(result);
     }
 
     public String getPostDataString(JSONObject params) throws Exception {
