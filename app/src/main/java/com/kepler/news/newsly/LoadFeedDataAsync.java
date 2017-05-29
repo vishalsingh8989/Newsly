@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -31,7 +32,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by vishaljasrotia on 28/05/17.
  */
 
-public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsStory>> {
+public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStory>> {
 
 
     private NewsAdapter newsAdapter                         = null;
@@ -42,23 +43,36 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
     private static String  SOURCENAME                       = "sourceName";
     private static String  IMAGEURL                        = "urltoimage";
 
+    private int start =0;
+    private int offset = 30;
+
+
 
 
     public LoadFeedDataAsync(FoldingCellListAdapter adapter) {
         this.foldingCellListAdapter = adapter;
         this.productsList = new ArrayList<>();
+
     }
 
     @Override
     protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
 
+        start = MainActivity.start;
+        offset = MainActivity.offset;
+
         String articles = "notfound";
         String result = "";
         try {
 
+            //http://192.168.0.4:8000/?addtime=1495955968&start=10&offset=20
+
             //String mUrl = "http://192.168.0.4:8000/?addtime=1495955972";
-            String mUrl = "http://192.168.0.4:8000/";
+            String mUrl = "http://192.168.0.4:8000/?addtime=149595596&start="+String.valueOf(start)+"&offset="+String.valueOf(offset);
+
+
+            //Log.v("LOADASYNCFEED",mUrl);
 
             URL url = new URL(mUrl); // here is your URL path
 
@@ -158,9 +172,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
 
     }
 
+
+
+
     @Override
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
+       MainActivity.start = MainActivity.start + MainActivity.offset;
+
         Collections.shuffle(result);
         foldingCellListAdapter.upDateEntries(result);
     }

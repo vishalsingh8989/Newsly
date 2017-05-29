@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // get item for selected view
         FoldingCell cell;
-
+        Log.v("LOADASYNCFEED", "LOAD ADAPTER" );
         NewsStory item = (NewsStory) getItem(position);
         // if cell is exists - reuse it, if not - create the new one from resource
         cell = (FoldingCell) convertView;
@@ -128,6 +129,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         return cell;
     }
+
+
 
 
     public void registerToggle(int position) {
