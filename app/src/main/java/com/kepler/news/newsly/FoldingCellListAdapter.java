@@ -120,6 +120,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         viewHolder.side_bar.setBackground(gradientDrawable);
         viewHolder.side_bar1.setBackground(gradientDrawable);
 
+
+
         Picasso.with(mContext)
                 .load(productsList.get(position).getUrltoimage())
                 .into(viewHolder.image);

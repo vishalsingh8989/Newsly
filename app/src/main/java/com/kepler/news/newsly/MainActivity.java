@@ -16,6 +16,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.ramotion.foldingcell.FoldingCell;
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
+        new SlidingRootNavBuilder(this)
+                .withToolbarMenuToggle(toolbar)
+                .withMenuOpened(true)
+                .withSavedState(savedInstanceState)
+                .withMenuLayout(R.layout.menu_left_drawer)
+                .inject();
 
 
 
