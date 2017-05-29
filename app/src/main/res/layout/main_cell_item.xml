@@ -11,58 +11,97 @@
     folding-cell:cameraHeight="30">
     ​
     <RelativeLayout
+        android:background="@drawable/main_item_cell_bg"
         android:id="@+id/cell_content_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
+        <LinearLayout
+            android:id="@+id/side_bar1"
+            android:background="@drawable/side_color_bar_bg"
+            android:layout_height="match_parent"
+            android:layout_width="4dp"
+            android:orientation="horizontal" />
         <TextView
             android:textSize="13dp"
-            android:background="@color/text_bg_color"
+            android:textAlignment="center"
+            android:background="@color/transparent"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:textColor="@color/black"
-            android:padding="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-        <TextView
+        <LinearLayout
+            android:id="@+id/divider1"
             android:layout_below="@+id/description"
-            android:background="@color/text_bg_color"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/divider_color"
+            android:orientation="horizontal" />
+        <TextView
+            android:layout_below="@+id/divider1"
+            android:background="@color/transparent"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:textColor="@color/black"
-            android:padding="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="13dp"
             android:id="@+id/author"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="99dp" />
+        <LinearLayout
+            android:id="@+id/divider2"
+            android:layout_below="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/divider_bg"
+            android:orientation="horizontal" />
         <TextView
             android:id="@+id/source"
-            android:background="@color/text_bg_color"
+            android:background="@color/transparent"
             android:layout_below="@+id/author"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:textColor="@color/black"
-            android:padding="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="13dp"
             android:text="Hello"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="99dp" />
     </RelativeLayout>
 
     ​
     <LinearLayout
-        android:background="@color/text_bg_color"
+        android:background="@drawable/main_item_cell_bg"
         android:id="@+id/cell_title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/side_bar"
+            android:background="@drawable/side_color_bar_bg"
+            android:layout_height="match_parent"
+            android:layout_width="4dp"
+            android:orientation="horizontal" />
         <ImageView
             android:scaleType="centerCrop"
             android:id="@+id/urltoimage"
-            android:layout_weight=".30"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".31"
             android:layout_width="0dp"
             android:layout_height="100dp" />
 
 
         <LinearLayout
+            android:background="@color/transparent"
             android:orientation="vertical"
-            android:layout_weight=".70"
+            android:layout_weight=".68"
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
@@ -73,7 +112,7 @@
                 android:layout_weight=".75"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:text="Hello"
                 android:textAppearance="@style/TextAppearance.FontPath"
                 android:textColor="@color/black" />
@@ -82,7 +121,8 @@
                 android:layout_weight=".25"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="5dp"
+                android:padding="2dp"
+                android:layout_marginRight="2dp"
                 android:textSize="9dp"
                 android:text="Hello"
                 android:textAlignment="textEnd"

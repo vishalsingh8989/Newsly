@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
+
+
+
         productsList            = new ArrayList<>();
 
         listView                = (ListView)findViewById(R.id.list1);
