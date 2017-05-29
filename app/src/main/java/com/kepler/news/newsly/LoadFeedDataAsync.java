@@ -3,6 +3,8 @@ package com.kepler.news.newsly;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.kepler.news.newsly.helper.Common;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +21,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -111,70 +114,22 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
                     NewsStory story = new NewsStory();
 
                     Log.v("HYHTTP", "*************************************");
-                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(DESCRIPTION));
-                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(SOURCENAME));
+                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
+                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
                     Log.v("HYHTTP", "*************************************");
 
-                    story.setDescription(data.getJSONObject(i).getString(DESCRIPTION));
-                    story.setSourceName(data.getJSONObject(i).getString(SOURCENAME));
-                    story.setUrltoimage(data.getJSONObject(i).getString(IMAGEURL));
+                    story.setDescription(data.getJSONObject(i).getString(Common.DESCRIPTION));
+                    story.setTitle(data.getJSONObject(i).getString(Common.TITLE));
+                    story.setSourceName(data.getJSONObject(i).getString(Common.SOURCENAME));
+                    story.setUrltoimage(data.getJSONObject(i).getString(Common.IMAGEURL));
+                    story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
 
 
-                    //map.put(DESCRIPTION, );
-                    //map.put(SOURCE, );
                     productsList.add(story);
                 }
 
 
             }
-
-
-
-
-
-
-
-//            URL url = new URL("http://192.168.0.4:8000/");
-//            HttpURLConnection mHttpConnection = (HttpURLConnection) url.openConnection();
-//            mHttpConnection.connect();
-//
-//
-//            mHttpConnection.setRequestMethod("GET");
-//            int responseCode = mHttpConnection.getResponseCode();
-//            Log.v("HYHTTP", "\nSending 'GET' request to URL : " + url);
-//            Log.v("HYHTTP", "Response Code : " + responseCode);
-//
-//            BufferedReader in = new BufferedReader(new InputStreamReader(mHttpConnection.getInputStream()));
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//
-//
-//            while ((inputLine = in.readLine()) != null) {
-//                response.append(inputLine);
-//            }
-//            in.close();
-//
-//
-//            Log.v("HYHTTP", "response " + response.toString());
-//            result = response.toString();
-//
-//            JSONObject jObject = new JSONObject(result);
-//            JSONArray data = jObject.getJSONArray("articles");
-//
-//            Log.v("HYHTTP", "articles " + data.length());
-//
-//            for (int i = 0; i < data.length(); i++) {
-//                HashMap<String, String> map = new HashMap<String, String>();
-//
-//                Log.v("HYHTTP", "*************************************");
-//                Log.v("HYHTTP", "" + data.getJSONObject(i).getString(DESCRIPTION));
-//                Log.v("HYHTTP", "" + data.getJSONObject(i).getString(SOURCENAME));
-//                Log.v("HYHTTP", "*************************************");
-//                map.put(DESCRIPTION, data.getJSONObject(i).getString(DESCRIPTION));
-//                map.put(SOURCE, data.getJSONObject(i).getString(SOURCENAME));
-//
-//                productsList.add(map);
-//            }
 
 
         } catch (MalformedURLException e) {
@@ -206,7 +161,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void , Void, ArrayList<NewsSto
     @Override
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
-
+        Collections.shuffle(result);
         foldingCellListAdapter.upDateEntries(result);
     }
 

@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,8 +66,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
             cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
             // binding view parts to view holder
             viewHolder.description = (TextView) cell.findViewById(R.id.description);
+            viewHolder.author = (TextView) cell.findViewById(R.id.author);
+            viewHolder.title = (TextView) cell.findViewById(R.id.title);
             viewHolder.source = (TextView) cell.findViewById(R.id.source);
-
+            viewHolder.sourceMini = (TextView)cell.findViewById(R.id.sourceMini);
+            viewHolder.image = (ImageView)cell.findViewById(R.id.urltoimage);
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -78,23 +84,22 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         // bind data from selected element to view through view holder
         viewHolder.description.setText(productsList.get(position).getDescription());
-        viewHolder.source.setText(productsList.get(position).getSourceName());
+        viewHolder.source.setText("Source: "+productsList.get(position).getSourceName());
+        viewHolder.sourceMini.setText("Source: "+productsList.get(position).getSourceName());
+        viewHolder.title.setText(productsList.get(position).getTitle());
+        viewHolder.author.setText("Author: "+productsList.get(position).getAuthor());
 
+        Picasso.with(mContext)
+                .load(productsList.get(position).getUrltoimage())
+                .transform(new RoundedTransformation(20, 0))
+                .into(viewHolder.image);
 
-//        // set custom btn handler for list item from that item
-//        if (item.getRequestBtnClickListener() != null) {
-//            viewHolder.contentRequestBtn.setOnClickListener(item.getRequestBtnClickListener());
-//        }
-////        } else {
-////            // (optionally) add "default" handler if no handler found in item
-////            viewHolder.contentRequestBtn.setOnClickListener(defaultRequestBtnClickListener);
-////        }
 
 
         return cell;
     }
 
-    // simple methods for register cell state changes
+
     public void registerToggle(int position) {
         if (unfoldedIndexes.contains(position))
             registerFold(position);
@@ -114,10 +119,14 @@ public class FoldingCellListAdapter extends BaseAdapter {
         productsList = entries;
         this.notifyDataSetChanged();
     }
-    // View lookup cache
+
     private static class ViewHolder {
         TextView description;
+        TextView title;
+        TextView author;
         TextView source;
+        TextView sourceMini;
+        ImageView image;
 
     }
 }

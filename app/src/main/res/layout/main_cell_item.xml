@@ -1,30 +1,94 @@
-<com.ramotion.foldingcell.FoldingCell
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
     android:id="@+id/folding_cell"
+    android:background="@drawable/main_item_cell_bg"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    folding-cell:animationDuration="1000"
+    folding-cell:backSideColor="#f1eded"
+    folding-cell:additionalFlipsCount="2"
+    folding-cell:cameraHeight="30">
     ​
-    <FrameLayout
-        android:id="@+id/cell_content_view"
+    <RelativeLayout
+        android:id="@+id/cell_content_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_green_dark"
         android:visibility="gone">
         <TextView
+            android:textSize="13dp"
+            android:background="@color/text_bg_color"
+            android:textAppearance="@style/TextAppearance.FontPath"
+            android:textColor="@color/black"
+            android:padding="2dp"
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
-    </FrameLayout>
-    ​
-    <FrameLayout
-        android:id="@+id/cell_title_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_height="200dp" />
+        <TextView
+            android:layout_below="@+id/description"
+            android:background="@color/text_bg_color"
+            android:textAppearance="@style/TextAppearance.FontPath"
+            android:textColor="@color/black"
+            android:padding="2dp"
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
         <TextView
             android:id="@+id/source"
+            android:background="@color/text_bg_color"
+            android:layout_below="@+id/author"
+            android:textAppearance="@style/TextAppearance.FontPath"
+            android:textColor="@color/black"
+            android:padding="2dp"
+            android:text="Hello"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@android:color/holo_blue_dark" />
-    </FrameLayout>
+            android:layout_height="100dp" />
+    </RelativeLayout>
+
+    ​
+    <LinearLayout
+        android:background="@color/text_bg_color"
+        android:id="@+id/cell_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/urltoimage"
+            android:layout_weight=".30"
+            android:layout_width="0dp"
+            android:layout_height="100dp" />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight=".70"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:elegantTextHeight="true"
+                android:textSize="13dp"
+                android:layout_weight=".75"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="5dp"
+                android:text="Hello"
+                android:textAppearance="@style/TextAppearance.FontPath"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/sourceMini"
+                android:layout_weight=".25"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="5dp"
+                android:textSize="9dp"
+                android:text="Hello"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.FontPath"
+                android:textColor="@color/text_secondry" />
+        </LinearLayout>
+    </LinearLayout>
     ​
 </com.ramotion.foldingcell.FoldingCell>

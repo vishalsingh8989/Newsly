@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setDefaultFontPath("fonts/RobotoCondensed-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
