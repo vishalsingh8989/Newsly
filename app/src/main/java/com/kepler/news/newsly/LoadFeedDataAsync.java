@@ -35,7 +35,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStory>> {
 
 
-    private NewsAdapter newsAdapter                         = null;
+
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private ArrayList<NewsStory> productsList = null;
     private static String  DESCRIPTION                       = "description";
@@ -72,7 +72,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             String mUrl = "http://192.168.0.4:8000/?addtime=149595596&start="+String.valueOf(start)+"&offset="+String.valueOf(offset);
 
 
-            //Log.v("LOADASYNCFEED",mUrl);
+            Log.v("LOADASYNCFEED",mUrl);
 
             URL url = new URL(mUrl); // here is your URL path
 
@@ -178,7 +178,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     @Override
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
-       MainActivity.start = MainActivity.start + MainActivity.offset;
+        MainActivity.start = MainActivity.start + MainActivity.offset;
 
         Collections.shuffle(result);
         foldingCellListAdapter.upDateEntries(result);

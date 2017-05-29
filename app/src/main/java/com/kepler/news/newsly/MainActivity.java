@@ -14,9 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-
+import com.paging.listview.PagingListView;
 import com.ramotion.foldingcell.FoldingCell;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+import com.yarolegovich.slidingrootnav.transform.RootTransformation;
 
 
 import java.util.ArrayList;
@@ -31,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<NewsStory> productsList = null;
     private ListView listView                               = null;
-    private NewsAdapter newsAdapter                         = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
+    private int calledOn = 30;
     private int currentScrollState;
     public int firstVisibleItem, visibleItemCount, totalItemCount;
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
-                .withMenuOpened(true)
+                .withMenuOpened(false)
                 .withSavedState(savedInstanceState)
                 .withMenuLayout(R.layout.menu_left_drawer)
                 .inject();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         productsList            = new ArrayList<>();
 
-        listView                = (ListView)findViewById(R.id.list1);
+        listView                = (ListView) findViewById(R.id.list1);
         foldingCellListAdapter  = new FoldingCellListAdapter(this, productsList);
 
 
@@ -98,17 +99,19 @@ public class MainActivity extends AppCompatActivity {
 
                 currentScrollState = scrollState;
 
-                Log.v("ONSCROLL", " " + absListView.getFirstVisiblePosition() + " , " + absListView.getChildCount() + " , "+absListView.getLastVisiblePosition());
-                isScrollCompleted(absListView.getLastVisiblePosition(), currentScrollState);
+                Log.v("ONSCROLL", " " + firstVisibleItem + " , " + visibleItemCount + " , "+totalItemCount);
+                isScrollCompleted(firstVisibleItem, visibleItemCount , totalItemCount, currentScrollState);
 
 
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView absListView, int f, int v, int t) {
 
                 //Log.v("ONSCROLL", "" + firstVisibleItem + " , " + visibleItemCount + " , " + totalItemCount);
-
+                firstVisibleItem = f;
+                visibleItemCount = v;
+                totalItemCount   = t;
 
 
             }
@@ -123,11 +126,12 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void isScrollCompleted(int firstVisibleItem, int currentScrollState) {
-        if ( firstVisibleItem==0&& currentScrollState==SCROLL_STATE_IDLE) {
-            //Log.v("LOADASYNCFEED", "END REACHED" );
+    private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
+        if (calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE) {
+            Log.v("LOADASYNCFEED", "END REACHED" );
             loadFeedDataAsync = new LoadFeedDataAsync(foldingCellListAdapter);
             loadFeedDataAsync.execute();
+            calledOn=calledOn+offset;
         }
     }
 }

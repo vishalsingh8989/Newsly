@@ -31,7 +31,6 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'com.yarolegovich:sliding-root-nav:1.0.2'
 
-    compile 'com.fxn769:oblique:1.0'
 
 
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -39,7 +38,7 @@ dependencies {
 
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
 
-
+    compile 'com.github.nicolasjafelle:paginglistview:1.2'
 
 
 }

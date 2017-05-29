@@ -12,22 +12,25 @@
         android:layout_width="wrap_content"
         android:layout_height="90dp" />
     <Switch
+        android:text="French"
         android:layout_width="wrap_content"
         android:layout_height="90dp" />
     <Switch
+        android:text="German"
         android:layout_width="wrap_content"
         android:layout_height="90dp" />
     <Switch
+        android:text="English"
         android:layout_width="wrap_content"
         android:layout_height="90dp" />
 
     <Switch
+        android:text="English"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:paddingStart="24dp"
-        android:text="Account Balance"
         android:textSize="12sp" />
 
 

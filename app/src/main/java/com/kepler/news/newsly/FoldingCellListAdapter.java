@@ -36,6 +36,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private ArrayList<NewsStory> productsList = null;
+    private ArrayList<NewsStory> newProductsList = null;
     private static String DESCRIPTION        = "description";
     private static String SOURCE             = "source";
     private static String  SOURCENAME        = "sourceName";
@@ -79,9 +80,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // get item for selected view
         FoldingCell cell;
-        Log.v("LOADASYNCFEED", "LOAD ADAPTER" );
         NewsStory item = (NewsStory) getItem(position);
-        // if cell is exists - reuse it, if not - create the new one from resource
         cell = (FoldingCell) convertView;
         final ViewHolder viewHolder;
         if (cell == null) {
@@ -149,8 +148,13 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
     public void upDateEntries(ArrayList<NewsStory> entries) {
-        productsList = entries;
+        productsList.addAll(entries);
         this.notifyDataSetChanged();
+    }
+    public ArrayList<NewsStory> getDateEntries()
+    {
+
+        return newProductsList;
     }
 
     private static class ViewHolder {

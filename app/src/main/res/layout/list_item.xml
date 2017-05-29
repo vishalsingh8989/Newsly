@@ -37,13 +37,4 @@
             android:textSize="10sp" />
     </LinearLayout>
 
-    <ak.sh.ay.oblique.ObliqueView
-        android:id="@+id/obliqueView"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_weight="0.35"
-        android:scaleType="centerCrop"
-        app:src="@drawable/sample"
-        app:ending_slant_angle="90"
-        app:starting_slant_angle="80" />
 </LinearLayout>
