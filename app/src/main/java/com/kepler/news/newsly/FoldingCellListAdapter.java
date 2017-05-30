@@ -149,6 +149,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     public void upDateEntries(ArrayList<NewsStory> entries) {
         productsList.addAll(entries);
+
         this.notifyDataSetChanged();
     }
     public ArrayList<NewsStory> getDateEntries()

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -59,8 +60,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
 
-        start = MainActivity.start;
-        offset = MainActivity.offset;
+
 
         String articles = "notfound";
         String result = "";
@@ -69,7 +69,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             //http://192.168.0.4:8000/?addtime=1495955968&start=10&offset=20
 
             //String mUrl = "http://192.168.0.4:8000/?addtime=1495955972";
-            String mUrl = "http://192.168.0.4:8000/?addtime=149595596&start="+String.valueOf(start)+"&offset="+String.valueOf(offset);
+            String mUrl = "http://192.168.0.3:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
 
 
             Log.v("LOADASYNCFEED",mUrl);
@@ -178,9 +178,11 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     @Override
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
-        MainActivity.start = MainActivity.start + MainActivity.offset;
 
-        Collections.shuffle(result);
+        MainActivity.start = MainActivity.start+offset;
+        Random rn = new Random(15L);
+
+        Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result);
     }
 
