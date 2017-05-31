@@ -38,21 +38,30 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
 
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private ArrayList<NewsStory> productsList = null;
-    private static String  DESCRIPTION                       = "description";
-    private static String  SOURCE                            = "source";
+    private ArrayList<NewsStory> productsList               = null;
+    private static String  DESCRIPTION                      = "description";
+    private static String  SOURCE                           = "source";
     private static String  SOURCENAME                       = "sourceName";
-    private static String  IMAGEURL                        = "urltoimage";
+    private static String  IMAGEURL                         = "urltoimage";
 
-    private int start =0;
-    private int offset = 30;
+    private int    start                                    = 0;
+    private int    offset                                   = 30;
+    private boolean onRefresh                               = false;
 
 
 
 
-    public LoadFeedDataAsync(FoldingCellListAdapter adapter) {
+    public LoadFeedDataAsync(MainActivity mainActivity, FoldingCellListAdapter adapter) {
         this.foldingCellListAdapter = adapter;
-        this.productsList = new ArrayList<>();
+        this.productsList           = new ArrayList<>();
+        this.onRefresh              = false;
+
+    }
+
+    public LoadFeedDataAsync(MainActivity mainActivity ,FoldingCellListAdapter adapter, boolean onRefresh) {
+        this.foldingCellListAdapter = adapter;
+        this.productsList           = new ArrayList<>();
+        this.onRefresh              = onRefresh;
 
     }
 
@@ -178,12 +187,10 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     @Override
     protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
-
         MainActivity.start = MainActivity.start+offset;
         Random rn = new Random(15L);
-
         Collections.shuffle(result, rn);
-        foldingCellListAdapter.upDateEntries(result);
+        foldingCellListAdapter.upDateEntries(result , onRefresh);
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

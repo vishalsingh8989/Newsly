@@ -1,38 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="20dp"
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <Switch
-        android:text="English"
+
+    <TextView
+        android:id="@+id/newsly"
+        android:text="Newsly"
+        android:textSize="40dp"
+        android:paddingLeft="10dp"
         android:textAlignment="textStart"
         android:layout_width="wrap_content"
-        android:layout_height="90dp" />
-    <Switch
-        android:text="French"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp" />
-    <Switch
-        android:text="German"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp" />
-    <Switch
-        android:text="English"
-        android:layout_width="wrap_content"
-        android:layout_height="90dp" />
-
-    <Switch
-        android:text="English"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingStart="24dp"
-        android:textSize="12sp" />
+        android:paddingBottom="30dp"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/newsly"
+        android:id="@+id/language"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/language"
+            />
+        <TextView
+            android:text="Language"
+            android:paddingLeft="10dp"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/language"
+        android:id="@+id/topic"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/language"
+            />
+        <TextView
+            android:text="Topic"
+            android:paddingLeft="10dp"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/topic"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/language"
+            />
+        <TextView
+            android:text="Language"
+            android:paddingLeft="10dp"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+<TextView
+    android:paddingRight="10dp"
+    android:textSize="10sp"
+    android:text="Copyright © kepler 2017."
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
 
-
-</LinearLayout>
+</RelativeLayout>

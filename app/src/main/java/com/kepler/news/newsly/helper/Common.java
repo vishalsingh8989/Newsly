@@ -13,5 +13,6 @@ public class Common {
     public static String  SOURCE                            = "source";
     public static String  SOURCENAME                        = "sourceName";
     public static String  IMAGEURL                          = "urltoimage";
+    public static String  ADDTIME                           = "addtime";
 
 }

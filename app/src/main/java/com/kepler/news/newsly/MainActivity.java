@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +15,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import com.paging.listview.PagingListView;
+
+import com.kepler.news.newsly.helper.CallbackAdapter;
+import com.kepler.news.newsly.views.CircleRefreshLayout;
 import com.ramotion.foldingcell.FoldingCell;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
-import com.yarolegovich.slidingrootnav.transform.RootTransformation;
 
 
 import java.util.ArrayList;
@@ -28,15 +30,21 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private ArrayList<NewsStory> productsList = null;
+    private ArrayList<NewsStory> allNewslist = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
     private int calledOn = 30;
+    private int minEntries = 30;
     private int currentScrollState;
+    private String mSearchText = "";
     public int firstVisibleItem, visibleItemCount, totalItemCount;
+    private CircleRefreshLayout mCircleRefreshLayout        = null;
+    private SearchView mSearchView                          = null;
+
 
 
     public static int start =0;
@@ -69,13 +77,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         productsList            = new ArrayList<>();
-
+        allNewslist             = new ArrayList<>();
+        //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
-        foldingCellListAdapter  = new FoldingCellListAdapter(this, productsList);
+        mSearchView             = (SearchView)findViewById(R.id.search_view);
+        foldingCellListAdapter  = new FoldingCellListAdapter(MainActivity.this,this, productsList, allNewslist);
 
 
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(foldingCellListAdapter);
+        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
 
         loadFeedDataAsync.execute();
 
@@ -118,8 +128,88 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        mSearchView.setIconified(true);
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ArrayList<NewsStory> entries = foldingCellListAdapter.AllNewsEntries();
+                foldingCellListAdapter.refreshEntries(entries);
+                mSearchText = "";
+                return false;
+            }
+        });
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                Log.v("QuerySearch" , "onFocusChange " + b);
+
+                if(!b) {
+                   // ArrayList<NewsStory> entries = foldingCellListAdapter.AllNewsEntries();
+                   // foldingCellListAdapter.refreshEntries(entries);
+                    //new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter).execute();
+                }
+            }
+        });
+
+        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("QuerySearch" , "onClick");
+            }
+        });
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                mSearchText = s;
+                Log.v("QuerySearch" , "onQueryTextSubmit");
+                ArrayList<NewsStory> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
+                foldingCellListAdapter.refreshEntries(entries);
+                if(entries.size()<minEntries)
+                {
+                    loadMore();
+                    entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
+                }
+                foldingCellListAdapter.refreshEntries(entries);
+                return true;
+            }
+
+
+
+            @Override
+            public boolean onQueryTextChange(String searchText) {
+                Log.v("QuerySearch" , "onQueryTextChange");
+                if(searchText.trim()=="") {
+                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter).execute();
+                }
+                return true;
+            }
+        });
+
+
+//        mCircleRefreshLayout.setOnRefreshListener(new CircleRefreshLayout.OnCircleRefreshListener() {
+//            @Override
+//            public void completeRefresh() {
+//                Log.v("REFRESHLAYOUT" , "completeRefresh");
+//            }
+//
+//            @Override
+//            public void refreshing() {
+//                Log.v("REFRESHLAYOUT" , "refreshing1");
+//                if(productsList!=null && productsList.size()!=0) {
+//                    loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this,foldingCellListAdapter, true);
+//                    loadFeedDataAsync.execute();
+//                    Log.v("REFRESHLAYOUT" , "refreshing2");
+//
+//                }
+//
+//            }
+//        });
+
+
 
     }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -127,11 +217,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
-        if (calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE) {
+        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+","+mSearchText + ","  +calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount );
+        if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
+                ||(calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE))
+        {
             Log.v("LOADASYNCFEED", "END REACHED" );
-            loadFeedDataAsync = new LoadFeedDataAsync(foldingCellListAdapter);
-            loadFeedDataAsync.execute();
-            calledOn=calledOn+offset;
+            loadMore();
         }
     }
+
+    private void loadMore() {
+        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
+        loadFeedDataAsync.execute();
+        calledOn=calledOn+offset;
+    }
+
+
+    private ArrayList<NewsStory> filterNewsBasesOnSearch(ArrayList<NewsStory> entries, String searchText) {
+
+
+
+        ArrayList<NewsStory> filteredNews = new ArrayList<>();
+        for(NewsStory story: entries) {
+
+            if(story.getDescription().toLowerCase().contains(searchText)
+                    || story.getTitle().toLowerCase().contains(searchText)
+                    || story.getAuthor().toLowerCase().contains(searchText)
+                    || story.getSourceName().toLowerCase().contains(searchText) ) {
+                filteredNews.add(story);
+            }
+
+        }
+        Log.v("QuerySearch" , "filtersize " + filteredNews.size() + " , " + entries.size());
+        return filteredNews;
+    }
+//    @Override
+//    public void onRefreshComplete() {
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        mCircleRefreshLayout.finishRefreshing();
+//        Log.v("REFRESHLAYOUT" , "onRefreshComplete");
+//
+//
+//    }
 }

@@ -16,8 +16,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.kepler.news.newsly.helper.CallbackAdapter;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.MemoryPolicy;
@@ -36,13 +38,15 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private ArrayList<NewsStory> productsList = null;
-    private ArrayList<NewsStory> newProductsList = null;
+    private ArrayList<NewsStory> allNewslist = null;
     private static String DESCRIPTION        = "description";
     private static String SOURCE             = "source";
     private static String  SOURCENAME        = "sourceName";
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private RoundedTransformation transformation = null;
+    private MainActivity  Callback               = null;
+
 
 
     private int[] mycolors = {
@@ -53,12 +57,14 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     };
 
-    public FoldingCellListAdapter(Context context, ArrayList<NewsStory> productsList) {
+    public FoldingCellListAdapter(MainActivity Callback, Context context, ArrayList<NewsStory> productsList, ArrayList<NewsStory> allNewslist) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.productsList = productsList;
         this.transformation = new RoundedTransformation(15, 0);
+        this.Callback = Callback;
+        this.allNewslist = allNewslist;
     }
 
     @Override
@@ -130,8 +136,6 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
 
-
-
     public void registerToggle(int position) {
         if (unfoldedIndexes.contains(position))
             registerFold(position);
@@ -147,15 +151,34 @@ public class FoldingCellListAdapter extends BaseAdapter {
         unfoldedIndexes.add(position);
     }
 
-    public void upDateEntries(ArrayList<NewsStory> entries) {
+    public void upDateEntries(ArrayList<NewsStory> entries, boolean onRefresh) {
+//        if(onRefresh) {
+//            productsList.addAll(0, entries);
+//        }
+//        else {
         productsList.addAll(entries);
+        allNewslist.addAll((ArrayList<NewsStory>)entries.clone());
+        //}
+
 
         this.notifyDataSetChanged();
-    }
-    public ArrayList<NewsStory> getDateEntries()
-    {
+        ///Callback.onRefreshComplete();
 
-        return newProductsList;
+    }
+
+    public ArrayList<NewsStory> getProductsList() {
+        return productsList;
+    }
+
+    public void refreshEntries(ArrayList<NewsStory> entries) {
+        productsList.clear();
+        productsList = (ArrayList<NewsStory>)entries.clone();
+        Log.v("QuerySearch" , "size " + productsList.size());
+        this.notifyDataSetChanged();
+    }
+
+    public ArrayList<NewsStory> AllNewsEntries() {
+        return allNewslist;
     }
 
     private static class ViewHolder {
@@ -169,4 +192,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         ImageView image;
 
     }
+
+
+
 }
