@@ -70,7 +70,7 @@
             android:src="@drawable/language"
             />
         <TextView
-            android:text="Language"
+            android:text="Preference"
             android:paddingLeft="10dp"
             android:textAlignment="textStart"
             android:layout_width="wrap_content"

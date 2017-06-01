@@ -39,6 +39,7 @@ dependencies {
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
 
     compile 'com.github.nicolasjafelle:paginglistview:1.2'
+    compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
 
 
 }
