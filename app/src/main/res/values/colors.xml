@@ -12,6 +12,13 @@
     <color name="black_transparent">#a8000000</color>
     <color name="divider_color">#777777</color>
 
+    <color name="colorChipBackground">#e0e0e0</color>
+    <color name="colorChipBackgroundClicked">#424242</color>
+    <color name="colorChipText">#424242</color>
+    <color name="colorChipTextClicked">#F5F5F5</color>
+    <color name="colorChipCloseInactive">#757575</color>
+    <color name="colorChipCloseClicked">#F5F5F5</color>
+
     <color name="shinny">#AA181818</color>
     <color name="b">#f44336</color>
     <color name="c">#d32f2f</color>

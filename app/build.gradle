@@ -26,20 +26,21 @@ configurations.all {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+
+
+
+
+
+
+
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.yarolegovich:sliding-root-nav:1.0.2'
-
-
-
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
-
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
-
     compile 'com.github.nicolasjafelle:paginglistview:1.2'
     compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-
-
+    compile 'com.google.android.gms:play-services-ads:10.2.6'
+    testCompile 'junit:junit:4.12'
 }

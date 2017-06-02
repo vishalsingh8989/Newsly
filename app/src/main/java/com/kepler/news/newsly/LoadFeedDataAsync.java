@@ -39,12 +39,6 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private ArrayList<NewsStory> productsList               = null;
-    private static String  DESCRIPTION                      = "description";
-    private static String  SOURCE                           = "source";
-    private static String  SOURCENAME                       = "sourceName";
-    private static String  IMAGEURL                         = "urltoimage";
-
-    private int    start                                    = 0;
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
 
@@ -69,27 +63,20 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
 
-
-
-        String articles = "notfound";
-        String result = "";
+        String result   = "";
         try {
 
             //http://192.168.0.4:8000/?addtime=1495955968&start=10&offset=20
 
             //String mUrl = "http://192.168.0.4:8000/?addtime=1495955972";
-            String mUrl = "http://192.168.0.3:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
+            String mUrl = "http://192.168.0.2:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
 
 
             Log.v("LOADASYNCFEED",mUrl);
-
             URL url = new URL(mUrl); // here is your URL path
-
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
-
             Log.e("params",postDataParams.toString());
-
 
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -102,26 +89,18 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
 
             OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
-
             writer.flush();
             writer.close();
             os.close();
 
             int responseCode=conn.getResponseCode();
-
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(
-                                conn.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuffer response = new StringBuffer("");
                 String inputLine = "";
-
                 while ((inputLine = in.readLine()) != null) {
-
                     response.append(inputLine);
                     break;
                 }
@@ -130,9 +109,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                 in.close();
                 JSONObject jObject = new JSONObject(result);
                 JSONArray data = jObject.getJSONArray("articles");
-
                 Log.v("HYHTTP", "articles " + data.length());
-
                 for (int i = 0; i < data.length(); i++) {
                     NewsStory story = new NewsStory();
 
@@ -175,10 +152,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             Log.v("HYHTTP", "Exception");
         }
 
-
         return productsList;
-
-
     }
 
 

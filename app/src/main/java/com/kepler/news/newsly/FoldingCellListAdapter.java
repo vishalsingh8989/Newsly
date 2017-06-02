@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.helper.CallbackAdapter;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
@@ -84,11 +86,26 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // get item for selected view
+        Log.v("FoldingCell" , "POS : " + position);
+//        if(position == 3) {
+//
+//            LinearLayout rowView = (LinearLayout) mLayoutInflater.inflate(R.layout.native_ad_adapter, null);
+//            NativeExpressAdView adView = (NativeExpressAdView)rowView.findViewById(R.id.adView);
+//            AdRequest adRequest = new AdRequest.Builder().build();
+//            adView.loadAd(adRequest);
+//
+//            return rowView;
+//        }
+
+
+
         FoldingCell cell;
         NewsStory item = (NewsStory) getItem(position);
         cell = (FoldingCell) convertView;
         final ViewHolder viewHolder;
+
+
+
         if (cell == null) {
             viewHolder = new ViewHolder();
             cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
@@ -128,9 +145,13 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
 
-        Picasso.with(mContext)
-                .load(productsList.get(position).getUrltoimage())
-                .into(viewHolder.image);
+
+            Picasso.with(mContext)
+                    .load(productsList.get(position).getUrltoimage())
+                    .error(R.drawable.sample)
+                    .into(viewHolder.image);
+
+
 
         return cell;
     }
