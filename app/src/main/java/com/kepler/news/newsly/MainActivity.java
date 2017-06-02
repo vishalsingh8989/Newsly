@@ -35,10 +35,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity  {
 
-    private ArrayList<NewsStory> productsList = null;
-    private ArrayList<NewsStory> allNewslist = null;
+    private ArrayList<NewsStory> productsList               = null;
+    private ArrayList<NewsStory> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity{
     private Chip chipScienceAndNature                       = null;
     private boolean chipScienceAndNatureSelected            = true;
 
+    private Chip chipPolitics                               = null;
+    private boolean chipPoliticsSelected                    = true;
+
+
+    private HashMap<Integer, String> mMap                                    = null;
     private ArrayList<HashMap<Integer, String>> hashMap     = null;
 
 
@@ -71,9 +76,10 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-        HashMap mMap = new HashMap();
+        mMap = new HashMap();
         mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
-        hashMap.add(mMap);
+        mMap.put(R.id.chipPolitics, Common.chipPolitics);
+
 
 
 
@@ -95,10 +101,18 @@ public class MainActivity extends AppCompatActivity{
 
 
         chipScienceAndNatureSelected = mPreferences.getBoolean(Common.chipScienceAndNatureSelected ,  true);
+        chipPoliticsSelected         = mPreferences.getBoolean(Common.chipPolitics ,  true);
 
-        Log.v("CHIP" ,"mPreferences " + chipScienceAndNatureSelected);
+
+        Log.v("CHIP" ,"mPreferences Science Nature " + chipScienceAndNatureSelected);
+        Log.v("CHIP" ,"mPreferences Politics  " + chipPoliticsSelected);
         chipScienceAndNature    = (Chip)findViewById(R.id.chipScienceAndNature);
+        chipPolitics            = (Chip)findViewById(R.id.chipPolitics);
+
         chipScienceAndNature.setClicked(chipScienceAndNatureSelected);
+        chipPolitics.setClicked(chipPoliticsSelected);
+
+
 
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
@@ -112,6 +126,7 @@ public class MainActivity extends AppCompatActivity{
         loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
 
         loadFeedDataAsync.execute();
+
 
 
 
@@ -142,6 +157,32 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+
+
+
+        chipPolitics.setOnChipClickListener(new OnChipClickListener() {
+            @Override
+            public void onChipClick(View v, boolean selected) {
+                chipPoliticsSelected = !chipPoliticsSelected;
+                Log.v("CHIP" ,"onChipClick " + selected);
+                editor = mPreferences.edit();
+                editor.putBoolean(Common.chipPolitics, selected);
+                editor.commit();
+
+
+            }
+        });
+
+        chipPolitics.setOnSelectClickListener(new OnSelectClickListener() {
+            @Override
+            public void onSelectClick(View v, boolean selected) {
+                chipPoliticsSelected = !chipPoliticsSelected;
+                Log.v("CHIP" ,"onChipClick " + selected);
+                editor = mPreferences.edit();
+                editor.putBoolean(Common.chipPolitics, selected);
+                editor.commit();
+            }
+        });
 
 
 
@@ -311,6 +352,8 @@ public class MainActivity extends AppCompatActivity{
         Log.v("QuerySearch" , "filtersize " + filteredNews.size() + " , " + entries.size());
         return filteredNews;
     }
+
+
 //    @Override
 //    public void onRefreshComplete() {
 //        try {

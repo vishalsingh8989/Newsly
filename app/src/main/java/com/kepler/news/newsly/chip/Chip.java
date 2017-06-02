@@ -79,8 +79,32 @@ public class Chip extends RelativeLayout {
             public void onClick(View v) {
                 if (onChipClickListener != null) {
 
-                    onSelectTouchDown();
-                    onSelectTouchUp(v);
+
+                    //
+
+                    clicked = !clicked;
+                    initBackgroundColor();
+                    initTextView();
+                    selectIcon.setImageResource(R.drawable.ic_select);
+                    setIconColor(selectIcon, clicked ? selectedCloseColor : closeColor);
+
+
+
+                    selected = !clicked;
+                    if (selected) {
+                        clicked = false;
+                        initBackgroundColor();
+                        initTextView();
+                        selectIcon.setImageResource(R.drawable.ic_select);
+                        setIconColor(selectIcon, closeColor);
+                    }
+                    selected = !selected;
+
+
+
+                    //
+//                    onSelectTouchDown();
+//                    onSelectTouchUp(v);
                     onChipClickListener.onChipClick(v, selected);
                 }
             }

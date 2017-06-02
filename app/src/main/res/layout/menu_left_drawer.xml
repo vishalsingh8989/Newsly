@@ -30,7 +30,6 @@
         app:mcv_backgroundColor="#aa8e11"
         app:mcv_selectedBackgroundColor="#603e0c"
         app:mcv_textColor="#faf9f9"
-        app:mcv_closable="true"
         app:mcv_hasIcon="true"
         app:mcv_chipIcon="@mipmap/science_and_nature"
         android:layout_alignParentTop="true"

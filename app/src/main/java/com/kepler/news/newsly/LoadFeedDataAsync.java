@@ -69,7 +69,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             //http://192.168.0.4:8000/?addtime=1495955968&start=10&offset=20
 
             //String mUrl = "http://192.168.0.4:8000/?addtime=1495955972";
-            String mUrl = "http://192.168.0.2:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
+            String mUrl = "http://192.168.0.3:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
 
 
             Log.v("LOADASYNCFEED",mUrl);

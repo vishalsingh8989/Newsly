@@ -21,4 +21,5 @@ public class Common {
 
     public static String chipScienceAndNatureSelected      = "chipScienceAndNatureSelected";
 
+    public static String chipPolitics                      = "chipPolitics";
 }
