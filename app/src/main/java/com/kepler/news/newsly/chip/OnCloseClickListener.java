@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface OnCloseClickListener {
-    void onCloseClick(View v);
+    void onCloseClick(View v, boolean selected);
 }

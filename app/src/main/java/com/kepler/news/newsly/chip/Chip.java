@@ -9,6 +9,7 @@ import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class Chip extends RelativeLayout {
 
         initTypedArray(attrs);
         initChipClick();
+
     }
 
     private void initChipClick() {
@@ -76,7 +78,10 @@ public class Chip extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 if (onChipClickListener != null) {
-                    onChipClickListener.onChipClick(v);
+
+                    onSelectTouchDown();
+                    onSelectTouchUp(v);
+                    onChipClickListener.onChipClick(v, selected);
                 }
             }
         });
@@ -140,6 +145,7 @@ public class Chip extends RelativeLayout {
     }
 
     private void onSelectTouchDown() {
+
         clicked = !clicked;
         initBackgroundColor();
         initTextView();
@@ -157,6 +163,7 @@ public class Chip extends RelativeLayout {
             setIconColor(selectIcon, closeColor);
         }
         selected = !selected;
+
         if (onSelectClickListener != null) {
             onSelectClickListener.onSelectClick(v, selected);
         }
@@ -199,7 +206,9 @@ public class Chip extends RelativeLayout {
         setIconColor(closeIcon, closeColor);
 
         if (onCloseClickListener != null) {
-            onCloseClickListener.onCloseClick(v);
+            onSelectTouchDown();
+            onSelectTouchUp(v);
+            onCloseClickListener.onCloseClick(v, selected);
         }
     }
 
@@ -282,6 +291,8 @@ public class Chip extends RelativeLayout {
             public void onClick(View v) {
                 if (onIconClickListener != null) {
                     onIconClickListener.onIconClick(v);
+                    onSelectTouchDown();
+                    onSelectTouchUp(v);
                 }
             }
         });

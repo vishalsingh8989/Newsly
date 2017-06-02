@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface OnChipClickListener {
-    void onChipClick(View v);
+    void onChipClick(View v, boolean selected);
 }

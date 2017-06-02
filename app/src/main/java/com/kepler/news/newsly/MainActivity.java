@@ -2,6 +2,7 @@ package com.kepler.news.newsly;
 
 import android.content.Context;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-
-import com.kepler.news.newsly.helper.CallbackAdapter;
+import com.kepler.news.newsly.chip.Chip;
+import com.kepler.news.newsly.chip.OnChipClickListener;
+import com.kepler.news.newsly.chip.OnSelectClickListener;
+import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
 import com.ramotion.foldingcell.FoldingCell;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -24,7 +27,7 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -46,7 +49,12 @@ public class MainActivity extends AppCompatActivity{
     public int firstVisibleItem, visibleItemCount, totalItemCount;
     private CircleRefreshLayout mCircleRefreshLayout        = null;
     private SearchView mSearchView                          = null;
+    private SharedPreferences mPreferences                  = null;
+    private SharedPreferences.Editor editor                 = null;
+    private Chip chipScienceAndNature                       = null;
+    private boolean chipScienceAndNatureSelected            = true;
 
+    private ArrayList<HashMap<Integer, String>> hashMap     = null;
 
 
     public static int start =0;
@@ -61,10 +69,19 @@ public class MainActivity extends AppCompatActivity{
         );
 
 
+
+
+        HashMap mMap = new HashMap();
+        mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
+        hashMap.add(mMap);
+
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
 
 
 
@@ -77,6 +94,11 @@ public class MainActivity extends AppCompatActivity{
 
 
 
+        chipScienceAndNatureSelected = mPreferences.getBoolean(Common.chipScienceAndNatureSelected ,  true);
+
+        Log.v("CHIP" ,"mPreferences " + chipScienceAndNatureSelected);
+        chipScienceAndNature    = (Chip)findViewById(R.id.chipScienceAndNature);
+        chipScienceAndNature.setClicked(chipScienceAndNatureSelected);
 
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
@@ -90,6 +112,40 @@ public class MainActivity extends AppCompatActivity{
         loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
 
         loadFeedDataAsync.execute();
+
+
+
+
+
+
+        chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
+            @Override
+            public void onChipClick(View v, boolean selected) {
+                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
+                Log.v("CHIP" ,"onChipClick " + selected);
+                editor = mPreferences.edit();
+                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
+                editor.commit();
+
+
+            }
+        });
+
+        chipScienceAndNature.setOnSelectClickListener(new OnSelectClickListener() {
+            @Override
+            public void onSelectClick(View v, boolean selected) {
+                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
+                Log.v("CHIP" ,"onChipClick " + selected);
+                editor = mPreferences.edit();
+                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
+                editor.commit();
+            }
+        });
+
+
+
+
+
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
