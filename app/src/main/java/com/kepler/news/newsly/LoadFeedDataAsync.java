@@ -82,16 +82,21 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
 
 
-            String mUrl = "http://192.168.43.198:8000/?addtime=149595596"
+            String mUrl = "http://13.58.159.13/?addtime=149595596"
                     +"&start="+String.valueOf(MainActivity.start)
                     +"&offset="+String.valueOf(MainActivity.offset)
-                   // +"&general=true"
+                    +"&general=true"
                     +"&music="+music
                     +"&politics="+politics
                     +"&scienceandnature="+scienceandnature
+                    +"&business=true"
+                    +"&gaming=true"
+                    +"&technology=true"
+                    +"&entertainment=true"
+                    +"&sport=true"
                     ;
 
-
+                //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
 
 
             Log.v("MYURL",mUrl);
