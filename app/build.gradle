@@ -42,5 +42,8 @@ dependencies {
     compile 'com.github.nicolasjafelle:paginglistview:1.2'
     compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
     compile 'com.google.android.gms:play-services-ads:10.2.6'
+
+
+    compile 'com.github.glomadrian:Grav:1.1'
     testCompile 'junit:junit:4.12'
 }

@@ -65,7 +65,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
-        this.pref                   =pref;
+        this.pref                   = pref;
 
     }
 
@@ -82,7 +82,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
 
 
-            String mUrl = "http://13.58.159.13/?addtime=149595596"
+            String mUrl = "http://13.58.159.13/?addtime=14955596"
                     +"&start="+String.valueOf(MainActivity.start)
                     +"&offset="+String.valueOf(MainActivity.offset)
                     +"&general=true"

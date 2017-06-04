@@ -19,14 +19,11 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.NativeExpressAdView;
-import com.kepler.news.newsly.helper.CallbackAdapter;
+
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -129,10 +126,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
         }
 
         // bind data from selected element to view through view holder
-        viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", ""));
+        viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
         viewHolder.source.setText(productsList.get(position).getSourceName());
         viewHolder.sourceMini.setText(productsList.get(position).getSourceName());
-        viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", ""));
+        viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
         viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
         viewHolder.category.setText(productsList.get(position).getCategory());
 
@@ -158,6 +155,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         }
 
+
+
         return cell;
     }
 
@@ -178,17 +177,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
     public void upDateEntries(ArrayList<NewsStory> entries, boolean onRefresh) {
-//        if(onRefresh) {
-//            productsList.addAll(0, entries);
-//        }
-//        else {
+
         productsList.addAll(entries);
         allNewslist.addAll((ArrayList<NewsStory>)entries.clone());
-        //}
-
 
         this.notifyDataSetChanged();
-        ///Callback.onRefreshComplete();
+
 
     }
 

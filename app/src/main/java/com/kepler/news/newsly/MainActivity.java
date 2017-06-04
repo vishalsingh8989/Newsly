@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public static int start =0;
-    public static int offset = 100;
+    public static int offset = 30;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,9 +126,6 @@ public class MainActivity extends AppCompatActivity  {
         loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
 
         loadFeedDataAsync.execute();
-
-
-
 
 
         chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
@@ -306,7 +303,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
-        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+","+mSearchText + ","  +calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount );
+        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+","+mSearchText + ","  +calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
         if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
                 ||(calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE))
         {
@@ -318,6 +315,7 @@ public class MainActivity extends AppCompatActivity  {
     private void loadMore() {
         loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
         loadFeedDataAsync.execute();
+        foldingCellListAdapter.notifyDataSetChanged();
         calledOn=calledOn+offset;
     }
 
