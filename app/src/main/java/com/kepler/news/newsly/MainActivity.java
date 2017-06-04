@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public static int start =0;
-    public static int offset = 30;
+    public static int offset = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,11 +123,9 @@ public class MainActivity extends AppCompatActivity  {
 
 
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
+        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
 
         loadFeedDataAsync.execute();
-
-
 
 
 
@@ -141,6 +139,7 @@ public class MainActivity extends AppCompatActivity  {
                 editor = mPreferences.edit();
                 editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
                 editor.commit();
+
 
 
             }
@@ -237,18 +236,7 @@ public class MainActivity extends AppCompatActivity  {
                 return false;
             }
         });
-        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                Log.v("QuerySearch" , "onFocusChange " + b);
 
-                if(!b) {
-                   // ArrayList<NewsStory> entries = foldingCellListAdapter.AllNewsEntries();
-                   // foldingCellListAdapter.refreshEntries(entries);
-                    //new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter).execute();
-                }
-            }
-        });
 
         //TODO com.github.glomadrian.grav.GravView
 
@@ -281,7 +269,7 @@ public class MainActivity extends AppCompatActivity  {
             public boolean onQueryTextChange(String searchText) {
                 Log.v("QuerySearch" , "onQueryTextChange");
                 if(searchText.trim()=="") {
-                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter).execute();
+                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
                 }
                 return true;
             }

@@ -86,7 +86,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.v("FoldingCell" , "POS : " + position);
+        Log.v("FoldingCell", "POS : " + position);
 //        if(position == 3) {
 //
 //            LinearLayout rowView = (LinearLayout) mLayoutInflater.inflate(R.layout.native_ad_adapter, null);
@@ -98,12 +98,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
 //        }
 
 
-
         FoldingCell cell;
         NewsStory item = (NewsStory) getItem(position);
         cell = (FoldingCell) convertView;
         final ViewHolder viewHolder;
-
 
 
         if (cell == null) {
@@ -114,10 +112,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
             viewHolder.author = (TextView) cell.findViewById(R.id.author);
             viewHolder.title = (TextView) cell.findViewById(R.id.title);
             viewHolder.source = (TextView) cell.findViewById(R.id.source);
-            viewHolder.sourceMini = (TextView)cell.findViewById(R.id.sourceMini);
-            viewHolder.image = (ImageView)cell.findViewById(R.id.urltoimage);
-            viewHolder.side_bar = (LinearLayout)cell.findViewById(R.id.side_bar);
-            viewHolder.side_bar1 = (LinearLayout)cell.findViewById(R.id.side_bar1);
+            viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
+            viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
+            viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
+            viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
+            viewHolder.category = (TextView)cell.findViewById(R.id.category);
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -131,27 +130,33 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         // bind data from selected element to view through view holder
         viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", ""));
-        viewHolder.source.setText("Source: "+productsList.get(position).getSourceName());
-        viewHolder.sourceMini.setText("Source: "+productsList.get(position).getSourceName());
+        viewHolder.source.setText(productsList.get(position).getSourceName());
+        viewHolder.sourceMini.setText(productsList.get(position).getSourceName());
         viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", ""));
-        viewHolder.author.setText("Author: "+productsList.get(position).getAuthor());
+        viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
+        viewHolder.category.setText(productsList.get(position).getCategory());
 
-        GradientDrawable gradientDrawable = (GradientDrawable)viewHolder.side_bar.getBackground();
+
+        GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
 //        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext,colors[position%colors.length]));
 
-        gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position%mycolors.length]));
+        gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
         viewHolder.side_bar.setBackground(gradientDrawable);
         viewHolder.side_bar1.setBackground(gradientDrawable);
 
 
+        Log.v("URLPATH" ," : "+ productsList.get(position).getUrltoimage().trim());
 
-
+        try{                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
             Picasso.with(mContext)
                     .load(productsList.get(position).getUrltoimage())
                     .error(R.drawable.sample)
                     .into(viewHolder.image);
 
+            }catch (Exception e)
+        {
 
+        }
 
         return cell;
     }
@@ -210,6 +215,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView author;
         TextView source;
         TextView sourceMini;
+        TextView category;
         ImageView image;
 
     }

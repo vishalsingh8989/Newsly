@@ -15,6 +15,7 @@ public class Common {
     public static String  SOURCENAME                        = "sourceName";
     public static String  IMAGEURL                          = "urltoimage";
     public static String  ADDTIME                           = "addtime";
+    public static String  CATEGORY                           = "category";
 
 
 
@@ -22,4 +23,9 @@ public class Common {
     public static String chipScienceAndNatureSelected      = "chipScienceAndNatureSelected";
 
     public static String chipPolitics                      = "chipPolitics";
+
+
+    public static String MUSIC                      = "music";
+
+
 }

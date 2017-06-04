@@ -14,6 +14,7 @@ public class NewsStory {
     private String title        = "";
     private String urltoimage = "";
     private String author    = "";
+    private String category    = "";
 
 
     public void setAuthor(String author) {
@@ -36,6 +37,9 @@ public class NewsStory {
         this.urltoimage = urltoimage;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getDescription() {
         return description;
@@ -57,6 +61,9 @@ public class NewsStory {
         return urltoimage;
     }
 
+    public String getCategory() {
+        return category;
+    }
 
     public View.OnClickListener getRequestBtnClickListener() {
         return requestBtnClickListener;

@@ -114,21 +114,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="2dp"
-                android:text="Hello"
+                android:text="@string/title_sample"
                 android:textAppearance="@style/TextAppearance.FontPath"
                 android:textColor="@color/black" />
-            <TextView
-                android:id="@+id/sourceMini"
-                android:layout_weight=".25"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="2dp"
-                android:layout_marginRight="2dp"
-                android:textSize="9dp"
-                android:text="Hello"
-                android:textAlignment="textEnd"
-                android:textAppearance="@style/TextAppearance.FontPath"
-                android:textColor="@color/text_secondry" />
+                android:layout_weight=".25">
+                <TextView
+                    android:id="@+id/sourceMini"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="9dp"
+                    android:text="Source : ABC news"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.FontPath"
+                    android:textColor="@color/text_secondry" />
+                <TextView
+                    android:id="@+id/category"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textSize="9dp"
+                    android:text="Categoty : Music"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.FontPath"
+                    android:textColor="@color/text_secondry" />
+
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     ​

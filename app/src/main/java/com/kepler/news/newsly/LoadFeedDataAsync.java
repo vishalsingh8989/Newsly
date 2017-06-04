@@ -1,5 +1,6 @@
 package com.kepler.news.newsly;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -41,6 +42,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     private ArrayList<NewsStory> productsList               = null;
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
+    private SharedPreferences pref                          = null;
 
 
 
@@ -59,6 +61,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
     }
 
+    public LoadFeedDataAsync(MainActivity mainActivity , FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref) {
+        this.foldingCellListAdapter = adapter;
+        this.productsList           = new ArrayList<>();
+        this.onRefresh              = onRefresh;
+        this.pref                   =pref;
+
+    }
+
     @Override
     protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
@@ -66,13 +76,25 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         String result   = "";
         try {
 
-            //http://192.168.0.4:8000/?addtime=1495955968&start=10&offset=20
 
-            //String mUrl = "http://192.168.0.4:8000/?addtime=1495955972";
-            String mUrl = "http://192.168.0.3:8000/?addtime=149595596&start="+String.valueOf(MainActivity.start)+"&offset="+String.valueOf(MainActivity.offset);
+            boolean music = pref.getBoolean(Common.MUSIC, true);
+            boolean politics = pref.getBoolean(Common.chipPolitics, true);
+            boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
 
 
-            Log.v("LOADASYNCFEED",mUrl);
+            String mUrl = "http://192.168.43.198:8000/?addtime=149595596"
+                    +"&start="+String.valueOf(MainActivity.start)
+                    +"&offset="+String.valueOf(MainActivity.offset)
+                   // +"&general=true"
+                    +"&music="+music
+                    +"&politics="+politics
+                    +"&scienceandnature="+scienceandnature
+                    ;
+
+
+
+
+            Log.v("MYURL",mUrl);
             URL url = new URL(mUrl); // here is your URL path
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
@@ -116,6 +138,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                     Log.v("HYHTTP", "*************************************");
                     Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
                     Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
+                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
                     Log.v("HYHTTP", "*************************************");
 
                     story.setDescription(data.getJSONObject(i).getString(Common.DESCRIPTION));
@@ -123,6 +146,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                     story.setSourceName(data.getJSONObject(i).getString(Common.SOURCENAME));
                     story.setUrltoimage(data.getJSONObject(i).getString(Common.IMAGEURL));
                     story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
+                    story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
+
 
 
                     productsList.add(story);
