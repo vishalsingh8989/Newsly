@@ -111,7 +111,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
 
             OutputStream os = conn.getOutputStream();
+
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
             writer.write(getPostDataString(postDataParams));
             writer.flush();
             writer.close();
@@ -120,12 +122,16 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             int responseCode=conn.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+
                 StringBuffer response = new StringBuffer("");
                 String inputLine = "";
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                     break;
                 }
+
+
                 Log.v("HYHTTP", ""+response);
                 result = response.toString();
                 in.close();
