@@ -3,8 +3,11 @@ package com.kepler.news.newsly;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.kepler.news.newsly.helper.Common;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PipedReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -43,6 +47,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
+    private MainActivity mainActivity  =null;
 
 
 
@@ -51,6 +56,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = false;
+        this.mainActivity           = mainActivity;
 
     }
 
@@ -58,6 +64,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
+        this.mainActivity           = mainActivity;
 
     }
 
@@ -66,13 +73,29 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
         this.pref                   = pref;
+        this.mainActivity           = mainActivity;
 
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
+                progressbar.smoothToShow();
+
+            }
+        });
     }
 
     @Override
     protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
-
+        ArrayList<NewsStory> newList               = new ArrayList<>();
         String result   = "";
         try {
 
@@ -81,7 +104,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             boolean politics = pref.getBoolean(Common.chipPolitics, true);
             boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
 
-
+            Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
             String mUrl = "http://13.58.159.13/?addtime=14955596"
                     +"&start="+String.valueOf(MainActivity.start)
                     +"&offset="+String.valueOf(MainActivity.offset)
@@ -158,10 +181,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                     story.setUrltoimage(data.getJSONObject(i).getString(Common.IMAGEURL));
                     story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
                     story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
+                    story.setUrl(data.getJSONObject(i).getString(Common.URL));
 
-
-
-                    productsList.add(story);
+                    newList.add(story);
                 }
 
 
@@ -188,7 +210,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
             Log.v("HYHTTP", "Exception");
         }
 
-        return productsList;
+        return newList;
     }
 
 
@@ -201,6 +223,15 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         Random rn = new Random(15L);
         Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result , onRefresh);
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
+                progressbar.smoothToHide();
+            }
+        });
+
+
     }
 
     public String getPostDataString(JSONObject params) throws Exception {

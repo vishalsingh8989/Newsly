@@ -35,7 +35,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener{
 
     private ArrayList<NewsStory> productsList               = null;
     private ArrayList<NewsStory> allNewslist                = null;
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity  {
                 currentScrollState = scrollState;
 
                 Log.v("ONSCROLL", " " + firstVisibleItem + " , " + visibleItemCount + " , "+totalItemCount);
-                isScrollCompleted(firstVisibleItem, visibleItemCount , totalItemCount, currentScrollState);
+                isScrollCompleted(firstVisibleItem, visibleItemCount , productsList.size(), currentScrollState);
 
 
             }
@@ -213,10 +213,11 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onScroll(AbsListView absListView, int f, int v, int t) {
 
-                //Log.v("ONSCROLL", "" + firstVisibleItem + " , " + visibleItemCount + " , " + totalItemCount);
+
                 firstVisibleItem = f;
                 visibleItemCount = v;
-                totalItemCount   = t;
+                totalItemCount   = productsList.size();
+                Log.v("ONSCROLL", "" + firstVisibleItem + " , " + visibleItemCount + " , " + totalItemCount);
 
 
             }
@@ -305,18 +306,17 @@ public class MainActivity extends AppCompatActivity  {
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
         Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+","+mSearchText + ","  +calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
         if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
-                ||(calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE))
-        {
+                ||(calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE)) {
             Log.v("LOADASYNCFEED", "END REACHED" );
             loadMore();
         }
     }
 
     private void loadMore() {
-        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true);
+        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
         loadFeedDataAsync.execute();
-        foldingCellListAdapter.notifyDataSetChanged();
         calledOn=calledOn+offset;
+        Log.v("LOADASYNCFEED", "END REACHED" );
     }
 
 
@@ -337,6 +337,12 @@ public class MainActivity extends AppCompatActivity  {
         }
         Log.v("QuerySearch" , "filtersize " + filteredNews.size() + " , " + entries.size());
         return filteredNews;
+    }
+
+    @Override
+    public void onItemClicked(View v, int position) {
+        Log.v("READFULL", "" +position);
+
     }
 
 

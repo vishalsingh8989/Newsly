@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +84,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Log.v("FoldingCell", "POS : " + position);
 //        if(position == 3) {
 //
@@ -114,6 +116,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
             viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
             viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
             viewHolder.category = (TextView)cell.findViewById(R.id.category);
+            viewHolder.readFull = (TextView)cell.findViewById(R.id.read_full);
+
+
+
+
+
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -133,6 +141,23 @@ public class FoldingCellListAdapter extends BaseAdapter {
         viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
         viewHolder.category.setText(productsList.get(position).getCategory());
 
+
+        //String dynamicUrl =  productsList.get(position).getUrl();
+
+        //String linkedText = String.format("<a href=\"%s\">Read Full Article</a>", dynamicUrl);
+
+
+        viewHolder.readFull.setText("Read Full Article");
+        //viewHolder.readFull.setMovementMethod(LinkMovementMethod.getInstance());
+
+
+
+        viewHolder.readFull.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Callback.onItemClicked(viewHolder.readFull, position);
+            }
+        });
 
         GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
 //        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext,colors[position%colors.length]));
@@ -181,6 +206,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         productsList.addAll(entries);
         allNewslist.addAll((ArrayList<NewsStory>)entries.clone());
 
+        Log.v("LOADASYNCFEED" , "size : " +productsList.size());
         this.notifyDataSetChanged();
 
 
@@ -210,6 +236,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView source;
         TextView sourceMini;
         TextView category;
+        TextView readFull;
         ImageView image;
 
     }
