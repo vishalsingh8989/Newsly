@@ -7,7 +7,9 @@ package com.kepler.news.newsly.helper;
 public class Common {
 
 
-    public static String PREFERENCES                               = "newslyPreferences";
+    public static String SOURCEURL                          ="sourceUrl" ;
+    public static String PUBLISHEDAT                        = "publishedat";
+    public static String PREFERENCES                        = "newslyPreferences";
 
     public static String  DESCRIPTION                       = "description";
     public static String  TITLE                             = "title";
@@ -17,7 +19,7 @@ public class Common {
     public static String  IMAGEURL                          = "urltoimage";
     public static String  ADDTIME                           = "addtime";
     public static String  CATEGORY                          = "category";
-    public static  String URL                               = "url";
+    public static String URL                               = "url";
 
 
 

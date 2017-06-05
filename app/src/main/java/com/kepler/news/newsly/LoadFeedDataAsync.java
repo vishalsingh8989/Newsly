@@ -182,7 +182,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                     story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
                     story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
                     story.setUrl(data.getJSONObject(i).getString(Common.URL));
+                    story.setPublishedat(data.getJSONObject(i).getString(Common.PUBLISHEDAT));
 
+                    story.setSourceUrl(data.getJSONObject(i).getString(Common.SOURCEURL));
                     newList.add(story);
                 }
 

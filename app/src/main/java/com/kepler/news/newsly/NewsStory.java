@@ -9,13 +9,15 @@ import android.view.View;
 public class NewsStory {
 
     private View.OnClickListener requestBtnClickListener;
-    private String sourceName = "";
+    private String sourceName  = "";
     private String description = "";
-    private String title        = "";
-    private String urltoimage = "";
-    private String author    = "";
+    private String title       = "";
+    private String urltoimage  = "";
+    private String author      = "";
     private String category    = "";
-    private String url      = "";
+    private String url         = "";
+    private String publishedat = "";
+    private String sourceUrl   = "";
 
 
     public void setAuthor(String author) {
@@ -42,9 +44,16 @@ public class NewsStory {
         this.category = category;
     }
 
+    public void setPublishedat(String publishedat) {
+        this.publishedat = publishedat;
+    }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
     public String getDescription() {
@@ -73,6 +82,14 @@ public class NewsStory {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public String getPublishedat() {
+        return publishedat;
     }
 
     public View.OnClickListener getRequestBtnClickListener() {

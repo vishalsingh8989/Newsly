@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.icu.util.ValueIterator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -107,20 +108,17 @@ public class FoldingCellListAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
             // binding view parts to view holder
-            viewHolder.description = (TextView) cell.findViewById(R.id.description);
-            viewHolder.author = (TextView) cell.findViewById(R.id.author);
-            viewHolder.title = (TextView) cell.findViewById(R.id.title);
-            viewHolder.source = (TextView) cell.findViewById(R.id.source);
-            viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
-            viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
-            viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
-            viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
-            viewHolder.category = (TextView)cell.findViewById(R.id.category);
-            viewHolder.readFull = (TextView)cell.findViewById(R.id.read_full);
-
-
-
-
+            viewHolder.description    = (TextView) cell.findViewById(R.id.description);
+            viewHolder.author         = (TextView) cell.findViewById(R.id.author);
+            viewHolder.title          = (TextView) cell.findViewById(R.id.title);
+            viewHolder.source         = (TextView) cell.findViewById(R.id.source);
+            viewHolder.sourceMini     = (TextView) cell.findViewById(R.id.sourceMini);
+            viewHolder.image          = (ImageView) cell.findViewById(R.id.urltoimage);
+            viewHolder.side_bar       = (LinearLayout) cell.findViewById(R.id.side_bar);
+            viewHolder.side_bar1      = (LinearLayout) cell.findViewById(R.id.side_bar1);
+            viewHolder.category       = (TextView)cell.findViewById(R.id.category);
+            viewHolder.readFull       = (TextView)cell.findViewById(R.id.read_full);
+            viewHolder.publishedat    = (TextView)cell.findViewById(R.id.publishedat);
 
             cell.setTag(viewHolder);
         } else {
@@ -140,6 +138,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
         viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
         viewHolder.category.setText(productsList.get(position).getCategory());
+        viewHolder.publishedat.setText(productsList.get(position).getPublishedat());
 
 
         //String dynamicUrl =  productsList.get(position).getUrl();
@@ -156,6 +155,13 @@ public class FoldingCellListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Callback.onItemClicked(viewHolder.readFull, position);
+            }
+        });
+
+        viewHolder.source.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Callback.onItemClicked(viewHolder.source, position);
             }
         });
 
@@ -237,6 +243,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView sourceMini;
         TextView category;
         TextView readFull;
+        TextView publishedat;
         ImageView image;
 
     }

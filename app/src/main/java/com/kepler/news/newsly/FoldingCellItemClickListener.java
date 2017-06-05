@@ -10,4 +10,6 @@ public interface FoldingCellItemClickListener {
 
 
     void onItemClicked(View v, int position);
+
+
 }

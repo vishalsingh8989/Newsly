@@ -342,6 +342,16 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     @Override
     public void onItemClicked(View v, int position) {
         Log.v("READFULL", "" +position);
+        switch (v.getId()){
+            case R.id.read_full:
+                Log.v("READFULL", "read full clicked" );
+
+                break;
+            case R.id.source:
+                Log.v("READFULL", "source clicked" );
+                break;
+        }
+
 
     }
 
