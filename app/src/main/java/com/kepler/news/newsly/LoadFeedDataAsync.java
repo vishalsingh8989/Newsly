@@ -44,12 +44,12 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by vishaljasrotia on 28/05/17.
  */
 
-public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
+public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStory>> {
 
 
-    private RecycleViewAdapter adapter   =null;
+
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private List<Object> productsList               = null;
+    private ArrayList<NewsStory> productsList               = null;
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
@@ -83,16 +83,6 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     }
 
-    public LoadFeedDataAsync(MainActivity mainActivity, RecycleViewAdapter adapter, boolean onRefresh, SharedPreferences mPreferences) {
-
-        this.adapter                = adapter;
-        this.productsList           = new ArrayList<>();
-        this.onRefresh              = onRefresh;
-        this.pref                   = mPreferences;
-        this.mainActivity           = mainActivity;
-
-    }
-
 
     @Override
     protected void onPreExecute() {
@@ -109,9 +99,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     }
 
     @Override
-    protected List<Object> doInBackground(Void... voids) {
+    protected ArrayList<NewsStory> doInBackground(Void... voids) {
 
-        List<Object> newList               = new ArrayList<>();
+        ArrayList<NewsStory> newList               = new ArrayList<>();
         String result   = "";
         try {
 
@@ -198,9 +188,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
                     story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
                     story.setUrl(data.getJSONObject(i).getString(Common.URL));
-                    story.setPublishedat(data.getJSONObject(i).getString(Common.PUBLISHEDAT));
 
-                    story.setSourceUrl(data.getJSONObject(i).getString(Common.SOURCEURL));
                     newList.add(story);
                 }
 
@@ -235,14 +223,12 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
     @Override
-    protected void onPostExecute(List<Object> result) {
+    protected void onPostExecute(ArrayList<NewsStory> result) {
         super.onPostExecute(result);
-        List<Object> mixedWithAdview =  addNativeExpressAds(result);
         MainActivity.start = MainActivity.start+offset;
         Random rn = new Random(15L);
-        //Collections.shuffle(result, rn);
-        adapter.upDateEntries(mixedWithAdview , onRefresh);
-
+        Collections.shuffle(result, rn);
+        foldingCellListAdapter.upDateEntries(result , onRefresh);
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -250,23 +236,6 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                 progressbar.smoothToHide();
             }
         });
-
-
-    }
-
-
-    private List<Object> addNativeExpressAds(List<Object> result){
-        for(int i = 0 ; i < result.size(); i +=8)
-        {
-            NativeExpressAdView adView = new NativeExpressAdView(mainActivity.getApplicationContext());
-            adView.setAdSize(new AdSize(300, 100));
-            adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
-            adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
-            result.add(i, adView);
-
-        }
-
-        return result;
 
 
     }

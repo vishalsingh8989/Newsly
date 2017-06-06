@@ -111,24 +111,21 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 cell = (FoldingCell) convertView;
                 final AdViewHolder adViewHolder;
 
-                if (cell == null) {
+
 
                     adViewHolder = new AdViewHolder();
                     cell = (FoldingCell) mLayoutInflater.inflate(R.layout.native_ad_adapter, parent, false);
                     adViewHolder.adView = (NativeExpressAdView) cell.findViewById(R.id.adView);
                     // binding view parts to view holder
                     adViewHolder.adView.setVisibility(View.VISIBLE);
-                    cell.setTag(adViewHolder);
                     AdRequest adRequest = new AdRequest.Builder().build();
                     adViewHolder.adView.loadAd(adRequest);
 
-                } else {
-                    adViewHolder = (AdViewHolder) cell.getTag();
 
-                }
 
 
                 //return cell;
+                break;
 
 
             case FOLDINGCELLVIEW:
@@ -138,7 +135,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 final ViewHolder viewHolder;
 
 
-                if (cell == null) {
+
                     viewHolder = new ViewHolder();
                     cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
                     // binding view parts to view holder
@@ -154,16 +151,14 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.readFull = (TextView) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
 
-                    cell.setTag(viewHolder);
-                } else {
+                    //cell.setTag(viewHolder);
+
                     // for existing cell set valid valid state(without animation)
                     if (unfoldedIndexes.contains(position)) {
                         cell.unfold(true);
                     } else {
                         cell.fold(true);
                     }
-                    viewHolder = (ViewHolder) cell.getTag();
-                }
 
                 // bind data from selected element to view through view holder
                 viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
@@ -218,7 +213,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
                 }
 
-
+                break;
 
             }
         return cell;

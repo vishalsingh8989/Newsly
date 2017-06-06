@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/folding_cell"
@@ -17,6 +17,7 @@
         android:layout_centerInParent="true"
         android:visibility="visible">
         <com.google.android.gms.ads.NativeExpressAdView
+
             android:visibility="visible"
             ads:adUnitId="ca-app-pub-5223778660504166/2968121932"
             ads:adSize="300x100"
@@ -27,6 +28,6 @@
         </com.google.android.gms.ads.NativeExpressAdView>
     </LinearLayout>
     ​
-</RelativeLayout>
+</com.ramotion.foldingcell.FoldingCell>
 
 
