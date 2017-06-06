@@ -2,10 +2,15 @@ package com.kepler.news.newsly;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.NativeExpressAdView;
+import com.kepler.news.newsly.adapter.RecycleViewAdapter;
 import com.kepler.news.newsly.helper.Common;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -38,12 +44,12 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by vishaljasrotia on 28/05/17.
  */
 
-public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStory>> {
+public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
-
+    private RecycleViewAdapter adapter   =null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private ArrayList<NewsStory> productsList               = null;
+    private List<Object> productsList               = null;
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
@@ -77,6 +83,16 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
     }
 
+    public LoadFeedDataAsync(MainActivity mainActivity, RecycleViewAdapter adapter, boolean onRefresh, SharedPreferences mPreferences) {
+
+        this.adapter                = adapter;
+        this.productsList           = new ArrayList<>();
+        this.onRefresh              = onRefresh;
+        this.pref                   = mPreferences;
+        this.mainActivity           = mainActivity;
+
+    }
+
 
     @Override
     protected void onPreExecute() {
@@ -93,9 +109,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     }
 
     @Override
-    protected ArrayList<NewsStory> doInBackground(Void... voids) {
+    protected List<Object> doInBackground(Void... voids) {
 
-        ArrayList<NewsStory> newList               = new ArrayList<>();
+        List<Object> newList               = new ArrayList<>();
         String result   = "";
         try {
 
@@ -219,12 +235,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
 
     @Override
-    protected void onPostExecute(ArrayList<NewsStory> result) {
+    protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
+        List<Object> mixedWithAdview =  addNativeExpressAds(result);
         MainActivity.start = MainActivity.start+offset;
         Random rn = new Random(15L);
-        Collections.shuffle(result, rn);
-        foldingCellListAdapter.upDateEntries(result , onRefresh);
+        //Collections.shuffle(result, rn);
+        adapter.upDateEntries(mixedWithAdview , onRefresh);
+
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -232,6 +250,23 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                 progressbar.smoothToHide();
             }
         });
+
+
+    }
+
+
+    private List<Object> addNativeExpressAds(List<Object> result){
+        for(int i = 0 ; i < result.size(); i +=8)
+        {
+            NativeExpressAdView adView = new NativeExpressAdView(mainActivity.getApplicationContext());
+            adView.setAdSize(new AdSize(300, 100));
+            adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+            adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
+            result.add(i, adView);
+
+        }
+
+        return result;
 
 
     }

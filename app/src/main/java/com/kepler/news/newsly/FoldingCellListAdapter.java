@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.icu.util.ValueIterator;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -23,6 +24,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
@@ -37,6 +40,14 @@ import java.util.HashSet;
 
 public class FoldingCellListAdapter extends BaseAdapter {
 
+
+    private static final int ADVIEW = 0;
+    private static final int FOLDINGCELLVIEW = 1;
+
+    @Override
+    public int getItemViewType(int position) {
+        return position % 7 == 0  ? ADVIEW : FOLDINGCELLVIEW;
+    }
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private ArrayList<NewsStory> productsList = null;
@@ -86,110 +97,135 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Log.v("FoldingCell", "POS : " + position);
-//        if(position == 3) {
-//
-//            LinearLayout rowView = (LinearLayout) mLayoutInflater.inflate(R.layout.native_ad_adapter, null);
-//            NativeExpressAdView adView = (NativeExpressAdView)rowView.findViewById(R.id.adView);
-//            AdRequest adRequest = new AdRequest.Builder().build();
-//            adView.loadAd(adRequest);
-//
-//            return rowView;
-//        }
+
+        int type= getItemViewType(position);
+        Log.v("FoldingCell", "POS : " + position + " , "+ (type == ADVIEW )+ " , "+convertView);
+        FoldingCell cell =null;
+
+        switch (type) {
+
+            case ADVIEW:
+                Log.v("FoldingCell", "POS :load ad");
+
+                NewsStory item = (NewsStory) getItem(position);
+                cell = (FoldingCell) convertView;
+                final AdViewHolder adViewHolder;
+
+                if (cell == null) {
+
+                    adViewHolder = new AdViewHolder();
+                    cell = (FoldingCell) mLayoutInflater.inflate(R.layout.native_ad_adapter, parent, false);
+                    adViewHolder.adView = (NativeExpressAdView) cell.findViewById(R.id.adView);
+                    // binding view parts to view holder
+                    adViewHolder.adView.setVisibility(View.VISIBLE);
+                    cell.setTag(adViewHolder);
+                    AdRequest adRequest = new AdRequest.Builder().build();
+                    adViewHolder.adView.loadAd(adRequest);
+
+                } else {
+                    adViewHolder = (AdViewHolder) cell.getTag();
+
+                }
 
 
-        FoldingCell cell;
-        NewsStory item = (NewsStory) getItem(position);
-        cell = (FoldingCell) convertView;
-        final ViewHolder viewHolder;
+                //return cell;
 
 
-        if (cell == null) {
-            viewHolder = new ViewHolder();
-            cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
-            // binding view parts to view holder
-            viewHolder.description    = (TextView) cell.findViewById(R.id.description);
-            viewHolder.author         = (TextView) cell.findViewById(R.id.author);
-            viewHolder.title          = (TextView) cell.findViewById(R.id.title);
-            viewHolder.source         = (TextView) cell.findViewById(R.id.source);
-            viewHolder.sourceMini     = (TextView) cell.findViewById(R.id.sourceMini);
-            viewHolder.image          = (ImageView) cell.findViewById(R.id.urltoimage);
-            viewHolder.side_bar       = (LinearLayout) cell.findViewById(R.id.side_bar);
-            viewHolder.side_bar1      = (LinearLayout) cell.findViewById(R.id.side_bar1);
-            viewHolder.category       = (TextView)cell.findViewById(R.id.category);
-            viewHolder.readFull       = (TextView)cell.findViewById(R.id.read_full);
-            viewHolder.publishedat    = (TextView)cell.findViewById(R.id.publishedat);
+            case FOLDINGCELLVIEW:
 
-            cell.setTag(viewHolder);
-        } else {
-            // for existing cell set valid valid state(without animation)
-            if (unfoldedIndexes.contains(position)) {
-                cell.unfold(true);
-            } else {
-                cell.fold(true);
+                item = (NewsStory) getItem(position);
+                cell = (FoldingCell) convertView;
+                final ViewHolder viewHolder;
+
+
+                if (cell == null) {
+                    viewHolder = new ViewHolder();
+                    cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
+                    // binding view parts to view holder
+                    viewHolder.description = (TextView) cell.findViewById(R.id.description);
+                    viewHolder.author = (TextView) cell.findViewById(R.id.author);
+                    viewHolder.title = (TextView) cell.findViewById(R.id.title);
+                    viewHolder.source = (TextView) cell.findViewById(R.id.source);
+                    viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
+                    viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
+                    viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
+                    viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
+                    viewHolder.category = (TextView) cell.findViewById(R.id.category);
+                    viewHolder.readFull = (TextView) cell.findViewById(R.id.read_full);
+                    viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
+
+                    cell.setTag(viewHolder);
+                } else {
+                    // for existing cell set valid valid state(without animation)
+                    if (unfoldedIndexes.contains(position)) {
+                        cell.unfold(true);
+                    } else {
+                        cell.fold(true);
+                    }
+                    viewHolder = (ViewHolder) cell.getTag();
+                }
+
+                // bind data from selected element to view through view holder
+                viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                viewHolder.source.setText(productsList.get(position).getSourceName());
+                viewHolder.sourceMini.setText(productsList.get(position).getSourceName());
+                viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
+                viewHolder.category.setText(productsList.get(position).getCategory());
+                viewHolder.publishedat.setText(productsList.get(position).getPublishedat());
+
+
+                //String dynamicUrl =  productsList.get(position).getUrl();
+
+                //String linkedText = String.format("<a href=\"%s\">Read Full Article</a>", dynamicUrl);
+
+
+                viewHolder.readFull.setText("Read Full Article");
+                //viewHolder.readFull.setMovementMethod(LinkMovementMethod.getInstance());
+
+
+                viewHolder.readFull.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Callback.onItemClicked(viewHolder.readFull, position);
+                    }
+                });
+
+                viewHolder.source.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Callback.onItemClicked(viewHolder.source, position);
+                    }
+                });
+
+                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
+                //        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext,colors[position%colors.length]));
+
+                gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
+                viewHolder.side_bar.setBackground(gradientDrawable);
+                viewHolder.side_bar1.setBackground(gradientDrawable);
+
+
+                Log.v("URLPATH", " : " + productsList.get(position).getUrltoimage().trim());
+
+                try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
+                    Picasso.with(mContext)
+                            .load(productsList.get(position).getUrltoimage())
+                            .error(R.drawable.sample)
+                            .into(viewHolder.image);
+
+                } catch (Exception e) {
+
+                }
+
+
+
             }
-            viewHolder = (ViewHolder) cell.getTag();
-        }
-
-        // bind data from selected element to view through view holder
-        viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-        viewHolder.source.setText(productsList.get(position).getSourceName());
-        viewHolder.sourceMini.setText(productsList.get(position).getSourceName());
-        viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-        viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
-        viewHolder.category.setText(productsList.get(position).getCategory());
-        viewHolder.publishedat.setText(productsList.get(position).getPublishedat());
-
-
-        //String dynamicUrl =  productsList.get(position).getUrl();
-
-        //String linkedText = String.format("<a href=\"%s\">Read Full Article</a>", dynamicUrl);
-
-
-        viewHolder.readFull.setText("Read Full Article");
-        //viewHolder.readFull.setMovementMethod(LinkMovementMethod.getInstance());
-
-
-
-        viewHolder.readFull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Callback.onItemClicked(viewHolder.readFull, position);
-            }
-        });
-
-        viewHolder.source.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Callback.onItemClicked(viewHolder.source, position);
-            }
-        });
-
-        GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
-//        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext,colors[position%colors.length]));
-
-        gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
-        viewHolder.side_bar.setBackground(gradientDrawable);
-        viewHolder.side_bar1.setBackground(gradientDrawable);
-
-
-        Log.v("URLPATH" ," : "+ productsList.get(position).getUrltoimage().trim());
-
-        try{                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
-            Picasso.with(mContext)
-                    .load(productsList.get(position).getUrltoimage())
-                    .error(R.drawable.sample)
-                    .into(viewHolder.image);
-
-            }catch (Exception e)
-        {
-
-        }
-
-
-
         return cell;
-    }
+        }
+
+
+
 
 
     public void registerToggle(int position) {
@@ -244,7 +280,15 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView category;
         TextView readFull;
         TextView publishedat;
+        NativeExpressAdView adView;
         ImageView image;
+
+    }
+
+
+    private static class AdViewHolder {
+        NativeExpressAdView adView;
+
 
     }
 

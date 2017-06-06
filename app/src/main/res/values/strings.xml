@@ -23,6 +23,7 @@
             C273.832,988.707,68.5809,783.455,68.5809,530.265
             C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
 </string>
+    <string name="test_admob_app_id">ca-app-pub-5223778660504166/2968121932</string>
     <integer name="circle_original_width">1062</integer>
     <integer name="circle_original_height">1062</integer>
 

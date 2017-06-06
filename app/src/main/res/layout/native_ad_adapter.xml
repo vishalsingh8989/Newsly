@@ -1,18 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="#ffffff"
+    android:id="@+id/folding_cell"
+    android:background="@drawable/main_item_cell_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    ​
+    ​
+    <LinearLayout
+        android:background="@drawable/main_item_cell_bg"
+        android:id="@+id/cell_title_view"
+        android:layout_width="310dp"
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:visibility="visible">
+        <com.google.android.gms.ads.NativeExpressAdView
+            android:visibility="visible"
+            ads:adUnitId="ca-app-pub-5223778660504166/2968121932"
+            ads:adSize="300x100"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-<com.google.android.gms.ads.NativeExpressAdView
-    ads:adUnitId="ca-app-pub-5223778660504166/1693525131"
-    ads:adSize="300x132"
-    android:id="@+id/adView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+        </com.google.android.gms.ads.NativeExpressAdView>
+    </LinearLayout>
+    ​
+</RelativeLayout>
 
-</com.google.android.gms.ads.NativeExpressAdView>
 
-</LinearLayout>

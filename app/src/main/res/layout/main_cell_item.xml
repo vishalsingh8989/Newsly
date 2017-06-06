@@ -4,7 +4,7 @@
     android:background="@drawable/main_item_cell_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="0dp"
+    android:layout_margin="5dp"
     folding-cell:animationDuration="1000"
     folding-cell:backSideColor="#d4d4d4"
     folding-cell:additionalFlipsCount="2"
