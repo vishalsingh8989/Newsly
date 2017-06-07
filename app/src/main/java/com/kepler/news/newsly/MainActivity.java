@@ -1,8 +1,10 @@
 package com.kepler.news.newsly;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -28,6 +32,7 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -37,12 +42,12 @@ import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
 public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener{
 
-    private ArrayList<NewsStory> productsList               = null;
-    private ArrayList<NewsStory> allNewslist                = null;
+    private List<Object> productsList               = null;
+    private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
-    private int calledOn = 30;
+    public static  int calledOn = 35;
     private int minEntries = 30;
     private int currentScrollState;
     private String mSearchText = "";
@@ -64,6 +69,70 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     public static int start =0;
     public static int offset = 30;
+
+
+    int currentApiVersion = 7;
+
+
+
+    @SuppressLint("NewApi")
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
+        if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
+        {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        currentApiVersion = android.os.Build.VERSION.SDK_INT;
+
+        // Hide both the navigation bar and the status bar.
+        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+        // a general rule, you should design your app to hide the status bar whenever you
+        // hide the navigation bar.
+        final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
+        {
+
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+
+            // Code below is to handle presses of Volume up or Volume down.
+            // Without this, after pressing volume buttons, the navigation bar will
+            // show up and won't hide
+            final View decorView = getWindow().getDecorView();
+            decorView
+                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
+                    {
+
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility)
+                        {
+                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+                            {
+                                decorView.setSystemUiVisibility(flags);
+                            }
+                        }
+                    });
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +142,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 .build()
         );
 
-
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         mMap = new HashMap();
@@ -228,7 +298,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                ArrayList<NewsStory> entries = foldingCellListAdapter.AllNewsEntries();
+                List<Object> entries = foldingCellListAdapter.AllNewsEntries();
                 foldingCellListAdapter.refreshEntries(entries);
                 mSearchText = "";
                 return false;
@@ -250,7 +320,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             public boolean onQueryTextSubmit(String s) {
                 mSearchText = s;
                 Log.v("QuerySearch" , "onQueryTextSubmit");
-                ArrayList<NewsStory> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
+                List<Object> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
                 foldingCellListAdapter.refreshEntries(entries);
                 if(entries.size()<minEntries)
                 {
@@ -304,9 +374,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     }
 
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
-        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+","+mSearchText + ","  +calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
+        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
         if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
-                ||(calledOn == firstVisibleItem+visibleItemCount && currentScrollState==SCROLL_STATE_IDLE)) {
+                ||(calledOn == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE)) {
             Log.v("LOADASYNCFEED", "END REACHED" );
             loadMore();
         }
@@ -315,17 +385,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private void loadMore() {
         loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
         loadFeedDataAsync.execute();
-        calledOn=calledOn+offset;
-        Log.v("LOADASYNCFEED", "END REACHED" );
+        calledOn=foldingCellListAdapter.getProductsList().size();
+        Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
     }
 
 
-    private ArrayList<NewsStory> filterNewsBasesOnSearch(ArrayList<NewsStory> entries, String searchText) {
+    private List<Object> filterNewsBasesOnSearch(List<Object> entries, String searchText) {
 
 
+        NewsStory story = null;
+        List<Object> filteredNews = new ArrayList<>();
+        for(Object obj: entries) {
 
-        ArrayList<NewsStory> filteredNews = new ArrayList<>();
-        for(NewsStory story: entries) {
+            story = (NewsStory)obj;
 
             if(story.getDescription().toLowerCase().contains(searchText)
                     || story.getTitle().toLowerCase().contains(searchText)

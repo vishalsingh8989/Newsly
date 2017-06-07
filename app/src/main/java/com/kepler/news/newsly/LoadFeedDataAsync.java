@@ -44,7 +44,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by vishaljasrotia on 28/05/17.
  */
 
-public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStory>> {
+public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
 
@@ -53,8 +53,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
-    private MainActivity mainActivity  =null;
-
+    private MainActivity mainActivity                       = null;
+    private int oldsize                                     = 0;
 
 
 
@@ -81,6 +81,11 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
         this.pref                   = pref;
         this.mainActivity           = mainActivity;
 
+        this.oldsize                = adapter.getProductsList().size();
+
+
+        Log.v("LOADASYNC" , "OLDSIZE : " + oldsize);
+
     }
 
 
@@ -99,9 +104,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
     }
 
     @Override
-    protected ArrayList<NewsStory> doInBackground(Void... voids) {
+    protected List<Object> doInBackground(Void... voids) {
 
-        ArrayList<NewsStory> newList               = new ArrayList<>();
+        List<Object> newList               = new ArrayList<>();
         String result   = "";
         try {
 
@@ -223,12 +228,17 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
 
 
     @Override
-    protected void onPostExecute(ArrayList<NewsStory> result) {
+    protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
+        result = addNativeExpressAds(result);
         MainActivity.start = MainActivity.start+offset;
         Random rn = new Random(15L);
-        Collections.shuffle(result, rn);
+        //Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result , onRefresh);
+
+        MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
+
+        Log.v("LOADASYNC" , "size onPost : " + MainActivity.calledOn);
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -236,6 +246,25 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, ArrayList<NewsStor
                 progressbar.smoothToHide();
             }
         });
+
+
+    }
+
+
+    private List<Object> addNativeExpressAds(List<Object> result){
+        for(int i = oldsize ; i < result.size(); i +=1)
+        {
+            if(i%12==0 && i!=0) {
+                NativeExpressAdView adView = new NativeExpressAdView(mainActivity.getApplicationContext());
+                adView.setAdSize(new AdSize(300, 100));
+                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+                adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
+                result.add(i, adView);
+            }
+
+        }
+
+        return result;
 
 
     }

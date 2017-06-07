@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.icu.util.ValueIterator;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
@@ -33,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by vishaljasrotia on 28/05/17.
@@ -44,14 +47,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private static final int ADVIEW = 0;
     private static final int FOLDINGCELLVIEW = 1;
 
-    @Override
-    public int getItemViewType(int position) {
-        return position % 7 == 0  ? ADVIEW : FOLDINGCELLVIEW;
-    }
+
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
-    private ArrayList<NewsStory> productsList = null;
-    private ArrayList<NewsStory> allNewslist = null;
+    private List<Object> productsList = null;
+    private List<Object> allNewslist = null;
     private static String DESCRIPTION        = "description";
     private static String SOURCE             = "source";
     private static String  SOURCENAME        = "sourceName";
@@ -70,7 +70,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     };
 
-    public FoldingCellListAdapter(MainActivity Callback, Context context, ArrayList<NewsStory> productsList, ArrayList<NewsStory> allNewslist) {
+    public FoldingCellListAdapter(MainActivity Callback, Context context, List<Object> productsList, List<Object> allNewslist) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -85,6 +85,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
         return productsList.size();
     }
 
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
     @Override
     public Object getItem(int i) {
         return productsList.get(i);
@@ -96,35 +102,37 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position % 12 == 0 && position !=0 ? ADVIEW : FOLDINGCELLVIEW;
+    }
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         int type= getItemViewType(position);
         Log.v("FoldingCell", "POS : " + position + " , "+ (type == ADVIEW )+ " , "+convertView);
         FoldingCell cell =null;
-
+        NewsStory item;
         switch (type) {
 
-            case ADVIEW:
+            case ADVIEW  :
                 Log.v("FoldingCell", "POS :load ad");
 
-                NewsStory item = (NewsStory) getItem(position);
+                //NewsStory item = (NewsStory) getItem(position);
                 cell = (FoldingCell) convertView;
                 final AdViewHolder adViewHolder;
-
-
-
+                if(convertView == null) {
                     adViewHolder = new AdViewHolder();
                     cell = (FoldingCell) mLayoutInflater.inflate(R.layout.native_ad_adapter, parent, false);
                     adViewHolder.adView = (NativeExpressAdView) cell.findViewById(R.id.adView);
                     // binding view parts to view holder
                     adViewHolder.adView.setVisibility(View.VISIBLE);
-                    AdRequest adRequest = new AdRequest.Builder().build();
-                    adViewHolder.adView.loadAd(adRequest);
+                    cell.setTag(adViewHolder);
+                }else{
+                    adViewHolder = (AdViewHolder) cell.getTag();
+                }
 
-
-
-
-                //return cell;
+                LoadAdAsync loadAd = new LoadAdAsync(adViewHolder.adView);
+                loadAd.execute();
                 break;
 
 
@@ -132,9 +140,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
                 item = (NewsStory) getItem(position);
                 cell = (FoldingCell) convertView;
-                final ViewHolder viewHolder;
+                final ViewHolder viewHolder ;
 
-
+                if(convertView == null) {
 
                     viewHolder = new ViewHolder();
                     cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
@@ -151,23 +159,24 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.readFull = (TextView) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
 
-                    //cell.setTag(viewHolder);
-
+                    cell.setTag(viewHolder);
+                }else {
                     // for existing cell set valid valid state(without animation)
                     if (unfoldedIndexes.contains(position)) {
                         cell.unfold(true);
                     } else {
                         cell.fold(true);
                     }
-
+                    viewHolder = (ViewHolder) cell.getTag();
+                }
                 // bind data from selected element to view through view holder
-                viewHolder.description.setText(productsList.get(position).getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                viewHolder.source.setText(productsList.get(position).getSourceName());
-                viewHolder.sourceMini.setText(productsList.get(position).getSourceName());
-                viewHolder.title.setText(productsList.get(position).getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                viewHolder.author.setText("Author: " + productsList.get(position).getAuthor());
-                viewHolder.category.setText(productsList.get(position).getCategory());
-                viewHolder.publishedat.setText(productsList.get(position).getPublishedat());
+                viewHolder.description.setText(item.getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                viewHolder.source.setText(item.getSourceName());
+                viewHolder.sourceMini.setText(item.getSourceName());
+                viewHolder.title.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                viewHolder.author.setText("Author: " + item.getAuthor());
+                viewHolder.category.setText(item.getCategory());
+                viewHolder.publishedat.setText(item.getPublishedat());
 
 
                 //String dynamicUrl =  productsList.get(position).getUrl();
@@ -201,11 +210,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.side_bar1.setBackground(gradientDrawable);
 
 
-                Log.v("URLPATH", " : " + productsList.get(position).getUrltoimage().trim());
+                Log.v("URLPATH", " : " + item.getUrltoimage().trim());
 
                 try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
                     Picasso.with(mContext)
-                            .load(productsList.get(position).getUrltoimage())
+                            .load(item.getUrltoimage())
                             .error(R.drawable.sample)
                             .into(viewHolder.image);
 
@@ -238,10 +247,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
         unfoldedIndexes.add(position);
     }
 
-    public void upDateEntries(ArrayList<NewsStory> entries, boolean onRefresh) {
+    public void upDateEntries(List<Object> entries, boolean onRefresh) {
 
         productsList.addAll(entries);
-        allNewslist.addAll((ArrayList<NewsStory>)entries.clone());
+        allNewslist.addAll(entries);
 
         Log.v("LOADASYNCFEED" , "size : " +productsList.size());
         this.notifyDataSetChanged();
@@ -249,18 +258,18 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     }
 
-    public ArrayList<NewsStory> getProductsList() {
+    public List<Object> getProductsList() {
         return productsList;
     }
 
-    public void refreshEntries(ArrayList<NewsStory> entries) {
+    public void refreshEntries(List<Object> entries) {
         productsList.clear();
-        productsList = (ArrayList<NewsStory>)entries.clone();
+        productsList = entries;
         Log.v("QuerySearch" , "size " + productsList.size());
         this.notifyDataSetChanged();
     }
 
-    public ArrayList<NewsStory> AllNewsEntries() {
+    public List<Object> AllNewsEntries() {
         return allNewslist;
     }
 
@@ -288,5 +297,32 @@ public class FoldingCellListAdapter extends BaseAdapter {
     }
 
 
+
+    public  class LoadAdAsync extends AsyncTask<Void, Void ,Void>{
+
+
+        NativeExpressAdView adView = null;
+        AdRequest adRequest = null;
+
+        LoadAdAsync(NativeExpressAdView ad)
+        {
+            this.adView = ad;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+           this.adRequest = new AdRequest.Builder().build();
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adView.loadAd(adRequest);
+        }
+    }
 
 }
