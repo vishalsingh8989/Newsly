@@ -8,31 +8,6 @@
     tools:context="com.kepler.news.newsly.MainActivity">
 
 
-    <com.github.glomadrian.grav.GravView
-        android:id="@+id/grav"
-        android:layout_centerInParent="true"
-        android:layout_width="400dp"
-        android:layout_height="match_parent"
-        app:colorGenerator="com.github.glomadrian.grav.generator.paint.ArrayColorGenerator"
-        app:array_colors="@array/rainbow"
-        app:pointGenerator="com.github.glomadrian.grav.generator.point.RegularPointGenerator"
-        app:regular_cell_size="150"
-        app:regular_variance="150"
-        app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
-        app:ball_size_from_size="3dp"
-        app:ball_size_to_size="8dp"
-        app:path_variance_from="-20dp"
-        app:path_variance_to="20dp"
-        app:path="@string/circle"
-        app:path_original_width="@integer/circle_original_width"
-        app:path_original_height="@integer/circle_original_height"
-        app:path_min_duration="4000"
-        app:path_max_duration="7000"
-        app:animationGenerator="com.github.glomadrian.grav.generator.animation.SideToSideAnimator"
-        app:side_to_side_min_duration="2000"
-        app:side_to_side_max_duration="3000"
-        app:side_to_side_direction="downToUp"
-        />
     <android.support.design.widget.AppBarLayout
         app:elevation="0dp"
         android:elevation="0dp"

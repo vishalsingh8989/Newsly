@@ -28,5 +28,12 @@
     <integer name="circle_original_height">1062</integer>
 
 
+    <string name="account_balance">Account Balance</string>
+    <string name="balance_currency">$</string>
+    <string name="balance_amount">524.99</string>
+
+    <string name="title_activity_category">Select Category</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

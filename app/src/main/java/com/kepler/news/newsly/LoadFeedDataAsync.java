@@ -54,7 +54,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
     private MainActivity mainActivity                       = null;
-    private int oldsize                                     = 0;
+    public static int oldsize                                     = 0;
 
 
 
@@ -127,8 +127,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&gaming=true"
                     +"&technology=true"
                     +"&entertainment=true"
-                    +"&sport=true"
-                    ;
+                    +"&sport=true";
 
                 //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
 
@@ -257,8 +256,12 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
             if(i%12==0 && i!=0) {
                 NativeExpressAdView adView = new NativeExpressAdView(mainActivity.getApplicationContext());
                 adView.setAdSize(new AdSize(300, 100));
+
                 adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
-                adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
+                adView.loadAd(new AdRequest.Builder()
+                        .addTestDevice("32C278BA97F2B33C41A02691587B4F29")
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                        .build());
                 result.add(i, adView);
             }
 

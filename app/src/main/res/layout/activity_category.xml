@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="20dp"
+    android:background="@android:color/white"
+    >
+
+
+    <TextView
+        android:id="@+id/last"
+        android:paddingRight="10dp"
+        android:textSize="10sp"
+        android:text="Copyright © kepler 2017"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/first"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.kepler.news.newsly.chip.Chip
+                android:layout_margin="10dp"
+                android:id="@+id/chipScienceAndNature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_backgroundColor="#aa8e11"
+                app:mcv_chipIcon="@mipmap/science_and_nature"
+                app:mcv_chipText="Science And Nature "
+                app:mcv_hasIcon="true"
+                app:mcv_selectable="true"
+                app:mcv_selectedBackgroundColor="#603e0c"
+                app:mcv_selectedTextColor="#ffffff"
+                app:mcv_textColor="#faf9f9" />
+
+        </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/second"
+        android:padding="8dp"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.kepler.news.newsly.chip.Chip
+            android:layout_marginLeft="20dp"
+            android:id="@+id/chipPolitics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mcv_selectable="true"
+            app:mcv_selectedTextColor="#ffffff"
+            app:mcv_chipText="Politics"
+            app:mcv_backgroundColor="#aa8e11"
+            app:mcv_selectedBackgroundColor="#603e0c"
+            app:mcv_textColor="#faf9f9"
+            app:mcv_closable="true"
+            app:mcv_hasIcon="true"
+            app:mcv_chipIcon="@mipmap/politics"
+            />
+
+
+        <com.kepler.news.newsly.chip.Chip
+            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/chipGaming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mcv_selectable="true"
+            app:mcv_selectedTextColor="#ffffff"
+            app:mcv_chipText=" Gaming "
+            app:mcv_backgroundColor="#aa8e11"
+            app:mcv_selectedBackgroundColor="#603e0c"
+            app:mcv_textColor="#faf9f9"
+            app:mcv_closable="true"
+            app:mcv_hasIcon="true"
+            app:mcv_chipIcon="@mipmap/gaming"
+
+            >
+    </com.kepler.news.newsly.chip.Chip>
+
+</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/third"
+        android:layout_below="@+id/second"
+        android:padding="8dp"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <com.kepler.news.newsly.chip.Chip
+                android:layout_marginLeft="20dp"
+                android:id="@+id/chipSports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_selectable="true"
+                app:mcv_selectedTextColor="#ffffff"
+                app:mcv_chipText=" Sports "
+                app:mcv_backgroundColor="#aa8e11"
+                app:mcv_selectedBackgroundColor="#603e0c"
+                app:mcv_textColor="#faf9f9"
+                app:mcv_closable="true"
+                app:mcv_hasIcon="true"
+                app:mcv_chipIcon="@drawable/sports">
+
+            </com.kepler.news.newsly.chip.Chip>
+
+
+
+            <com.kepler.news.newsly.chip.Chip
+                android:layout_marginRight="20dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/chipBusiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mcv_selectable="true"
+                app:mcv_selectedTextColor="#ffffff"
+                app:mcv_chipText=" Business "
+                app:mcv_backgroundColor="#aa8e11"
+                app:mcv_selectedBackgroundColor="#603e0c"
+                app:mcv_textColor="#faf9f9"
+                app:mcv_closable="true"
+                app:mcv_hasIcon="true"
+                app:mcv_chipIcon="@mipmap/business"
+                >
+
+            </com.kepler.news.newsly.chip.Chip>
+    </RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/fourth"
+    android:padding="8dp"
+    android:layout_margin="5dp"
+    android:layout_below="@+id/third"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.kepler.news.newsly.chip.Chip
+        android:layout_marginLeft="0dp"
+        android:id="@+id/chipMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mcv_selectable="true"
+        app:mcv_selectedTextColor="#ffffff"
+        app:mcv_chipText="  Music  "
+        app:mcv_backgroundColor="#aa8e11"
+        app:mcv_selectedBackgroundColor="#603e0c"
+        app:mcv_textColor="#faf9f9"
+        app:mcv_closable="true"
+        app:mcv_hasIcon="true"
+        app:mcv_chipIcon="@mipmap/music"
+
+        >
+
+    </com.kepler.news.newsly.chip.Chip>
+
+    <com.kepler.news.newsly.chip.Chip
+        android:layout_marginRight="0dp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/chipMTechnology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mcv_selectable="true"
+        app:mcv_selectedTextColor="#ffffff"
+        app:mcv_chipText=" Technology "
+        app:mcv_backgroundColor="#aa8e11"
+        app:mcv_selectedBackgroundColor="#603e0c"
+        app:mcv_textColor="#faf9f9"
+        app:mcv_closable="true"
+        app:mcv_hasIcon="true"
+        app:mcv_chipIcon="@mipmap/science"
+
+        />
+
+
+
+</RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/fifth"
+        android:layout_below="@+id/fourth"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.kepler.news.newsly.chip.Chip
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:id="@+id/chipEntertainment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mcv_selectable="true"
+            app:mcv_selectedTextColor="#ffffff"
+            app:mcv_chipText="Entertainment "
+            app:mcv_backgroundColor="#aa8e11"
+            app:mcv_selectedBackgroundColor="#603e0c"
+            app:mcv_textColor="#faf9f9"
+            app:mcv_closable="true"
+            app:mcv_hasIcon="true"
+            app:mcv_chipIcon="@mipmap/entertainment"
+            android:layout_below="@+id/chipMusic"
+           />
+    </LinearLayout>
+</RelativeLayout>

@@ -3,7 +3,7 @@
     <declare-styleable name="CirCleRefreshLayout">
         <attr name="AniBackColor" format="color" />
         <attr name="AniForeColor" format="color" />
-        <attr name="CircleSmaller" format="integer"/>
+        <attr name="CircleSmaller" format="integer" />
     </declare-styleable>
 
 
@@ -19,5 +19,14 @@
         <attr name="mcv_selectedTextColor" format="color" />
         <attr name="mcv_closeColor" format="color" />
         <attr name="mcv_selectedCloseColor" format="color" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 </resources>

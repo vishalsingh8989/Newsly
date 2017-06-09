@@ -39,8 +39,9 @@
     <color name="r">#6D4C41</color>
     <color name="s">#212121</color>
 
+    <color name="item_color">#BD5A09</color>
 
-
+    <color name="black_overlay">#66000000</color>
 
 
 </resources>

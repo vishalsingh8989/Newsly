@@ -126,6 +126,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     adViewHolder.adView = (NativeExpressAdView) cell.findViewById(R.id.adView);
                     // binding view parts to view holder
                     adViewHolder.adView.setVisibility(View.VISIBLE);
+                    adViewHolder.adView.loadAd(new AdRequest.Builder()
+                            .addTestDevice("32C278BA97F2B33C41A02691587B4F29")
+                            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                            .build());
                     cell.setTag(adViewHolder);
                 }else{
                     adViewHolder = (AdViewHolder) cell.getTag();

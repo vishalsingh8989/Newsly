@@ -3,27 +3,40 @@ package com.kepler.news.newsly;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.chip.Chip;
 import com.kepler.news.newsly.chip.OnChipClickListener;
 import com.kepler.news.newsly.chip.OnSelectClickListener;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.menu.DrawerAdapter;
+import com.kepler.news.newsly.menu.DrawerItem;
+import com.kepler.news.newsly.menu.SimpleItem;
+import com.kepler.news.newsly.menu.SpaceItem;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
 import com.ramotion.foldingcell.FoldingCell;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -31,8 +44,10 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -40,7 +55,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener{
+public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, DrawerAdapter.OnItemSelectedListener {
 
     private List<Object> productsList               = null;
     private List<Object> allNewslist                = null;
@@ -72,6 +87,18 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
     int currentApiVersion = 7;
+
+
+    private static final int POS_DASHBOARD = 0;
+    private static final int POS_ACCOUNT = 1;
+    private static final int POS_MESSAGES = 2;
+    private static final int POS_CART = 3;
+    private static final int POS_SOURCE = 4;
+    private static final int POS_LOGOUT = 6;
+
+
+    private String[] screenTitles;
+    private Drawable[] screenIcons;
 
 
 
@@ -160,6 +187,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
 
 
+        screenIcons = loadScreenIcons();
+        screenTitles = loadScreenTitles();
+
 
         new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
@@ -170,18 +200,36 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-        chipScienceAndNatureSelected = mPreferences.getBoolean(Common.chipScienceAndNatureSelected ,  true);
-        chipPoliticsSelected         = mPreferences.getBoolean(Common.chipPolitics ,  true);
+        DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
+                createItemFor(POS_DASHBOARD).setChecked(true),
+                createItemFor(POS_ACCOUNT),
+                createItemFor(POS_MESSAGES),
+                createItemFor(POS_CART),
+                createItemFor(POS_SOURCE),
+                new SpaceItem(20),
+                createItemFor(POS_LOGOUT)));
+        adapter.setListener(this);
 
 
-        Log.v("CHIP" ,"mPreferences Science Nature " + chipScienceAndNatureSelected);
-        Log.v("CHIP" ,"mPreferences Politics  " + chipPoliticsSelected);
-        chipScienceAndNature    = (Chip)findViewById(R.id.chipScienceAndNature);
-        chipPolitics            = (Chip)findViewById(R.id.chipPolitics);
 
-        chipScienceAndNature.setClicked(chipScienceAndNatureSelected);
-        chipPolitics.setClicked(chipPoliticsSelected);
+        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        list.setNestedScrollingEnabled(false);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setAdapter(adapter);
 
+
+//        chipScienceAndNatureSelected = mPreferences.getBoolean(Common.chipScienceAndNatureSelected ,  true);
+//        chipPoliticsSelected         = mPreferences.getBoolean(Common.chipPolitics ,  true);
+//
+//
+//        Log.v("CHIP" ,"mPreferences Science Nature " + chipScienceAndNatureSelected);
+//        Log.v("CHIP" ,"mPreferences Politics  " + chipPoliticsSelected);
+//        chipScienceAndNature    = (Chip)findViewById(R.id.chipScienceAndNature);
+//        chipPolitics            = (Chip)findViewById(R.id.chipPolitics);
+//
+//        chipScienceAndNature.setClicked(chipScienceAndNatureSelected);
+//        chipPolitics.setClicked(chipPoliticsSelected);
+//
 
 
         productsList            = new ArrayList<>();
@@ -198,59 +246,59 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         loadFeedDataAsync.execute();
 
 
-        chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
-            @Override
-            public void onChipClick(View v, boolean selected) {
-                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
-                Log.v("CHIP" ,"onChipClick " + selected);
-                editor = mPreferences.edit();
-                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
-                editor.commit();
+//        chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
+//            @Override
+//            public void onChipClick(View v, boolean selected) {
+//                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
+//                Log.v("CHIP" ,"onChipClick " + selected);
+//                editor = mPreferences.edit();
+//                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
+//                editor.commit();
+//
+//
+//
+//            }
+//        });
+//
+//        chipScienceAndNature.setOnSelectClickListener(new OnSelectClickListener() {
+//            @Override
+//            public void onSelectClick(View v, boolean selected) {
+//                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
+//                Log.v("CHIP" ,"onChipClick " + selected);
+//                editor = mPreferences.edit();
+//                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
+//                editor.commit();
+//            }
+//        });
 
 
 
-            }
-        });
-
-        chipScienceAndNature.setOnSelectClickListener(new OnSelectClickListener() {
-            @Override
-            public void onSelectClick(View v, boolean selected) {
-                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
-                Log.v("CHIP" ,"onChipClick " + selected);
-                editor = mPreferences.edit();
-                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
-                editor.commit();
-            }
-        });
-
-
-
-
-        chipPolitics.setOnChipClickListener(new OnChipClickListener() {
-            @Override
-            public void onChipClick(View v, boolean selected) {
-                chipPoliticsSelected = !chipPoliticsSelected;
-                Log.v("CHIP" ,"onChipClick " + selected);
-                editor = mPreferences.edit();
-                editor.putBoolean(Common.chipPolitics, selected);
-                editor.commit();
-
-
-            }
-        });
-
-        chipPolitics.setOnSelectClickListener(new OnSelectClickListener() {
-            @Override
-            public void onSelectClick(View v, boolean selected) {
-                chipPoliticsSelected = !chipPoliticsSelected;
-                Log.v("CHIP" ,"onChipClick " + selected);
-                editor = mPreferences.edit();
-                editor.putBoolean(Common.chipPolitics, selected);
-                editor.commit();
-            }
-        });
-
-
+//
+//        chipPolitics.setOnChipClickListener(new OnChipClickListener() {
+//            @Override
+//            public void onChipClick(View v, boolean selected) {
+//                chipPoliticsSelected = !chipPoliticsSelected;
+//                Log.v("CHIP" ,"onChipClick " + selected);
+//                editor = mPreferences.edit();
+//                editor.putBoolean(Common.chipPolitics, selected);
+//                editor.commit();
+//
+//
+//            }
+//        });
+//
+//        chipPolitics.setOnSelectClickListener(new OnSelectClickListener() {
+//            @Override
+//            public void onSelectClick(View v, boolean selected) {
+//                chipPoliticsSelected = !chipPoliticsSelected;
+//                Log.v("CHIP" ,"onChipClick " + selected);
+//                editor = mPreferences.edit();
+//                editor.putBoolean(Common.chipPolitics, selected);
+//                editor.commit();
+//            }
+//        });
+//
+//
 
 
 
@@ -344,29 +392,58 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         });
 
 
-//        mCircleRefreshLayout.setOnRefreshListener(new CircleRefreshLayout.OnCircleRefreshListener() {
-//            @Override
-//            public void completeRefresh() {
-//                Log.v("REFRESHLAYOUT" , "completeRefresh");
-//            }
-//
-//            @Override
-//            public void refreshing() {
-//                Log.v("REFRESHLAYOUT" , "refreshing1");
-//                if(productsList!=null && productsList.size()!=0) {
-//                    loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this,foldingCellListAdapter, true);
-//                    loadFeedDataAsync.execute();
-//                    Log.v("REFRESHLAYOUT" , "refreshing2");
-//
-//                }
-//
-//            }
-//        });
+    }
 
+
+    private List<Object> addNativeExpressAds(List<Object> result){
+        for(int i = 0 ; i < result.size(); i +=1)
+        {
+            if(i%12==0 && i!=0) {
+                NativeExpressAdView adView = new NativeExpressAdView(getApplicationContext());
+                adView.setAdSize(new AdSize(300, 100));
+                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+                adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
+                result.add(i, adView);
+            }
+
+        }
+
+        return result;
 
 
     }
 
+
+    private Drawable[] loadScreenIcons() {
+        TypedArray ta = getResources().obtainTypedArray(R.array.ld_activityScreenIcons);
+        Drawable[] icons = new Drawable[ta.length()];
+        for (int i = 0; i < ta.length(); i++) {
+            int id = ta.getResourceId(i, 0);
+            if (id != 0) {
+                icons[i] = ContextCompat.getDrawable(this, id);
+            }
+        }
+        ta.recycle();
+        return icons;
+    }
+
+    private DrawerItem createItemFor(int position) {
+        return new SimpleItem(screenIcons[position], screenTitles[position])
+                .withIconTint(color(R.color.transparent))
+                .withTextTint(color(R.color.item_color))
+                .withSelectedIconTint(color(R.color.black))
+                .withSelectedTextTint(color(R.color.black_transparent));
+    }
+
+
+    private String[] loadScreenTitles() {
+        return getResources().getStringArray(R.array.ld_activityScreenTitles);
+    }
+
+    @ColorInt
+    private int color(@ColorRes int res) {
+        return ContextCompat.getColor(this, res);
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -395,19 +472,27 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         NewsStory story = null;
         List<Object> filteredNews = new ArrayList<>();
-        for(Object obj: entries) {
 
-            story = (NewsStory)obj;
+        for(int i = 0 ; i < entries.size(); i =i+1 ){
 
-            if(story.getDescription().toLowerCase().contains(searchText)
-                    || story.getTitle().toLowerCase().contains(searchText)
-                    || story.getAuthor().toLowerCase().contains(searchText)
-                    || story.getSourceName().toLowerCase().contains(searchText) ) {
-                filteredNews.add(story);
+            if(i%12 != 0 &&  i != 0) {
+                Log.v("FILTER" , " F " +i);
+                story = (NewsStory)entries.get(i);
+                if(story.getDescription().toLowerCase().contains(searchText)
+                        || story.getTitle().toLowerCase().contains(searchText)
+                        || story.getAuthor().toLowerCase().contains(searchText)
+                        || story.getSourceName().toLowerCase().contains(searchText) ) {
+                    filteredNews.add(story);
+                }
+
             }
 
         }
+
+        filteredNews = addNativeExpressAds(filteredNews);
+
         Log.v("QuerySearch" , "filtersize " + filteredNews.size() + " , " + entries.size());
+        LoadFeedDataAsync.oldsize = entries.size();
         return filteredNews;
     }
 
@@ -427,17 +512,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     }
 
+    @Override
+    public void onItemSelected(int position) {
+        Log.v("onItemSelected", "onItemSelected clicked " +position );
+        switch (position){
+            case 1:
+                Intent category = new Intent(this, Category.class);
+                startActivity(category);
+                break;
+            case 2:
+                break;
 
-//    @Override
-//    public void onRefreshComplete() {
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        mCircleRefreshLayout.finishRefreshing();
-//        Log.v("REFRESHLAYOUT" , "onRefreshComplete");
-//
-//
-//    }
+        }
+
+
+    }
 }
