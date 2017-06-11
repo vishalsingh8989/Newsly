@@ -39,6 +39,7 @@ import com.kepler.news.newsly.menu.SimpleItem;
 import com.kepler.news.newsly.menu.SpaceItem;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
 import com.ramotion.foldingcell.FoldingCell;
+import com.thefinestartist.finestwebview.FinestWebView;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 
@@ -478,10 +479,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             if(i%12 != 0 &&  i != 0) {
                 Log.v("FILTER" , " F " +i);
                 story = (NewsStory)entries.get(i);
-                if(story.getDescription().toLowerCase().contains(searchText)
-                        || story.getTitle().toLowerCase().contains(searchText)
-                        || story.getAuthor().toLowerCase().contains(searchText)
-                        || story.getSourceName().toLowerCase().contains(searchText) ) {
+                if(story.getDescription().toLowerCase().contains(searchText.toLowerCase())
+                        || story.getTitle().toLowerCase().contains(searchText.toLowerCase())
+                        || story.getAuthor().toLowerCase().contains(searchText.toLowerCase())
+                        || story.getSourceName().toLowerCase().contains(searchText.toLowerCase()) ) {
                     filteredNews.add(story);
                 }
 
@@ -502,7 +503,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         switch (v.getId()){
             case R.id.read_full:
                 Log.v("READFULL", "read full clicked" );
-
+                NewsStory story = (NewsStory) productsList.get(position);
+                new FinestWebView.Builder(this)
+                        .show(story.getSourceUrl());
                 break;
             case R.id.source:
                 Log.v("READFULL", "source clicked" );
