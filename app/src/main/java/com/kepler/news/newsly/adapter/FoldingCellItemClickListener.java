@@ -1,4 +1,4 @@
-package com.kepler.news.newsly;
+package com.kepler.news.newsly.adapter;
 
 import android.view.View;
 

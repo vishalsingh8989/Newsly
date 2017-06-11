@@ -2,15 +2,12 @@ package com.kepler.news.newsly;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
-import com.kepler.news.newsly.adapter.RecycleViewAdapter;
+import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -24,19 +21,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PipedReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 import javax.net.ssl.HttpsURLConnection;
 

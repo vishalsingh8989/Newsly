@@ -29,9 +29,9 @@ import android.widget.ListView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
+import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.chip.Chip;
-import com.kepler.news.newsly.chip.OnChipClickListener;
-import com.kepler.news.newsly.chip.OnSelectClickListener;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.menu.DrawerItem;
@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;

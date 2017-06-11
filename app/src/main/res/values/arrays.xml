@@ -31,10 +31,16 @@
     </string-array>
 
     <string-array name="red">
-        <item>#ba0303</item>
-        <item>#ff7878</item>
-        <item>#9e3535</item>
-        <item>#fd3939</item>
+        <item>#bf1d00</item>
+        <item>#f44336</item>
+        <item>#e53935</item>
+        <item>#d32f2f</item>
+        <item>#b71c1c</item>
+        <item>#512DA8</item>
+        <item>#D81B60</item>
+        <item>#7B1FA2</item>
+        <item>#b30003</item>
+        <item>#ac0900</item>
     </string-array>
 
 
@@ -119,6 +125,21 @@
     <integer-array name="walla_points_percent_points">
         <item>10</item>
         <item>60</item>
+
+        <item>8</item>
+        <item>30</item>
+
+        <item>8</item>
+        <item>30</item>
+
+        <item>8</item>
+        <item>30</item>
+
+        <item>8</item>
+        <item>30</item>
+
+        <item>8</item>
+        <item>30</item>
 
         <item>8</item>
         <item>30</item>

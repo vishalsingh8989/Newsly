@@ -7,7 +7,6 @@
     tools:context="com.kepler.news.newsly.IntroFragments.CountryFragment">
 
 
-
     <com.github.glomadrian.grav.GravView
         android:layout_marginTop="35dp"
         android:id="@+id/country_grav"
@@ -37,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:id="@+id/title"
-        android:text="Country"
+        android:text="Language/Sprache"
         android:textSize="40dp"
         android:textColor="@color/d"
         android:layout_width="match_parent"
@@ -46,7 +45,7 @@
 
     <ListView
         android:padding="20dp"
-        android:id="@+id/countrylist"
+        android:id="@+id/languagelist"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_below="@+id/title"

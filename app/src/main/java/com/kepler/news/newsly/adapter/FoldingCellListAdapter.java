@@ -1,4 +1,4 @@
-package com.kepler.news.newsly;
+package com.kepler.news.newsly.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,6 +28,9 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.kepler.news.newsly.MainActivity;
+import com.kepler.news.newsly.NewsStory;
+import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
@@ -58,7 +61,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private RoundedTransformation transformation = null;
-    private MainActivity  Callback               = null;
+    private MainActivity Callback               = null;
 
 
 

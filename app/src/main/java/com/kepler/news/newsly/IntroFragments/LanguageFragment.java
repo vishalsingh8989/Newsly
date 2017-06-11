@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,26 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
+ * {@link LanguageFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CountryFragment#newInstance} factory method to
+ * Use the {@link LanguageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CountryFragment extends Fragment{
+public class LanguageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,11 +38,10 @@ public class CountryFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    ArrayList<Boolean> countrySelected = new ArrayList<>();
-
     private OnFragmentInteractionListener mListener;
+    ArrayList<Boolean> languageSelected = new ArrayList<>();
 
-    public CountryFragment() {
+    public LanguageFragment() {
         // Required empty public constructor
     }
 
@@ -57,11 +51,11 @@ public class CountryFragment extends Fragment{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CountryFragment.
+     * @return A new instance of fragment LanguageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CountryFragment newInstance(String param1, String param2) {
-        CountryFragment fragment = new CountryFragment();
+    public static LanguageFragment newInstance(String param1, String param2) {
+        LanguageFragment fragment = new LanguageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,44 +75,40 @@ public class CountryFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_country, container, false);
 
-        final ListView countryListView = (ListView) v.findViewById(R.id.countrylist);
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_language, container, false);
+
+        final ListView countryListView = (ListView) v.findViewById(R.id.languagelist);
 
         //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
 
 
-        ArrayList<String> countryList = new ArrayList<>();
+        ArrayList<String> languageList = new ArrayList<>();
 
-        countryList.add("Global");
-        countryList.add("United States of America");
-        countryList.add("United Kingdom");
-        countryList.add("India");
-        countryList.add("Australia");
-
-        countrySelected.add(true);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
+        languageList.add("English");
+        languageList.add("Deutsch");
 
 
-        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,countryList);
+        languageSelected.add(true);
+        languageSelected.add(false);
 
-        CountryAdapter adapter = new CountryAdapter(getActivity(),countryList );
+
+
+        CountryAdapter adapter = new CountryAdapter(getActivity(),languageList );
 
         countryListView.setAdapter(adapter);
-        countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
+
+        countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
 
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.v("multichoice" , i + ", " + view);
-                countryListView.setItemChecked(i, !countrySelected.get(i));
-                countrySelected.set(i, !countrySelected.get(i));
+                countryListView.setItemChecked(i, !languageSelected.get(i));
+                languageSelected.set(i, !languageSelected.get(i));
 
             }
         });
@@ -150,6 +140,8 @@ public class CountryFragment extends Fragment{
             }
         });
 
+
+
         countryListView.setItemChecked(0, true);
         return v;
     }
@@ -157,7 +149,7 @@ public class CountryFragment extends Fragment{
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onCountryFragmentInteraction(uri);
+            mListener.onLanguageFragmentInteraction(uri);
         }
     }
 
@@ -178,7 +170,6 @@ public class CountryFragment extends Fragment{
         mListener = null;
     }
 
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -191,6 +182,6 @@ public class CountryFragment extends Fragment{
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onCountryFragmentInteraction(Uri uri);
+        void onLanguageFragmentInteraction(Uri uri);
     }
 }
