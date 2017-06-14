@@ -88,9 +88,13 @@ public class LanguageFragment extends Fragment {
 
         languageList.add("English");
         languageList.add("Deutsch");
+        languageList.add("Français");
+        languageList.add("Italiano");
 
 
         languageSelected.add(true);
+        languageSelected.add(false);
+        languageSelected.add(false);
         languageSelected.add(false);
 
 

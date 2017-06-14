@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -92,12 +93,18 @@ public class CountryFragment extends Fragment{
         ArrayList<String> countryList = new ArrayList<>();
 
         countryList.add("Global");
-        countryList.add("United States of America");
-        countryList.add("United Kingdom");
+        countryList.add("USA");
+        countryList.add("UK");
         countryList.add("India");
         countryList.add("Australia");
+        countryList.add("Canada");
+        countryList.add("France");
+        countryList.add("Italy");
 
         countrySelected.add(true);
+        countrySelected.add(false);
+        countrySelected.add(false);
+        countrySelected.add(false);
         countrySelected.add(false);
         countrySelected.add(false);
         countrySelected.add(false);

@@ -80,7 +80,7 @@ public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentI
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Anydore.otf")
+                .setDefaultFontPath("fonts/Altair.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
@@ -102,6 +102,8 @@ public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentI
         setProgressButtonEnabled(true);
 
         setFadeAnimation();
+        setIndicatorColor(R.color.colorChipBackground, R.color.n);
+        setColorDoneText(Color.parseColor("#111111"));
 
 
         // Turn vibration on and set intensity.

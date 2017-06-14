@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kepler.news.newsly.NewsStory;
@@ -30,6 +31,9 @@ public class CountryAdapter extends BaseAdapter {
     private Context mContext = null;
     private LayoutInflater mLayoutInflater = null;
     private ArrayList<String> countryList = null;
+    private int[] background = {R.drawable.sample, R.mipmap.usa_flag, R.mipmap.uk_flag, R.mipmap.india_flag,
+                                R.mipmap.aus_flag, R.mipmap.canada_flag, R.mipmap.france_flag, R.mipmap.italy_flag
+    };
 
     public CountryAdapter(Context context, ArrayList<String> countryList) {
 
@@ -56,18 +60,17 @@ public class CountryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout cell =null;
+        RelativeLayout cell =null;
 
-        cell = (LinearLayout) convertView;
+        cell = (RelativeLayout) convertView;
         final CountryHolder viewHolder ;
 
         if(convertView == null) {
             viewHolder = new CountryHolder();
-            cell = (LinearLayout) mLayoutInflater.inflate(R.layout.country_item, parent, false);
-
+            cell = (RelativeLayout) mLayoutInflater.inflate(R.layout.country_item, parent, false);
             // binding view parts to view holder
             viewHolder.txtTitle = (TextView) cell.findViewById(R.id.txtTitle);
-            viewHolder.txtTitle.setTextColor(Color.parseColor("#ffffff"));
+
 
             cell.setTag(viewHolder);
         }else {
@@ -84,5 +87,6 @@ public class CountryAdapter extends BaseAdapter {
     {
 
         TextView txtTitle;
+
     }
 }
