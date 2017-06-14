@@ -102,13 +102,15 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         String result   = "";
         try {
 
-
             boolean music = pref.getBoolean(Common.MUSIC, true);
             boolean politics = pref.getBoolean(Common.chipPolitics, true);
             boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
 
             Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
-            String mUrl = "http://13.58.159.13/?addtime=14955596"
+
+            String baseUrl = "http://192.168.0.2:8000/";
+            //String baseUrl = "http://13.58.159.13/";
+            String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(MainActivity.start)
                     +"&offset="+String.valueOf(MainActivity.offset)
                     +"&general=true"
@@ -184,7 +186,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
                     story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
                     story.setUrl(data.getJSONObject(i).getString(Common.URL));
-
+                    story.setSourceUrl(data.getJSONObject(i).getString(Common.SOURCEURL));
+                    story.setPublishedat(data.getJSONObject(i).getString(Common.PUBLISHEDAT));
                     newList.add(story);
                 }
 

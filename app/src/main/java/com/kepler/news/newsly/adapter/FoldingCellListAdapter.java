@@ -186,6 +186,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.publishedat.setText(item.getPublishedat());
 
 
+
                 //String dynamicUrl =  productsList.get(position).getUrl();
 
                 //String linkedText = String.format("<a href=\"%s\">Read Full Article</a>", dynamicUrl);

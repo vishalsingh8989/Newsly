@@ -100,8 +100,10 @@ public class CountryFragment extends Fragment{
         countryList.add("Canada");
         countryList.add("France");
         countryList.add("Italy");
+        countryList.add("Germany");
 
         countrySelected.add(true);
+        countrySelected.add(false);
         countrySelected.add(false);
         countrySelected.add(false);
         countrySelected.add(false);
@@ -182,6 +184,7 @@ public class CountryFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.v("FRAGMENT" , "Country onDetach");
         mListener = null;
     }
 

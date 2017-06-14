@@ -14,12 +14,11 @@ public class Common {
     public static String  DESCRIPTION                       = "description";
     public static String  TITLE                             = "title";
     public static String  AUTHOR                            = "author";
-    public static String  SOURCE                            = "source";
     public static String  SOURCENAME                        = "sourceName";
     public static String  IMAGEURL                          = "urltoimage";
     public static String  ADDTIME                           = "addtime";
     public static String  CATEGORY                          = "category";
-    public static String URL                               = "url";
+    public static String  URL                               = "url";
 
 
 

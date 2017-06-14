@@ -499,16 +499,21 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     @Override
     public void onItemClicked(View v, int position) {
         Log.v("READFULL", "" +position);
+        NewsStory story = null;
         switch (v.getId()){
             case R.id.read_full:
-                Log.v("READFULL", "read full clicked" );
-                NewsStory story = (NewsStory) productsList.get(position);
-                new FinestWebView.Builder(this)
-                        .show(story.getSourceUrl());
+                story = (NewsStory) productsList.get(position);
+                Log.v("READFULL", "read full clicked "+ story.getUrl() );
+                new FinestWebView.Builder(this).show(story.getUrl());
                 break;
             case R.id.source:
-                Log.v("READFULL", "source clicked" );
+                story = (NewsStory) productsList.get(position);
+                Log.v("READFULL", "read full clicked "+ story.getSourceUrl());
+
+
+                new FinestWebView.Builder(this).show("http://"+story.getSourceUrl());
                 break;
+
         }
 
 

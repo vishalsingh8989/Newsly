@@ -1,6 +1,7 @@
 package com.kepler.news.newsly.IntroFragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,11 @@ import android.widget.ListView;
 
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
+import com.kepler.news.newsly.helper.Common;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +43,12 @@ public class LanguageFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    ArrayList<Boolean> languageSelected = new ArrayList<>();
+    private  ArrayList<Boolean> languageSelected = new ArrayList<>();
+    private Context mContext = null;
+    private String[] languages = {"English","Deutsch","Français", "Italiano"};
+    private SharedPreferences mPreferences                  = null;
+    private SharedPreferences.Editor editor                 = null;
+
 
     public LanguageFragment() {
         // Required empty public constructor
@@ -70,6 +79,8 @@ public class LanguageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mContext = getContext();
     }
 
     @Override
@@ -92,10 +103,17 @@ public class LanguageFragment extends Fragment {
         languageList.add("Italiano");
 
 
-        languageSelected.add(true);
-        languageSelected.add(false);
-        languageSelected.add(false);
-        languageSelected.add(false);
+//        languageSelected.add(true);
+//        languageSelected.add(false);
+//        languageSelected.add(false);
+//        languageSelected.add(false);
+
+        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+
+        for (int index = 0;index <languages.length ; index++) {
+            boolean  checked = mPreferences.getBoolean(languages[index], false);
+            languageSelected.add(checked);
+        }
 
 
 
@@ -113,6 +131,9 @@ public class LanguageFragment extends Fragment {
                 Log.v("multichoice" , i + ", " + view);
                 countryListView.setItemChecked(i, !languageSelected.get(i));
                 languageSelected.set(i, !languageSelected.get(i));
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean(languages[i], languageSelected.get(i));
+                editor.commit();
 
             }
         });
@@ -146,7 +167,11 @@ public class LanguageFragment extends Fragment {
 
 
 
-        countryListView.setItemChecked(0, true);
+
+        for(int index = 0 ; index < languageList.size();index++) {
+            countryListView.setItemChecked(index, languageSelected.get(index));
+
+        }
         return v;
     }
 
@@ -166,11 +191,14 @@ public class LanguageFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        Log.v("FRAGMENT" , "Language Attach");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.v("FRAGMENT" , "Language onDetach");
         mListener = null;
     }
 
