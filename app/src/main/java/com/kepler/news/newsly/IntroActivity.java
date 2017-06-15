@@ -106,6 +106,10 @@ public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentI
         setColorDoneText(Color.parseColor("#111111"));
 
 
+        setSeparatorColor(Color.parseColor("#00ffffff"));
+        setNextArrowColor(Color.parseColor("#aa1133"));
+
+
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
 //        setVibrate(true);

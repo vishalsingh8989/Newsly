@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     @Override
     protected void onResume() {
         super.onResume();
+        start =0;
+        offset = 30;
         currentApiVersion = android.os.Build.VERSION.SDK_INT;
 
         // Hide both the navigation bar and the status bar.
@@ -162,12 +164,13 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+//                .setDefaultFontPath("fonts/Altair.ttf")
+//                .setFontAttrId(R.attr.fontPath)
+//                .build()
+//        );
         super.onCreate(savedInstanceState);
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/RobotoCondensed-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
+
 
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -445,10 +448,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         return ContextCompat.getColor(this, res);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
         Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
@@ -509,10 +512,14 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             case R.id.source:
                 story = (NewsStory) productsList.get(position);
                 Log.v("READFULL", "read full clicked "+ story.getSourceUrl());
-
-
                 new FinestWebView.Builder(this).show("http://"+story.getSourceUrl());
                 break;
+            case R.id.description:
+                Log.v("READFULL", "description full clicked");
+                foldingCellListAdapter.registerToggle(position);
+                ((FoldingCell) v.getParent().getParent()).toggle(false);
+                break;
+
 
         }
 

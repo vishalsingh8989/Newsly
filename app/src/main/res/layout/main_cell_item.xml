@@ -1,12 +1,15 @@
 <com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:id="@+id/folding_cell"
     android:background="@drawable/main_item_cell_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:elevation="5dp"
     folding-cell:animationDuration="500"
-    folding-cell:backSideColor="#d4d4d4"
+    folding-cell:backSideColor="#8e8c8c"
     folding-cell:additionalFlipsCount="2"
     folding-cell:cameraHeight="30">
     ​
@@ -26,7 +29,6 @@
             android:text="@string/title_sample"
             android:gravity="center"
             android:textSize="13dp"
-            android:textAlignment="center"
             android:background="@color/transparent"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:textColor="@color/black"
@@ -42,7 +44,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@color/divider_color"
+            android:background="@drawable/intro_list_divider"
             android:orientation="horizontal" />
 
         <RelativeLayout
@@ -50,60 +52,33 @@
             android:layout_below="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="100dp">
-        <TextView
-            android:padding="10dp"
-            android:layout_alignParentStart="true"
-            android:background="@color/transparent"
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="13dp"
-            android:text="Author:  Micheal lee"
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="10dp"
-            android:layout_alignParentEnd="true"
-            android:background="@color/transparent"
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="13dp"
-            android:text="Source:  Bloomberg"
-            android:id="@+id/source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:background="@color/transparent"
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="13dp"
-            android:text="23-06-2017"
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:background="@color/transparent"
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="13dp"
-            android:text="Read Full Article"
-            android:id="@+id/read_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
+            <info.hoang8f.widget.FButton
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/source"
+                android:textSize="12dp"
+                fbutton:buttonColor="@color/n"
+                fbutton:cornerRadius="15dp"
+                android:layout_height="30dp"
+                android:layout_width="190dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp"
+                />
+            <info.hoang8f.widget.FButton
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/read_full"
+                android:textSize="12dp"
+                fbutton:buttonColor="@color/n"
+                fbutton:cornerRadius="15dp"
+                android:layout_height="30dp"
+                android:layout_width="190dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="10dp"
+                />
         </RelativeLayout>
 
     </RelativeLayout>

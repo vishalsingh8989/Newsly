@@ -113,8 +113,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     newsItemViewHolder.sourceMini.setText(" " + position);
                     newsItemViewHolder.source.setText(story.getSourceName());
                     newsItemViewHolder.publishedat.setText(story.getPublishedat());
-                    newsItemViewHolder.author.setText(story.getAuthor());
-                    newsItemViewHolder.category.setText(story.getCategory());
+                    //newsItemViewHolder.author.setText(story.getAuthor());
+                    //newsItemViewHolder.category.setText(story.getCategory());
 
 
 
@@ -204,14 +204,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             parent = (FoldingCell)cell.findViewById(R.id.folding_cell);
             description = (TextView) cell.findViewById(R.id.description);
-            author = (TextView) cell.findViewById(R.id.author);
+            //author = (TextView) cell.findViewById(R.id.author);
             title = (TextView) cell.findViewById(R.id.title);
             source = (TextView) cell.findViewById(R.id.source);
             sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
             image = (ImageView) cell.findViewById(R.id.urltoimage);
             side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
             side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
-            category = (TextView) cell.findViewById(R.id.category);
+            //category = (TextView) cell.findViewById(R.id.category);
             readFull = (TextView) cell.findViewById(R.id.read_full);
             publishedat = (TextView) cell.findViewById(R.id.publishedat);
             

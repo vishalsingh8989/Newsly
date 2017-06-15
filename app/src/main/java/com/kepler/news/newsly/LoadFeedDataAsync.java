@@ -102,13 +102,37 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         String result   = "";
         try {
 
-            boolean music = pref.getBoolean(Common.MUSIC, true);
-            boolean politics = pref.getBoolean(Common.chipPolitics, true);
+            boolean music            = pref.getBoolean(Common.MUSIC, true);
+            boolean politics         = pref.getBoolean(Common.chipPolitics, true);
             boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
+
+
+
+            //language
+            boolean english   = pref.getBoolean(Common.english, true);
+            boolean german    = pref.getBoolean(Common.german, true);
+            boolean french    = pref.getBoolean(Common.french, true);
+            boolean italian   = pref.getBoolean(Common.italian, true);
+
+
+            //country
+            boolean usa          = pref.getBoolean(Common.usa, true);
+            boolean uk           = pref.getBoolean(Common.uk, true);
+            boolean india        = pref.getBoolean(Common.india, true);
+            boolean australia    = pref.getBoolean(Common.australia, true);
+            boolean canada       = pref.getBoolean(Common.canada, true);
+            boolean france       = pref.getBoolean(Common.france, true);
+            boolean italy        = pref.getBoolean(Common.italy, true);
+            boolean germany      = pref.getBoolean(Common.germany, true);
+
+
+
+
+
 
             Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
 
-            String baseUrl = "http://192.168.0.2:8000/";
+            String baseUrl = "http://192.168.0.3:8000/";
             //String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(MainActivity.start)
@@ -121,7 +145,12 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&gaming=true"
                     +"&technology=true"
                     +"&entertainment=true"
-                    +"&sport=true";
+                    +"&sport=true"
+                    +"&english="+english
+                    +"&german="+german
+                    +"&french="+french
+                    +"&italian="+italian
+                    ;
 
                 //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
 

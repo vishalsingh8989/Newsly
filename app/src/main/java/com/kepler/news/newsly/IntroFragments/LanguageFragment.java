@@ -45,9 +45,10 @@ public class LanguageFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private  ArrayList<Boolean> languageSelected = new ArrayList<>();
     private Context mContext = null;
-    private String[] languages = {"English","Deutsch","Français", "Italiano"};
+    private String[] languages = {Common.english,Common.german, Common.french, Common.italian};
     private SharedPreferences mPreferences                  = null;
     private SharedPreferences.Editor editor                 = null;
+
 
 
     public LanguageFragment() {
@@ -128,12 +129,15 @@ public class LanguageFragment extends Fragment {
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("multichoice" , i + ", " + view);
-                countryListView.setItemChecked(i, !languageSelected.get(i));
-                languageSelected.set(i, !languageSelected.get(i));
+
+                boolean state = !languageSelected.get(i);
+                countryListView.setItemChecked(i,state );
+                languageSelected.set(i, state);
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean(languages[i], languageSelected.get(i));
+                editor.putBoolean(languages[i], state);
                 editor.commit();
+
+                Log.v("multichoice" ,  i + " , " + state);
 
             }
         });
@@ -167,11 +171,12 @@ public class LanguageFragment extends Fragment {
 
 
 
-
+        SharedPreferences.Editor editor = mPreferences.edit();
         for(int index = 0 ; index < languageList.size();index++) {
             countryListView.setItemChecked(index, languageSelected.get(index));
-
+            editor.putBoolean(languages[index], languageSelected.get(index));
         }
+        editor.commit();
         return v;
     }
 

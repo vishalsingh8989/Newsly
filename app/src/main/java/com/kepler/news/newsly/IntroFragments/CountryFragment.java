@@ -1,6 +1,7 @@
 package com.kepler.news.newsly.IntroFragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +23,12 @@ import android.widget.ListView;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
+import com.kepler.news.newsly.helper.Common;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,9 +48,18 @@ public class CountryFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    ArrayList<Boolean> countrySelected = new ArrayList<>();
+
 
     private OnFragmentInteractionListener mListener;
+
+
+
+    private  ArrayList<Boolean> countrySelected = new ArrayList<>();
+    private Context mContext = null;
+    private String[] countries = {"Global" , Common.usa,Common.uk, Common.india, Common.australia, Common.canada, Common.french, Common.italy, Common.germany};
+    private SharedPreferences mPreferences                  = null;
+    private SharedPreferences.Editor editor                 = null;
+
 
     public CountryFragment() {
         // Required empty public constructor
@@ -77,6 +90,8 @@ public class CountryFragment extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mContext = getContext();
     }
 
     @Override
@@ -102,15 +117,14 @@ public class CountryFragment extends Fragment{
         countryList.add("Italy");
         countryList.add("Germany");
 
-        countrySelected.add(true);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
-        countrySelected.add(false);
+        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+
+        for (int index = 0;index <countries.length ; index++) {
+            boolean  checked = mPreferences.getBoolean(countries[index], false);
+            countrySelected.add(checked);
+        }
+
+
 
 
         //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,countryList);
@@ -128,6 +142,9 @@ public class CountryFragment extends Fragment{
                 Log.v("multichoice" , i + ", " + view);
                 countryListView.setItemChecked(i, !countrySelected.get(i));
                 countrySelected.set(i, !countrySelected.get(i));
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean(countries[i], countrySelected.get(i));
+                editor.commit();
 
             }
         });
@@ -159,7 +176,13 @@ public class CountryFragment extends Fragment{
             }
         });
 
-        countryListView.setItemChecked(0, true);
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+        for(int index = 0 ; index < countrySelected.size();index++) {
+            countryListView.setItemChecked(index, countrySelected.get(index));
+            editor.putBoolean(countries[index], countrySelected.get(index));
+        }
+        editor.commit();
         return v;
     }
 

@@ -30,7 +30,9 @@ dependencies {
 
 
 
+    compile 'info.hoang8f:fbutton:1.0.5'
 
+    compile 'com.nihaskalam.android:progress-button:1.0.1'
 
     compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'com.github.chyrta:AndroidOnboarder:0.7'

@@ -3,6 +3,7 @@ package com.kepler.news.newsly.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -32,6 +33,7 @@ import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.helper.RoundedTransformation;
+import com.nihaskalam.progressbuttonlibrary.CircularProgressButton;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +41,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import info.hoang8f.widget.FButton;
 
 /**
  * Created by vishaljasrotia on 28/05/17.
@@ -62,6 +66,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private RoundedTransformation transformation = null;
     private MainActivity Callback               = null;
+    private Typeface mainTypeface               = null;
+    private Typeface subTypeface                = null;
 
 
 
@@ -81,6 +87,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.transformation = new RoundedTransformation(15, 0);
         this.Callback = Callback;
         this.allNewslist = allNewslist;
+
+        mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/AltairLighttrial.ttf");
     }
 
     @Override
@@ -155,16 +163,19 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
                     // binding view parts to view holder
                     viewHolder.description = (TextView) cell.findViewById(R.id.description);
-                    viewHolder.author = (TextView) cell.findViewById(R.id.author);
+                    //viewHolder.author = (TextView) cell.findViewById(R.id.author);
                     viewHolder.title = (TextView) cell.findViewById(R.id.title);
-                    viewHolder.source = (TextView) cell.findViewById(R.id.source);
+                    viewHolder.source = (FButton) cell.findViewById(R.id.source);
                     viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
                     viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
                     viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
                     viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
-                    viewHolder.category = (TextView) cell.findViewById(R.id.category);
-                    viewHolder.readFull = (TextView) cell.findViewById(R.id.read_full);
+                    //viewHolder.category = (TextView) cell.findViewById(R.id.category);
+                    viewHolder.readFull = (FButton) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
+
+
+                    //viewHolder.description.setTypeface(mainTypeface);
 
                     cell.setTag(viewHolder);
                 }else {
@@ -181,8 +192,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.source.setText(item.getSourceName());
                 viewHolder.sourceMini.setText(item.getSourceName());
                 viewHolder.title.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                viewHolder.author.setText("Author: " + item.getAuthor());
-                viewHolder.category.setText(item.getCategory());
+                //viewHolder.author.setText("Author: " + item.getAuthor());
+                //viewHolder.category.setText(item.getCategory());
                 viewHolder.publishedat.setText(item.getPublishedat());
 
 
@@ -194,7 +205,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
                 viewHolder.readFull.setText("Read Full Article");
                 //viewHolder.readFull.setMovementMethod(LinkMovementMethod.getInstance());
-
+                viewHolder.description.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Callback.onItemClicked(view, position);
+                    }
+                });
 
                 viewHolder.readFull.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -216,6 +232,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
                 viewHolder.side_bar.setBackground(gradientDrawable);
                 viewHolder.side_bar1.setBackground(gradientDrawable);
+
+
+
 
 
                 Log.v("URLPATH", " : " + item.getUrltoimage().trim());
@@ -287,10 +306,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView description;
         TextView title;
         TextView author;
-        TextView source;
+        FButton source;
         TextView sourceMini;
         TextView category;
-        TextView readFull;
+        FButton readFull;
         TextView publishedat;
         NativeExpressAdView adView;
         ImageView image;
