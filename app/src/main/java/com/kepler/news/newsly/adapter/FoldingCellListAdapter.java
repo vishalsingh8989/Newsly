@@ -32,6 +32,7 @@ import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
+import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.nihaskalam.progressbuttonlibrary.CircularProgressButton;
 import com.ramotion.foldingcell.FoldingCell;
@@ -65,7 +66,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private RoundedTransformation transformation = null;
-    private MainActivity Callback               = null;
+    private DemoFragment Callback               = null;
     private Typeface mainTypeface               = null;
     private Typeface subTypeface                = null;
 
@@ -79,7 +80,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     };
 
-    public FoldingCellListAdapter(MainActivity Callback, Context context, List<Object> productsList, List<Object> allNewslist) {
+    public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<Object> allNewslist) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

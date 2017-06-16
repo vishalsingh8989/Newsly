@@ -1,5 +1,6 @@
 package com.kepler.news.newsly;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -39,18 +41,21 @@ import javax.net.ssl.HttpsURLConnection;
 public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
-
+    private  int startFrom                                = 0;
+    private LinkedHashMap<String, Integer> startMap        = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private ArrayList<NewsStory> productsList               = null;
     private int    offset                                   = 30;
     private boolean onRefresh                               = false;
     private SharedPreferences pref                          = null;
     private MainActivity mainActivity                       = null;
-    public static int oldsize                                     = 0;
+    public static int oldsize                               = 0;
+    private Context mContext                                = null;
+    private String sourceName                       = "";
 
 
 
-    public LoadFeedDataAsync(MainActivity mainActivity, FoldingCellListAdapter adapter) {
+    public LoadFeedDataAsync( FoldingCellListAdapter adapter) {
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = false;
@@ -58,25 +63,29 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     }
 
-    public LoadFeedDataAsync(MainActivity mainActivity ,FoldingCellListAdapter adapter, boolean onRefresh) {
+    public LoadFeedDataAsync(FoldingCellListAdapter adapter, boolean onRefresh) {
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
-        this.mainActivity           = mainActivity;
+        //this.mainActivity           = mainActivity;
 
     }
 
-    public LoadFeedDataAsync(MainActivity mainActivity , FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref) {
+    public LoadFeedDataAsync(Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , int startFrom) {
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
         this.pref                   = pref;
-        this.mainActivity           = mainActivity;
-
+        //this.mainActivity           = mainActivity;
         this.oldsize                = adapter.getProductsList().size();
+        this.sourceName             = sourceName.replace(" ", "%20");
+        this.mContext               = context;
+        this.startFrom               = startFrom;
 
 
-        Log.v("LOADASYNC" , "OLDSIZE : " + oldsize);
+
+
+        Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
 
     }
 
@@ -85,14 +94,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
-                progressbar.smoothToShow();
-
-            }
-        });
+//        mainActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
+//                progressbar.smoothToShow();
+//
+//            }
+//        });
     }
 
     @Override
@@ -127,13 +136,16 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
 
-            Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
+            //Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
+
 
             String baseUrl = "http://192.168.0.3:8000/";
+//            int startFrom = startMap.get(sourceName);
             //String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
-                    +"&start="+String.valueOf(MainActivity.start)
+                    +"&start="+String.valueOf(startFrom)
                     +"&offset="+String.valueOf(MainActivity.offset)
+                    +"&sourceName="+sourceName
                     +"&general=true"
                     +"&music="+music
                     +"&politics="+politics
@@ -155,13 +167,15 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&france="+france
                     +"&italy="+italy
                     +"&germany="+germany
+
                     ;
 
                 //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
 
 
-            Log.v("MYURL",mUrl);
+
             URL url = new URL(mUrl); // here is your URL path
+            Log.v("MYURL",url + "");
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());
@@ -259,7 +273,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
         result = addNativeExpressAds(result);
-        MainActivity.start = MainActivity.start+offset;
+        //startMap.put(sourceName , startMap.get(sourceName)+offset);
         Random rn = new Random(15L);
         //Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result , onRefresh);
@@ -267,13 +281,13 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
 
         Log.v("LOADASYNC" , "size onPost : " + MainActivity.calledOn);
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
-                progressbar.smoothToHide();
-            }
-        });
+//        mainActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
+//                progressbar.smoothToHide();
+//            }
+//        });
 
 
     }
@@ -283,7 +297,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         for(int i = oldsize ; i < result.size(); i +=1)
         {
             if(i%12==0 && i!=0) {
-                NativeExpressAdView adView = new NativeExpressAdView(mainActivity.getApplicationContext());
+                NativeExpressAdView adView = new NativeExpressAdView(mContext);
                 adView.setAdSize(new AdSize(300, 100));
 
                 adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");

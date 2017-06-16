@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,9 @@ import android.widget.ListView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.kepler.news.newsly.IntroFragments.CountryFragment;
+import com.kepler.news.newsly.IntroFragments.HelloFragment;
+import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.chip.Chip;
@@ -38,6 +42,11 @@ import com.kepler.news.newsly.menu.DrawerItem;
 import com.kepler.news.newsly.menu.SimpleItem;
 import com.kepler.news.newsly.menu.SpaceItem;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -47,7 +56,9 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -203,6 +214,42 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
+        Bundle bd = new Bundle();
+        bd.putString("c" , "a");
+//        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
+//                getSupportFragmentManager(), FragmentPagerItems.with(this)
+//                .add("USA Today", DemoFragment.class , bd)
+//                .add("The New York Times", DemoFragment.class )
+//                .add("The Guardian", DemoFragment.class)
+//                .add("The Wall Street Journal", DemoFragment.class)
+//                .add("Washington Post", DemoFragment.class)
+//                .add("Los Angeles Times", DemoFragment.class)
+//                .add("The Daily Telegraph ", DemoFragment.class)
+//                .create());
+
+
+
+
+        FragmentPagerItems pages = new FragmentPagerItems(this);
+        LinkedHashMap<String, String> sourceNameMap = Common.createMap();
+        for (String  sourceName : sourceNameMap.values()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Common.SOURCENAME ,  sourceName);
+            pages.add(FragmentPagerItem.of(sourceName,DemoFragment.class, bundle));
+        }
+
+        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), pages);
+
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(sourceNameMap.size());
+        viewPager.setAdapter(fragmentPagerItemAdapter);
+
+        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPagerTab.setViewPager(viewPager);
+
+
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(POS_DASHBOARD).setChecked(true),
                 createItemFor(POS_ACCOUNT),
@@ -240,13 +287,13 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
         mSearchView             = (SearchView)findViewById(R.id.search_view);
-        foldingCellListAdapter  = new FoldingCellListAdapter(MainActivity.this,this, productsList, allNewslist);
+        //foldingCellListAdapter  = new FoldingCellListAdapter(MainActivity.this,this, productsList, allNewslist);
 
 
-        listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
+        //listView.setAdapter(foldingCellListAdapter);
+        //loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
 
-        loadFeedDataAsync.execute();
+        //loadFeedDataAsync.execute();
 
 
 //        chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
@@ -387,10 +434,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             @Override
             public boolean onQueryTextChange(String searchText) {
                 Log.v("QuerySearch" , "onQueryTextChange");
-                if(searchText.trim()=="") {
-                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
-                }
-                return true;
+//                if(searchText.trim()=="") {
+//                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
+//                }
+                 return true;
             }
         });
 
@@ -463,10 +510,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     }
 
     private void loadMore() {
-        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
-        loadFeedDataAsync.execute();
-        calledOn=foldingCellListAdapter.getProductsList().size();
-        Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
+//        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
+//        loadFeedDataAsync.execute();
+//        calledOn=foldingCellListAdapter.getProductsList().size();
+//        Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
     }
 
 
