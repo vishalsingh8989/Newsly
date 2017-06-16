@@ -127,9 +127,6 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
 
-
-
-
             Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
 
             String baseUrl = "http://192.168.0.3:8000/";
@@ -150,6 +147,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&german="+german
                     +"&french="+french
                     +"&italian="+italian
+                    +"&usa="+usa
+                    +"&uk="+uk
+                    +"&india="+india
+                    +"&australia="+australia
+                    +"&canada="+canada
+                    +"&france="+france
+                    +"&italy="+italy
+                    +"&germany="+germany
                     ;
 
                 //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
