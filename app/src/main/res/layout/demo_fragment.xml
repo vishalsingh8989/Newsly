@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+
+
+    <ListView
+
+        android:id="@+id/list1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:padding="25dp"
+        android:scrollbars="none"
+        android:fadingEdgeLength="10dp">
+    </ListView>
+
+
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="invisible"
+        app:indicatorName="BallClipRotatePulseIndicator"
+        app:indicatorColor="#c69e00"
+
+        />
+</RelativeLayout>
