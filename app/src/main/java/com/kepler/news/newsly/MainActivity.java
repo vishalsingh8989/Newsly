@@ -229,12 +229,17 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
+
         FragmentPagerItems pages = new FragmentPagerItems(this);
         LinkedHashMap<String, String> sourceNameMap = Common.createChoosenMap();
         for (String  sourceName : sourceNameMap.values()) {
-            Bundle bundle = new Bundle();
-            bundle.putString(Common.SOURCENAME ,  sourceName);
-            pages.add(FragmentPagerItem.of(sourceName,DemoFragment.class, bundle));
+            //set from
+            boolean  checked = mPreferences.getBoolean(sourceName, true);
+            if(checked) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Common.SOURCENAME, sourceName);
+                pages.add(FragmentPagerItem.of(sourceName, DemoFragment.class, bundle));
+            }
         }
 
         FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
@@ -242,7 +247,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(sourceNameMap.size()/3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);

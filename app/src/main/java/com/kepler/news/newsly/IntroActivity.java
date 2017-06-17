@@ -19,12 +19,13 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.kepler.news.newsly.IntroFragments.CountryFragment;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
+import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentInteractionListener, CountryFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
+public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, CountryFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
 
     int currentApiVersion = 0;
 
@@ -90,12 +91,14 @@ public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentI
 
         Fragment helloFragment = new HelloFragment();
         Fragment countryFragment = new CountryFragment();
-        Fragment languageFragment = new LanguageFragment();
+        //Fragment languageFragment = new LanguageFragment();
+        Fragment loadImagesFragment = new LoadImagesFragment();
 
 
         addSlide(helloFragment);
         addSlide(countryFragment);
-        addSlide(languageFragment);
+        //addSlide(languageFragment);
+        addSlide(loadImagesFragment);
 
 
         showSkipButton(false);
@@ -158,6 +161,11 @@ public class IntroActivity extends AppIntro implements HelloFragment.OnFragmentI
     @Override
     public void onLanguageFragmentInteraction(Uri uri) {
         Log.v("FRAGMENT", "onLanguageFragmentInteraction");
+
+    }
+
+    @Override
+    public void onFragmentLoadImagesFragmentInteraction(Uri uri) {
 
     }
 }

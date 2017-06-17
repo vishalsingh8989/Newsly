@@ -2,18 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#00282828"
-    tools:context="com.kepler.news.newsly.IntroFragments.CountryFragment">
-
-
+    tools:context="com.kepler.news.newsly.IntroFragments.LoadImagesFragment">
 
     <TextView
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:id="@+id/title"
-        android:text="Show news from "
+        android:text="Load Images"
         android:textSize="30dp"
         android:textColor="@color/d"
         android:layout_width="match_parent"
@@ -22,12 +18,9 @@
 
     <ListView
         android:padding="20dp"
-        android:layout_marginBottom="170dp"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="48dp"
-        android:id="@+id/countrylist"
+        android:layout_marginTop="40dp"
+        android:id="@+id/loadimagelist"
         android:divider="@drawable/intro_list_divider"
-        android:scrollbars="none"
         android:dividerHeight="1dp"
         android:layout_below="@+id/title"
         android:layout_margin="10dp"

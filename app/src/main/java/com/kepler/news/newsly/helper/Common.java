@@ -15,6 +15,13 @@ import java.util.Map;
 public class Common {
 
 
+    public static int ALWAYS                             = 0;
+    public static int NEVER                              = 1;
+    public static int ONWIFI                             = 2;
+
+    public static String LOADIMAGE                         = "loadimage";
+
+
     public static String SOURCEURL                          ="sourceUrl" ;
     public static String PUBLISHEDAT                        = "publishedat";
     public static String PREFERENCES                        = "newslyPreferences";
@@ -71,6 +78,7 @@ public class Common {
         myMap.put("The Wall Street Journal", "The Wall Street Journal");
         myMap.put("Los Angeles Times", "Los Angeles Times");
         myMap.put("Bloomberg Business", "Bloomberg Business");
+        myMap.put("FOX Sports" , "FOX Sports");
         return myMap;
     }
 
@@ -86,7 +94,9 @@ public class Common {
         myMap.put("Cricinfo" ,"Cricinfo");
         myMap.put("Reuters" ,"Reuters");
         myMap.put("The Independent", "The Independent");
-        myMap.put("FOX Sports" , "FOX Sports");
+        myMap.put("Daily Mail","Daily Mail");
+
+
         return myMap;
     }
 
@@ -174,6 +184,8 @@ public class Common {
 
         return myMap;
     }
+
+
 
 
 

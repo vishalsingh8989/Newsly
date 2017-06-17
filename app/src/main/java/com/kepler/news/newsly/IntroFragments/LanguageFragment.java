@@ -111,6 +111,8 @@ public class LanguageFragment extends Fragment {
 
         mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
 
+        languageSelected.clear();
+
         for (int index = 0;index <languages.length ; index++) {
             boolean  checked = mPreferences.getBoolean(languages[index], false);
             languageSelected.add(checked);

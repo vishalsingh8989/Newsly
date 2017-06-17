@@ -26,7 +26,9 @@ import com.kepler.news.newsly.adapter.CountryAdapter;
 import com.kepler.news.newsly.helper.Common;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -106,21 +108,37 @@ public class CountryFragment extends Fragment{
 
 
         ArrayList<String> countryList = new ArrayList<>();
+        final ArrayList<String> countries = new ArrayList<>();
+
+        countryList.clear();
+        countries.clear();
+
 
         countryList.add("Global");
-        countryList.add("USA");
-        countryList.add("UK");
-        countryList.add("India");
-        countryList.add("Australia");
-        countryList.add("Canada");
-        countryList.add("France");
-        countryList.add("Italy");
-        countryList.add("Germany");
+        countries.add("Global");
+
+
+        LinkedHashMap<String, String> choosen = Common.createChoosenMap();
+        for (Map.Entry<String, String> mapEntry : choosen.entrySet()) {
+            //myMap.put(mapEntry.getKey(), mapEntry.getValue());
+            countryList.add(mapEntry.getKey());
+            countries.add(mapEntry.getKey());
+
+        }
+//        countryList.add("USA");
+//        countryList.add("UK");
+//        countryList.add("India");
+//        countryList.add("Australia");
+//        countryList.add("Canada");
+//        countryList.add("France");
+//        countryList.add("Italy");
+//        countryList.add("Germany");
 
         mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
 
-        for (int index = 0;index <countries.length ; index++) {
-            boolean  checked = mPreferences.getBoolean(countries[index], false);
+        countrySelected.clear();
+        for (int index = 0;index <countries.size() ; index++) {
+            boolean  checked = mPreferences.getBoolean(countries.get(index), false);
             countrySelected.add(checked);
         }
 
@@ -143,7 +161,7 @@ public class CountryFragment extends Fragment{
                 countryListView.setItemChecked(i, !countrySelected.get(i));
                 countrySelected.set(i, !countrySelected.get(i));
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean(countries[i], countrySelected.get(i));
+                editor.putBoolean(countries.get(i), countrySelected.get(i));
                 editor.commit();
 
             }
@@ -177,10 +195,12 @@ public class CountryFragment extends Fragment{
         });
 
 
+
+        Log.v("COUNTRYFRAG" , "" + countrySelected.size() + " " + countries.size());
         SharedPreferences.Editor editor = mPreferences.edit();
         for(int index = 0 ; index < countrySelected.size();index++) {
             countryListView.setItemChecked(index, countrySelected.get(index));
-            editor.putBoolean(countries[index], countrySelected.get(index));
+            editor.putBoolean(countries.get(index), countrySelected.get(index));
         }
         editor.commit();
         return v;
