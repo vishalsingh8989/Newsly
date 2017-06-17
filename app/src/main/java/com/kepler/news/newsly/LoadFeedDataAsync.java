@@ -72,6 +72,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     }
 
     public LoadFeedDataAsync(Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap) {
+
+        Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
@@ -81,12 +83,12 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         this.sourceName             = sourceName;
         this.mContext               = context;
         this.startFrom               = startMap.get(sourceName);
-        this.startMap               =startMap;
+        this.startMap               = startMap;
 
 
 
 
-        Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
+        //Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
 
     }
 

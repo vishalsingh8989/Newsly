@@ -68,8 +68,11 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         int position = FragmentPagerItem.getPosition(mArgs);
 
         sourceName = mArgs.getString(Common.SOURCENAME);
-        Log.v("onViewCreated", position + " : " + sourceName);
 
+        //LinkedHashMap<String, String> map = Common.createChoosenMap();
+        //sourceName = map.get(sourceName);
+
+        Log.v("onViewCreated", position + " : " + sourceName);
 
         listView                = (ListView)view.findViewById(R.id.list1);
         foldingCellListAdapter  = new FoldingCellListAdapter(this, getContext(), productsList, allNewslist);

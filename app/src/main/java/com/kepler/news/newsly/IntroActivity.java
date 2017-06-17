@@ -15,17 +15,17 @@ import android.util.Log;
 import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.kepler.news.newsly.IntroFragments.CountryFragment;
+
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
+import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, CountryFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
+public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
 
     int currentApiVersion = 0;
 
@@ -90,13 +90,13 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
 
         Fragment helloFragment = new HelloFragment();
-        Fragment countryFragment = new CountryFragment();
+        Fragment newsSourceFragment = new NewsSourceFragment();
         //Fragment languageFragment = new LanguageFragment();
         Fragment loadImagesFragment = new LoadImagesFragment();
 
 
         addSlide(helloFragment);
-        addSlide(countryFragment);
+        addSlide(newsSourceFragment);
         //addSlide(languageFragment);
         addSlide(loadImagesFragment);
 
@@ -146,11 +146,6 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         Log.v("FRAGMENT", "onHelloFragmentInteraction");
     }
 
-    @Override
-    public void onCountryFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENT", "onCountryFragmentInteraction");
-
-    }
 
 
     @Override
@@ -166,6 +161,11 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
     @Override
     public void onFragmentLoadImagesFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onNewsSourceFragmentInteraction(Uri uri) {
 
     }
 }

@@ -37,10 +37,10 @@ import static android.content.Context.MODE_PRIVATE;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CountryFragment#newInstance} factory method to
+ * Use the {@link NewsSourceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CountryFragment extends Fragment{
+public class NewsSourceFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,7 +63,7 @@ public class CountryFragment extends Fragment{
     private SharedPreferences.Editor editor                 = null;
 
 
-    public CountryFragment() {
+    public NewsSourceFragment() {
         // Required empty public constructor
     }
 
@@ -76,8 +76,8 @@ public class CountryFragment extends Fragment{
      * @return A new instance of fragment CountryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CountryFragment newInstance(String param1, String param2) {
-        CountryFragment fragment = new CountryFragment();
+    public static NewsSourceFragment newInstance(String param1, String param2) {
+        NewsSourceFragment fragment = new NewsSourceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -209,7 +209,7 @@ public class CountryFragment extends Fragment{
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onCountryFragmentInteraction(uri);
+            mListener.onNewsSourceFragmentInteraction(uri);
         }
     }
 
@@ -244,6 +244,6 @@ public class CountryFragment extends Fragment{
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onCountryFragmentInteraction(Uri uri);
+        void onNewsSourceFragmentInteraction(Uri uri);
     }
 }

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,8 +32,7 @@ import android.widget.ListView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
-import com.kepler.news.newsly.IntroFragments.CountryFragment;
-import com.kepler.news.newsly.IntroFragments.HelloFragment;
+
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
@@ -230,24 +231,42 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+
+        int loadImage =  mPreferences.getInt(Common.LOADIMAGE, Common.ALWAYS);
+
+
+        if (mWifi.isConnected()) {
+           Log.v("MAINWIFISTATE" , "connected");
+        }else{
+            Log.v("MAINWIFISTATE" , "disconnected");
+        }
+
+
         FragmentPagerItems pages = new FragmentPagerItems(this);
         LinkedHashMap<String, String> sourceNameMap = Common.createChoosenMap();
-        for (String  sourceName : sourceNameMap.values()) {
+        int idx  = 0;
+        for (String  sourceName : sourceNameMap.keySet()) {
             //set from
             boolean  checked = mPreferences.getBoolean(sourceName, true);
             if(checked) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Common.SOURCENAME, sourceName);
                 pages.add(FragmentPagerItem.of(sourceName, DemoFragment.class, bundle));
+                idx = idx + 1;
             }
         }
+
+
 
         FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), pages);
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(idx);
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
