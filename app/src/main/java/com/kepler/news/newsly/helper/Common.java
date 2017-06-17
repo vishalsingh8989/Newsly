@@ -2,6 +2,7 @@ package com.kepler.news.newsly.helper;
 
 import android.util.ArrayMap;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -57,31 +58,127 @@ public class Common {
     public static String germany                     = "germany";
 
 
-    public static final LinkedHashMap<String, String> myMap = createMap();
-    public static LinkedHashMap<String, String> createMap()
+    //public static final LinkedHashMap<String, String> myMap = createMap();
+
+
+    public static LinkedHashMap<String, String> createUSAMap()
     {
         LinkedHashMap<String,String> myMap = new LinkedHashMap<String,String>();
+
+        //display name , sourceName
         myMap.put("USA Today", "USA Today");
         myMap.put("The New York Times", "The New York Times");
-        myMap.put("The Guardian", "The Guardian");
         myMap.put("The Wall Street Journal", "The Wall Street Journal");
         myMap.put("Los Angeles Times", "Los Angeles Times");
-        myMap.put("The Daily Telegraph", "The Daily Telegraph");
+        myMap.put("Bloomberg Business", "Bloomberg Business");
         return myMap;
     }
 
 
-    public static LinkedHashMap<String, Integer> createStartMap()
+    public static LinkedHashMap<String, String> createUKMap()
     {
-        LinkedHashMap<String,Integer> myMap = new LinkedHashMap<String,Integer>();
-        myMap.put("USA Today", 0);
-        myMap.put("The New York Times", 0);
-        myMap.put("The Guardian", 0);
-        myMap.put("The Wall Street Journal", 0);
-        myMap.put("Los Angeles Times", 0);
-        myMap.put("The Daily Telegraph", 0);
+        LinkedHashMap<String,String> myMap = new LinkedHashMap<String,String>();
+
+        //display name , sourceName
+        myMap.put("The Guardian", "The Guardian");
+        myMap.put("BBC News","BBC News");
+        myMap.put("CNN International", "CNN International");
+        myMap.put("Cricinfo" ,"Cricinfo");
+        myMap.put("Reuters" ,"Reuters");
+        myMap.put("The Independent", "The Independent");
+        myMap.put("FOX Sports" , "FOX Sports");
         return myMap;
     }
+
+
+    public static LinkedHashMap<String, String> createINDIAMap()
+    {
+        LinkedHashMap<String,String> myMap = new LinkedHashMap<String,String>();
+        //display name , sourceName
+        myMap.put("The Hindu","The Hindu");
+        myMap.put("Amar Ujala","Amar Ujala");
+        myMap.put("Deccan Herald", "Deccan Herald");//     |
+        myMap.put("Hindustan Times","Hindustan Times");//    |
+        myMap.put("The Times of India", "The Times of India");// |
+        myMap.put("Zee News", "Zee News");//
+
+        return myMap;
+    }
+
+    public static LinkedHashMap<String, String> createAUSMap()
+    {
+        LinkedHashMap<String,String> myMap = new LinkedHashMap<String,String>();
+        //display name , sourceName
+        myMap.put("The Daily Telegraph", "The Daily Telegraph");
+        myMap.put("The Sydney Morning Herald","The Sydney Morning Herald");
+
+        return myMap;
+    }
+
+
+    public static LinkedHashMap<String, String> createChoosenMap() {
+
+
+        LinkedHashMap<String, String> myMap = new LinkedHashMap<String, String>();
+
+
+        LinkedHashMap<String, String> usaMap = createUSAMap();
+        LinkedHashMap<String, String> ukMap = createUKMap();
+        LinkedHashMap<String, String> indiaMap = createINDIAMap();
+        LinkedHashMap<String, String> ausMap = createAUSMap();
+
+        ArrayList<LinkedHashMap<String, String>> mapArrayList = new ArrayList<>();
+        mapArrayList.add(usaMap);
+        mapArrayList.add(ukMap);
+        mapArrayList.add(indiaMap);
+        mapArrayList.add(ausMap);
+
+        for (LinkedHashMap<String, String> map : mapArrayList) {
+            for (Map.Entry<String, String> mapEntry : map.entrySet()) {
+                myMap.put(mapEntry.getKey(), mapEntry.getValue());
+
+            }
+        }
+
+        return  myMap;
+
+    }
+
+        public static LinkedHashMap<String, Integer> createStartMap()
+        {
+
+
+        LinkedHashMap<String,Integer> myMap = new LinkedHashMap<String,Integer>();
+
+
+        LinkedHashMap<String, String> usaMap = createUSAMap();
+        LinkedHashMap<String, String> ukMap = createUKMap();
+        LinkedHashMap<String, String> indiaMap = createINDIAMap();
+            LinkedHashMap<String, String> ausMap = createAUSMap();
+
+            ArrayList<LinkedHashMap<String, String>> mapArrayList = new ArrayList<>();
+            mapArrayList.add(usaMap);
+            mapArrayList.add(ukMap);
+            mapArrayList.add(indiaMap);
+            mapArrayList.add(ausMap);
+
+        for (LinkedHashMap<String, String> map : mapArrayList)
+        {
+            for (Map.Entry<String, String> mapEntry : map.entrySet())
+            {
+                myMap.put(mapEntry.getKey(), 0);
+
+            }
+        }
+
+
+        return myMap;
+    }
+
+
+
+
+
 //    { "USA Today", "The New York Times","The Guardian","The Wall Street Journal","Washington Post","Los Angeles Times",
 //
 //            "The Daily Telegraph"

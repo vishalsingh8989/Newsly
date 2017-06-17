@@ -71,16 +71,17 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     }
 
-    public LoadFeedDataAsync(Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , int startFrom) {
+    public LoadFeedDataAsync(Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap) {
         this.foldingCellListAdapter = adapter;
         this.productsList           = new ArrayList<>();
         this.onRefresh              = onRefresh;
         this.pref                   = pref;
         //this.mainActivity           = mainActivity;
         this.oldsize                = adapter.getProductsList().size();
-        this.sourceName             = sourceName.replace(" ", "%20");
+        this.sourceName             = sourceName;
         this.mContext               = context;
-        this.startFrom               = startFrom;
+        this.startFrom               = startMap.get(sourceName);
+        this.startMap               =startMap;
 
 
 
@@ -139,13 +140,13 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
             //Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
 
 
-            String baseUrl = "http://192.168.0.3:8000/";
+            //String baseUrl = "http://192.168.0.4:8000/";
 //            int startFrom = startMap.get(sourceName);
-            //String baseUrl = "http://13.58.159.13/";
+           String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(startFrom)
                     +"&offset="+String.valueOf(MainActivity.offset)
-                    +"&sourceName="+sourceName
+                    +"&sourceName="+sourceName.replace(" ", "%20")
                     +"&general=true"
                     +"&music="+music
                     +"&politics="+politics
@@ -159,6 +160,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&german="+german
                     +"&french="+french
                     +"&italian="+italian
+                    +"&hindi="+true
                     +"&usa="+usa
                     +"&uk="+uk
                     +"&india="+india
@@ -190,29 +192,33 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
 
-            OutputStream os = conn.getOutputStream();
 
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            OutputStream os = conn.getOutputStream();
+            Log.v("HYHTTP" , "os length : " + os.toString().length());
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
 
             writer.write(getPostDataString(postDataParams));
             writer.flush();
             writer.close();
             os.close();
-
+            Log.v("HYHTTP", "after close " + writer.toString().length());
             int responseCode=conn.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
+                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
 
                 StringBuffer response = new StringBuffer("");
                 String inputLine = "";
+
+                Log.v("HYHTTP", "response");
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
-                    break;
+                    //break;
                 }
 
 
-                Log.v("HYHTTP", ""+response);
+                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
                 result = response.toString();
                 in.close();
                 JSONObject jObject = new JSONObject(result);
@@ -273,14 +279,16 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
         result = addNativeExpressAds(result);
-        //startMap.put(sourceName , startMap.get(sourceName)+offset);
+        startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
         Random rn = new Random(15L);
         //Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result , onRefresh);
 
-        MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
 
-        Log.v("LOADASYNC" , "size onPost : " + MainActivity.calledOn);
+
+        //MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
+
+        Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName));
 //        mainActivity.runOnUiThread(new Runnable() {
 //            @Override
 //            public void run() {

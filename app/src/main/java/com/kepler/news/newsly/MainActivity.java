@@ -214,8 +214,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-        Bundle bd = new Bundle();
-        bd.putString("c" , "a");
+
 //        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
 //                getSupportFragmentManager(), FragmentPagerItems.with(this)
 //                .add("USA Today", DemoFragment.class , bd)
@@ -231,7 +230,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         FragmentPagerItems pages = new FragmentPagerItems(this);
-        LinkedHashMap<String, String> sourceNameMap = Common.createMap();
+        LinkedHashMap<String, String> sourceNameMap = Common.createChoosenMap();
         for (String  sourceName : sourceNameMap.values()) {
             Bundle bundle = new Bundle();
             bundle.putString(Common.SOURCENAME ,  sourceName);
@@ -243,7 +242,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(sourceNameMap.size());
+        viewPager.setOffscreenPageLimit(sourceNameMap.size()/3);
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
@@ -586,6 +585,14 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         }
 
+
+    }
+
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.v("onLowMemory", "low memory");
 
     }
 }

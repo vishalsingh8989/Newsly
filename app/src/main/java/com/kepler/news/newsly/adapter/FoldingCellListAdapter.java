@@ -240,15 +240,17 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
                 Log.v("URLPATH", " : " + item.getUrltoimage().trim());
 
-                try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
-                    Picasso.with(mContext)
-                            .load(item.getUrltoimage())
-                            .error(R.drawable.sample)
-                            .into(viewHolder.image);
-
-                } catch (Exception e) {
-
-                }
+//                try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
+//                    Picasso.with(mContext)
+//                            .load(item.getUrltoimage())
+//                            .resize(180, 180)
+//                            .centerCrop()
+//                            .error(R.drawable.sample)
+//                            .into(viewHolder.image);
+//
+//                } catch (Exception e) {
+//
+//                }
 
                 break;
 

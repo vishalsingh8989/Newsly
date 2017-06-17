@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+
 /**
  * Created by vishaljasrotia on 16/06/17.
  */
@@ -33,12 +36,19 @@ import java.util.List;
 public class DemoFragment extends Fragment implements FoldingCellItemClickListener {
 
 
+
+    private int currentScrollState;
+    private String mSearchText = "";
+    public int firstVisibleItem, visibleItemCount, totalItemCount;
+
     private static final int MODE_PRIVATE = 0;
     private List<Object> productsList               = null;
     private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
+    private String sourceName                               = "";
+    private LinkedHashMap<String, Integer> startMap         = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -46,6 +56,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
+        startMap                = Common.createStartMap();
         return inflater.inflate(R.layout.demo_fragment, container, false);
     }
 
@@ -56,19 +67,16 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Bundle mArgs = getArguments();
         int position = FragmentPagerItem.getPosition(mArgs);
 
-        String sourceName = mArgs.getString(Common.SOURCENAME);
+        sourceName = mArgs.getString(Common.SOURCENAME);
         Log.v("onViewCreated", position + " : " + sourceName);
-
-        LinkedHashMap<String, Integer> startMap = Common.createStartMap();
 
 
         listView                = (ListView)view.findViewById(R.id.list1);
-
         foldingCellListAdapter  = new FoldingCellListAdapter(this, getContext(), productsList, allNewslist);
 
 
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap.get(sourceName));
+        loadFeedDataAsync = new LoadFeedDataAsync(getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
 
         loadFeedDataAsync.execute();
 
@@ -77,16 +85,43 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 // toggle clicked cell state
-                NewsStory story = (NewsStory) productsList.get(pos);
-//                new FinestWebView.Builder(getContext())
-//                        .backPressToClose(true)
-//                        .showMenuShareVia(true)
-//                        .show(story.getUrl());
+
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
                 foldingCellListAdapter.registerToggle(pos);
             }
         });
+
+
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+                currentScrollState = scrollState;
+
+                Log.v("ONSCROLL", " " + firstVisibleItem + " , " + visibleItemCount + " , "+totalItemCount);
+                isScrollCompleted(firstVisibleItem, visibleItemCount , productsList.size(), currentScrollState);
+
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int f, int v, int t) {
+
+
+                firstVisibleItem = f;
+                visibleItemCount = v;
+                totalItemCount   = productsList.size();
+                Log.v("ONSCROLL", "" + firstVisibleItem + " , " + visibleItemCount + " , " + totalItemCount);
+
+
+            }
+        });
+
+
+
+
 
     }
 
@@ -120,4 +155,27 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
     }
+
+
+    private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
+        for(String sr :  startMap.keySet())
+        {
+            Log.v("LOADASYNCFEED" , sourceName +" isScrollCompleted  " + sr);
+        }
+
+        Log.v("LOADASYNCFEED",  sourceName + " END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+startMap.get(sourceName)  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
+        if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
+                ||(foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE)) {
+            Log.v("LOADASYNCFEED", "END REACHED" );
+            loadMore();
+        }
+    }
+
+    private void loadMore() {
+        loadFeedDataAsync = new LoadFeedDataAsync(getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+        loadFeedDataAsync.execute();
+        //calledOn=foldingCellListAdapter.getProductsList().size();
+        //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
+    }
+
 }
