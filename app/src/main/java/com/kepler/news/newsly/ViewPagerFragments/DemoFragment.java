@@ -185,4 +185,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
     }
 
+    public static  void showNetworkNotAvailableDialog() {
+        Log.v("newslyNetwork", "showNetworkNotAvailableDialog called" );
+
+    }
 }

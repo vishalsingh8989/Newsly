@@ -221,7 +221,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-
+        boolean isNetworkAvailable = isNetworkAvailable();
+        Log.v("newslyNetwork" , " " + isNetworkAvailable);
+        if(isNetworkAvailable)
+        {
+            DemoFragment.showNetworkNotAvailableDialog();
+        }
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -285,17 +290,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         list.setAdapter(adapter);
 
 
-//        chipScienceAndNatureSelected = mPreferences.getBoolean(Common.chipScienceAndNatureSelected ,  true);
-//        chipPoliticsSelected         = mPreferences.getBoolean(Common.chipPolitics ,  true);
-//
-//
-//        Log.v("CHIP" ,"mPreferences Science Nature " + chipScienceAndNatureSelected);
-//        Log.v("CHIP" ,"mPreferences Politics  " + chipPoliticsSelected);
-//        chipScienceAndNature    = (Chip)findViewById(R.id.chipScienceAndNature);
-//        chipPolitics            = (Chip)findViewById(R.id.chipPolitics);
-//
-//        chipScienceAndNature.setClicked(chipScienceAndNatureSelected);
-//        chipPolitics.setClicked(chipPoliticsSelected);
 //
 
 
@@ -304,69 +298,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
         mSearchView             = (SearchView)findViewById(R.id.search_view);
-        //foldingCellListAdapter  = new FoldingCellListAdapter(MainActivity.this,this, productsList, allNewslist);
-
-
-        //listView.setAdapter(foldingCellListAdapter);
-        //loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
-
-        //loadFeedDataAsync.execute();
-
-
-//        chipScienceAndNature.setOnChipClickListener(new OnChipClickListener() {
-//            @Override
-//            public void onChipClick(View v, boolean selected) {
-//                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
-//                Log.v("CHIP" ,"onChipClick " + selected);
-//                editor = mPreferences.edit();
-//                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
-//                editor.commit();
-//
-//
-//
-//            }
-//        });
-//
-//        chipScienceAndNature.setOnSelectClickListener(new OnSelectClickListener() {
-//            @Override
-//            public void onSelectClick(View v, boolean selected) {
-//                chipScienceAndNatureSelected = !chipScienceAndNatureSelected;
-//                Log.v("CHIP" ,"onChipClick " + selected);
-//                editor = mPreferences.edit();
-//                editor.putBoolean(Common.chipScienceAndNatureSelected, selected);
-//                editor.commit();
-//            }
-//        });
-
-
-
-//
-//        chipPolitics.setOnChipClickListener(new OnChipClickListener() {
-//            @Override
-//            public void onChipClick(View v, boolean selected) {
-//                chipPoliticsSelected = !chipPoliticsSelected;
-//                Log.v("CHIP" ,"onChipClick " + selected);
-//                editor = mPreferences.edit();
-//                editor.putBoolean(Common.chipPolitics, selected);
-//                editor.commit();
-//
-//
-//            }
-//        });
-//
-//        chipPolitics.setOnSelectClickListener(new OnSelectClickListener() {
-//            @Override
-//            public void onSelectClick(View v, boolean selected) {
-//                chipPoliticsSelected = !chipPoliticsSelected;
-//                Log.v("CHIP" ,"onChipClick " + selected);
-//                editor = mPreferences.edit();
-//                editor.putBoolean(Common.chipPolitics, selected);
-//                editor.commit();
-//            }
-//        });
-//
-//
-
 
 
 

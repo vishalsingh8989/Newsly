@@ -1,5 +1,6 @@
 package com.kepler.news.newsly;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Exchanger;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -54,6 +56,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     private Context mContext                                = null;
     private String sourceName                       = "";
     private DemoFragment fragment = null;
+    private boolean isNetworkAvailable  = true;
 
 
 
@@ -87,6 +90,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         this.startFrom               = startMap.get(sourceName);
         this.startMap               = startMap;
         this.fragment               = fragment;
+        isNetworkAvailable = true;
 
 
 
@@ -260,21 +264,29 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "MalformedURLException");
+            isNetworkAvailable = false;
 
 
         } catch (IOException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "IOException");
+            isNetworkAvailable = false;
 
         } catch (JSONException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "JSONException");
 
+        } catch (NetworkErrorException e)
+        {
+            e.printStackTrace();
+            Log.v("HYHTTP", "NetworkErrorException");
+            isNetworkAvailable = false;
 
 
         } catch (Exception e) {
             e.printStackTrace();
             Log.v("HYHTTP", "Exception");
+            isNetworkAvailable = false;
         }
 
         return newList;
@@ -303,8 +315,14 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                 AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
                 progressbar.smoothToHide();
 
+
             }
         });
+
+
+        if(!isNetworkAvailable ) {
+            fragment.showNetworkNotAvailableDialog();
+        }
 
     }
 
