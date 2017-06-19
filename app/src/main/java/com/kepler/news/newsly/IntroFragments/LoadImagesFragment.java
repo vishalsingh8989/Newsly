@@ -109,23 +109,18 @@ public class LoadImagesFragment extends Fragment {
 
         listView.setAdapter(adapter);
 
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 SharedPreferences.Editor editor = mPreferences.edit();
                 Log.v("MAINWIFISTATE" , "loadimage value put : " + loadImageOptionList[i]);
 
                 editor.putInt(Common.LOADIMAGE , loadImageOptionList[i]);
                 editor.commit();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-
             }
         });
+
 
 
         listView.setItemChecked(loadImages, true);
