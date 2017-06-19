@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--                               width X height   -->
+    <string name="ad_unit_admob_size">530x160</string>
+    <string name="ad_unit_id">ca-app-pub-5223778660504166/9413974737</string>
+</resources>
