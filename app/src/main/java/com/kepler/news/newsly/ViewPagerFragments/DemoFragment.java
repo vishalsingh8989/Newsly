@@ -22,6 +22,7 @@ import com.kepler.news.newsly.helper.Common;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -51,6 +52,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private LinkedHashMap<String, Integer> startMap         = null;
     private boolean loadImages = false;
 
+    public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -71,9 +76,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         sourceName = mArgs.getString(Common.SOURCENAME);
         loadImages = mArgs.getBoolean(Common.LOADIMAGE);
 
-        //LinkedHashMap<String, String> map = Common.createChoosenMap();
-        //sourceName = map.get(sourceName);
-
         Log.v("onViewCreated", position + " : " + sourceName);
 
         listView                = (ListView)view.findViewById(R.id.list1);
@@ -81,7 +83,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+        loadFeedDataAsync = new LoadFeedDataAsync(this , getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
 
         loadFeedDataAsync.execute();
 
@@ -177,7 +179,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     }
 
     private void loadMore() {
-        loadFeedDataAsync = new LoadFeedDataAsync(getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+        loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
         loadFeedDataAsync.execute();
         //calledOn=foldingCellListAdapter.getProductsList().size();
         //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );

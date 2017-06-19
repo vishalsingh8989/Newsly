@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -52,6 +53,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     public static int oldsize                               = 0;
     private Context mContext                                = null;
     private String sourceName                       = "";
+    private DemoFragment fragment = null;
 
 
 
@@ -71,7 +73,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     }
 
-    public LoadFeedDataAsync(Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap) {
+    public LoadFeedDataAsync(DemoFragment fragment , Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap) {
 
         Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
         this.foldingCellListAdapter = adapter;
@@ -84,6 +86,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         this.mContext               = context;
         this.startFrom               = startMap.get(sourceName);
         this.startMap               = startMap;
+        this.fragment               = fragment;
+
 
 
 
@@ -97,14 +101,16 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-//        mainActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
-//                progressbar.smoothToShow();
-//
-//            }
-//        });
+
+
+        fragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                progressbar.smoothToShow();
+
+            }
+        });
     }
 
     @Override
@@ -287,18 +293,18 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         foldingCellListAdapter.upDateEntries(result , onRefresh);
 
 
-
+        //DemoFragment.avLoadingIndicatorView.smoothToHide();
         //MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
 
         Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName));
-//        mainActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) mainActivity.findViewById(R.id.progress_bar);
-//                progressbar.smoothToHide();
-//            }
-//        });
+        fragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                progressbar.smoothToHide();
 
+            }
+        });
 
     }
 

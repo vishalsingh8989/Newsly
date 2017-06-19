@@ -50,6 +50,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     public static int start =0;
     public static int offset = 30;
+    public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
 
 
     int currentApiVersion = 7;
@@ -198,6 +200,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+       // avLoadingIndicatorView = (AVLoadingIndicatorView)findViewById(R.id.progress_bar);
+       // avLoadingIndicatorView.show();
+
 
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
 
