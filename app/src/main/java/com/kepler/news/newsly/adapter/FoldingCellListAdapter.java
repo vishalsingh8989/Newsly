@@ -54,7 +54,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     private static final int ADVIEW = 0;
     private static final int FOLDINGCELLVIEW = 1;
-
+    private final boolean loadImages;
 
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
@@ -72,6 +72,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
 
+
     private int[] mycolors = {
             R.color.n,R.color.d,R.color.e,R.color.q,
             R.color.b,R.color.f,R.color.g,R.color.h,
@@ -80,7 +81,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     };
 
-    public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<Object> allNewslist) {
+    public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<Object> allNewslist, boolean loadImages) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -88,6 +89,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.transformation = new RoundedTransformation(15, 0);
         this.Callback = Callback;
         this.allNewslist = allNewslist;
+        this.loadImages = loadImages;
 
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/AltairLighttrial.ttf");
     }
@@ -161,14 +163,19 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 if(convertView == null) {
 
                     viewHolder = new ViewHolder();
-                    cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
+                    if(loadImages) {
+                        cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item, parent, false);
+                        viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
+                    }
+                    else {
+                        cell = (FoldingCell) mLayoutInflater.inflate(R.layout.main_cell_item_wo_image, parent, false);
+                    }
                     // binding view parts to view holder
                     viewHolder.description = (TextView) cell.findViewById(R.id.description);
                     //viewHolder.author = (TextView) cell.findViewById(R.id.author);
                     viewHolder.title = (TextView) cell.findViewById(R.id.title);
                     viewHolder.source = (FButton) cell.findViewById(R.id.source);
                     viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
-                    viewHolder.image = (ImageView) cell.findViewById(R.id.urltoimage);
                     viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
                     viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
                     //viewHolder.category = (TextView) cell.findViewById(R.id.category);
@@ -176,11 +183,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
 
 
-                    //viewHolder.description.setTypeface(mainTypeface);
-
                     cell.setTag(viewHolder);
                 }else {
-                    // for existing cell set valid valid state(without animation)
                     if (unfoldedIndexes.contains(position)) {
                         cell.unfold(true);
                     } else {
@@ -197,15 +201,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 //viewHolder.category.setText(item.getCategory());
                 viewHolder.publishedat.setText(item.getPublishedat());
 
-
-
-                //String dynamicUrl =  productsList.get(position).getUrl();
-
-                //String linkedText = String.format("<a href=\"%s\">Read Full Article</a>", dynamicUrl);
-
-
                 viewHolder.readFull.setText("Read Full Article");
-                //viewHolder.readFull.setMovementMethod(LinkMovementMethod.getInstance());
                 viewHolder.description.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -228,7 +224,6 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 });
 
                 GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
-                //        shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext,colors[position%colors.length]));
 
                 gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
                 viewHolder.side_bar.setBackground(gradientDrawable);
@@ -236,20 +231,18 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
 
+                if(loadImages) {
+                    try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
+                        Picasso.with(mContext)
+                                .load(item.getUrltoimage())
+                                .resize(180, 180)
+                                .centerCrop()
+                                .error(R.drawable.sample)
+                                .into(viewHolder.image);
 
+                    } catch (Exception e) {
 
-                Log.v("URLPATH", " : " + item.getUrltoimage().trim());
-
-                try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
-                    Picasso.with(mContext)
-                            .load(item.getUrltoimage())
-                            .resize(180, 180)
-                            .centerCrop()
-                            .error(R.drawable.sample)
-                            .into(viewHolder.image);
-
-                } catch (Exception e) {
-
+                    }
                 }
 
                 break;

@@ -3,4 +3,19 @@
          (such as screen margins) for screens with more than 820dp of available width. This
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="description_text_height">400dp</dimen>
+    <dimen name="flip_view_height">200dp</dimen>
+    <dimen name="main_item_view_height">200dp</dimen>
+    <dimen name="main_cell_margin_top">10dp</dimen>
+    <dimen name="ad_unit_width">310dp</dimen>
+    <dimen name="ad_unit_height">110dp</dimen>
+    <dimen name="description_text_size">13sp</dimen>
+    <dimen name="title_text_size">13sp</dimen>
+    <dimen name="subtext_size">9sp</dimen>
+    <dimen name="read_artciel_button_text_size">12sp</dimen>
+    <dimen name="tab_text_size">12sp</dimen>
+    <dimen name="tab_text_padding">16dp</dimen>
+    <dimen name="tab_height">50dp</dimen>
+    <dimen name="fab_button_size">190dp</dimen>
+    <dimen name="min_fab_width">200dp</dimen>
 </resources>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,9 +92,11 @@ public class LoadImagesFragment extends Fragment {
         mPreferences = mContext.getSharedPreferences(Common.PREFERENCES, MODE_PRIVATE);
 
         int loadImages = mPreferences.getInt(Common.LOADIMAGE, 0);
-
+        Log.v("MAINWIFISTATE" , "loadimage value : " + loadImages);
 
         ArrayList<String> loadImagesOption = new ArrayList<>();
+
+
 
         loadImagesOption.add("Always");
         loadImagesOption.add("Never");
@@ -110,6 +113,8 @@ public class LoadImagesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SharedPreferences.Editor editor = mPreferences.edit();
+                Log.v("MAINWIFISTATE" , "loadimage value put : " + loadImageOptionList[i]);
+
                 editor.putInt(Common.LOADIMAGE , loadImageOptionList[i]);
                 editor.commit();
 

@@ -49,6 +49,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private LoadFeedDataAsync  loadFeedDataAsync            = null;
     private String sourceName                               = "";
     private LinkedHashMap<String, Integer> startMap         = null;
+    private boolean loadImages = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -68,6 +69,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         int position = FragmentPagerItem.getPosition(mArgs);
 
         sourceName = mArgs.getString(Common.SOURCENAME);
+        loadImages = mArgs.getBoolean(Common.LOADIMAGE);
 
         //LinkedHashMap<String, String> map = Common.createChoosenMap();
         //sourceName = map.get(sourceName);
@@ -75,7 +77,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("onViewCreated", position + " : " + sourceName);
 
         listView                = (ListView)view.findViewById(R.id.list1);
-        foldingCellListAdapter  = new FoldingCellListAdapter(this, getContext(), productsList, allNewslist);
+        foldingCellListAdapter  = new FoldingCellListAdapter(this, getContext(), productsList, allNewslist, loadImages);
 
 
         listView.setAdapter(foldingCellListAdapter);

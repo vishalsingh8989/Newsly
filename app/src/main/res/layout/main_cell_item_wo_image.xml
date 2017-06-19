@@ -6,7 +6,7 @@
     android:background="@drawable/main_item_cell_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/main_cell_margin_top"
+    android:layout_marginTop="10dp"
     android:layout_marginLeft="7dp"
     android:layout_marginRight="7dp"
     android:elevation="15dp"
@@ -31,7 +31,7 @@
         <TextView
             android:text="@string/title_sample"
             android:gravity="center"
-            android:textSize="@dimen/description_text_size"
+            android:textSize="13dp"
             android:background="@color/transparent"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:textColor="@color/black"
@@ -39,7 +39,7 @@
             android:layout_marginRight="8dp"
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/description_text_height" />
+            android:layout_height="200dp" />
         <LinearLayout
             android:id="@+id/divider1"
             android:layout_below="@+id/description"
@@ -54,13 +54,13 @@
             android:id="@+id/second_view"
             android:layout_below="@+id/divider1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/flip_view_height">
+            android:layout_height="100dp">
 
             <info.hoang8f.widget.FButton
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/source"
-                android:textSize="@dimen/read_artciel_button_text_size"
+                android:textSize="12dp"
                 fbutton:buttonColor="@color/n"
                 fbutton:cornerRadius="15dp"
                 android:layout_height="30dp"
@@ -74,12 +74,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/read_full"
-                android:textSize="@dimen/read_artciel_button_text_size"
+                android:textSize="12dp"
                 fbutton:buttonColor="@color/n"
                 fbutton:cornerRadius="15dp"
                 android:layout_height="30dp"
-                android:layout_width="@dimen/fab_button_size"
-                android:minWidth="@dimen/min_fab_width"
+                android:layout_width="190dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:layout_marginBottom="10dp"
@@ -102,13 +101,7 @@
             android:layout_height="match_parent"
             android:layout_width="4dp"
             android:orientation="horizontal" />
-        <ImageView
-            android:scaleType="centerCrop"
-            android:id="@+id/urltoimage"
-            android:layout_marginRight="5dp"
-            android:layout_weight=".31"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/main_item_view_height" />
+
 
 
         <LinearLayout
@@ -116,12 +109,12 @@
             android:orientation="vertical"
             android:layout_weight=".68"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="100dp">
 
             <TextView
                 android:id="@+id/title"
                 android:elegantTextHeight="true"
-                android:textSize="@dimen/title_text_size"
+                android:textSize="13dp"
                 android:layout_weight=".75"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -142,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:layout_marginLeft="2dp"
-                    android:textSize="@dimen/subtext_size"
+                    android:textSize="9dp"
                     android:text="Source : ABC news"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.FontPath"
@@ -155,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:layout_marginRight="2dp"
-                    android:textSize="@dimen/subtext_size"
+                    android:textSize="9dp"
                     android:text="12/02/2017"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.FontPath"
