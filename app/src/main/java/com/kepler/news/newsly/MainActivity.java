@@ -216,31 +216,18 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-//        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
-//                getSupportFragmentManager(), FragmentPagerItems.with(this)
-//                .add("USA Today", DemoFragment.class , bd)
-//                .add("The New York Times", DemoFragment.class )
-//                .add("The Guardian", DemoFragment.class)
-//                .add("The Wall Street Journal", DemoFragment.class)
-//                .add("Washington Post", DemoFragment.class)
-//                .add("Los Angeles Times", DemoFragment.class)
-//                .add("The Daily Telegraph ", DemoFragment.class)
-//                .create());
-
-
-
-
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 
         int loadImage =  mPreferences.getInt(Common.LOADIMAGE, Common.ALWAYS);
-
-
-        if (mWifi.isConnected()) {
-           Log.v("MAINWIFISTATE" , "connected");
+        boolean loadImages;
+        if ((mWifi.isConnected() && loadImage == Common.ONWIFI) || (loadImage == Common.ALWAYS)){
+            loadImages = true;
+            Log.v("MAINWIFISTATE" , "connected");
         }else{
+            loadImages = false;
             Log.v("MAINWIFISTATE" , "disconnected");
         }
 
@@ -254,6 +241,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             if(checked) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Common.SOURCENAME, sourceName);
+                bundle.putBoolean(Common.LOADIMAGE , loadImages);
                 pages.add(FragmentPagerItem.of(sourceName, DemoFragment.class, bundle));
                 idx = idx + 1;
             }
@@ -618,5 +606,13 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         super.onLowMemory();
         Log.v("onLowMemory", "low memory");
 
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

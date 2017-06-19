@@ -90,6 +90,8 @@ public class LoadImagesFragment extends Fragment {
 
         mPreferences = mContext.getSharedPreferences(Common.PREFERENCES, MODE_PRIVATE);
 
+        int loadImages = mPreferences.getInt(Common.LOADIMAGE, 0);
+
 
         ArrayList<String> loadImagesOption = new ArrayList<>();
 
@@ -120,6 +122,8 @@ public class LoadImagesFragment extends Fragment {
             }
         });
 
+
+        listView.setItemChecked(loadImages, true);
         return v;
     }
 
