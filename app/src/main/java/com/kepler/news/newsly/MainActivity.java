@@ -1,6 +1,7 @@
 package com.kepler.news.newsly;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
@@ -27,8 +29,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
+import android.widget.Toast;
 
 
+import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
@@ -68,7 +72,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, DrawerAdapter.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, DrawerAdapter.OnItemSelectedListener , ViewPager.OnPageChangeListener{
 
     private List<Object> productsList               = null;
     private List<Object> allNewslist                = null;
@@ -83,13 +87,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private CircleRefreshLayout mCircleRefreshLayout        = null;
     private SearchView mSearchView                          = null;
     private SharedPreferences mPreferences                  = null;
-    private SharedPreferences.Editor editor                 = null;
-    private Chip chipScienceAndNature                       = null;
-    private boolean chipScienceAndNatureSelected            = true;
-
-    private Chip chipPolitics                               = null;
-    private boolean chipPoliticsSelected                    = true;
-
 
     private HashMap<Integer, String> mMap                                    = null;
     private ArrayList<HashMap<Integer, String>> hashMap     = null;
@@ -97,8 +94,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     public static int start =0;
     public static int offset = 30;
-    public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
-
 
     int currentApiVersion = 7;
 
@@ -113,13 +108,18 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
-
+    private ViewPager viewPager;
+    private SmartTabLayout viewPagerTab;
+    private FragmentPagerItemAdapter fragmentPagerItemAdapter;
+    private FragmentPagerItems pages;
 
 
     @SuppressLint("NewApi")
     @Override
     public void onWindowFocusChanged(boolean hasFocus)
     {
+
+        Log.v("lifecycle" , "onWindowFocusChanged");
         super.onWindowFocusChanged(hasFocus);
         if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
         {
@@ -135,6 +135,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     @Override
     protected void onResume() {
+
+        Log.v("lifecycle" , "onResume");
         super.onResume();
         start =0;
         offset = 30;
@@ -174,6 +176,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                         }
                     });
         }
+
+        if(!isNetworkAvailable()){
+            showNetworkNotAvailableDialog();
+        }
     }
 
     @Override
@@ -185,24 +191,18 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 //        );
         super.onCreate(savedInstanceState);
 
-
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        Log.v("lifecycle" , "onCreate");
 
         mMap = new HashMap();
         mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
         mMap.put(R.id.chipPolitics, Common.chipPolitics);
 
 
-
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-       // avLoadingIndicatorView = (AVLoadingIndicatorView)findViewById(R.id.progress_bar);
-       // avLoadingIndicatorView.show();
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
 
 
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
@@ -220,14 +220,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 .inject();
 
 
-
-        boolean isNetworkAvailable = isNetworkAvailable();
-        Log.v("newslyNetwork" , " " + isNetworkAvailable);
-        if(isNetworkAvailable)
-        {
-            DemoFragment.showNetworkNotAvailableDialog();
-        }
-
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -243,7 +235,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         }
 
 
-        FragmentPagerItems pages = new FragmentPagerItems(this);
+        pages = new FragmentPagerItems(this);
+
         LinkedHashMap<String, String> sourceNameMap = Common.createChoosenMap();
         int idx  = 0;
         for (String  sourceName : sourceNameMap.keySet()) {
@@ -258,18 +251,17 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             }
         }
 
+        fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
 
 
-        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
-                getSupportFragmentManager(), pages);
 
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(idx);
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+
         viewPagerTab.setViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(this);
 
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
@@ -289,17 +281,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
 
-
-//
-
-
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
         mSearchView             = (SearchView)findViewById(R.id.search_view);
-
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -310,7 +296,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 foldingCellListAdapter.registerToggle(pos);
             }
         });
-
 
 
 
@@ -341,56 +326,110 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         mSearchView.setIconified(true);
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+
+        mSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onClose() {
-                List<Object> entries = foldingCellListAdapter.AllNewsEntries();
-                foldingCellListAdapter.refreshEntries(entries);
-                mSearchText = "";
-                return false;
+            public void onClick(View view) {
+                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(search);
+
             }
         });
 
-
-        //TODO com.github.glomadrian.grav.GravView
-
+//        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                List<Object> entries = foldingCellListAdapter.AllNewsEntries();
+//                foldingCellListAdapter.refreshEntries(entries);
+//                mSearchText = "";
+//                return false;
+//            }
+//        });
+//
+//
+//        //TODO com.github.glomadrian.grav.GravView
+//
         mSearchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("QuerySearch" , "onClick");
+                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(search);
             }
         });
-
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                mSearchText = s;
-                Log.v("QuerySearch" , "onQueryTextSubmit");
-                List<Object> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
-                foldingCellListAdapter.refreshEntries(entries);
-                if(entries.size()<minEntries)
-                {
-                    loadMore();
-                    entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
-                }
-                foldingCellListAdapter.refreshEntries(entries);
-                return true;
-            }
-
-
-
-            @Override
-            public boolean onQueryTextChange(String searchText) {
-                Log.v("QuerySearch" , "onQueryTextChange");
-//                if(searchText.trim()=="") {
-//                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
+//
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                mSearchText = s;
+//                Log.v("QuerySearch" , "onQueryTextSubmit");
+//                List<Object> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
+//                foldingCellListAdapter.refreshEntries(entries);
+//                if(entries.size()<minEntries)
+//                {
+//                    loadMore();
+//                    entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
 //                }
-                 return true;
-            }
-        });
-
+//                foldingCellListAdapter.refreshEntries(entries);
+//                return true;
+//            }
+//
+//
+//
+//            @Override
+//            public boolean onQueryTextChange(String searchText) {
+//                Log.v("QuerySearch" , "onQueryTextChange");
+////                if(searchText.trim()=="") {
+////                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
+////                }
+//                 return true;
+//            }
+//        });
+//
+//
+//
 
     }
+
+    private void showNetworkNotAvailableDialog() {
+
+
+        final FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(MainActivity.this)
+                .setImageRecourse(R.drawable.happy)
+                .setTextTitle("SORRY")
+                .setTextSubTitle("Internet is not available.")
+                .setBody("Please switch on your internet connection and open app again.")
+                .setNegativeColor(R.color.n)
+                .setNegativeButtonText("WIFI")
+                .setOnNegativeClicked(new FancyAlertDialog.OnNegativeClicked() {
+                    @Override
+                    public void OnClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        startActivity(new Intent(
+                                Settings.ACTION_WIFI_SETTINGS));
+                    }
+
+
+
+                })
+                .setPositiveButtonText("Mobile Network")
+                .setPositiveColor(R.color.n)
+                .setOnPositiveClicked(new FancyAlertDialog.OnPositiveClicked() {
+                    @Override
+                    public void OnClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+                        startActivity(new Intent(
+                                Settings.ACTION_DATA_ROAMING_SETTINGS));
+
+                    }
+                })
+                .setAutoHide(true)
+                .build();
+
+        alert.show();
+
+    }
+
+
 
 
     private List<Object> addNativeExpressAds(List<Object> result){
@@ -539,9 +578,15 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v("lifecycle", "onPause");
+    }
+
+    @Override
     public void onLowMemory() {
         super.onLowMemory();
-        Log.v("onLowMemory", "low memory");
+        Log.v("lifecycle", "low memory");
 
     }
 
@@ -551,5 +596,22 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Log.v("viewPager" , "onPageScrolled " + position  + " , " + positionOffset);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.v("viewPager" , "onPageSelected " + position );
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        Log.v("viewPager" , "onPageScrollStateChanged " + state );
+
     }
 }

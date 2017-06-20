@@ -41,5 +41,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ad_unit_admob_size">300x100</string>
     <string name="ad_unit_id">ca-app-pub-5223778660504166/2968121932</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

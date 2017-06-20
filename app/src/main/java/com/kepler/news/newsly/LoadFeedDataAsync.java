@@ -92,12 +92,6 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         this.fragment               = fragment;
         isNetworkAvailable = true;
 
-
-
-
-
-        //Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
-
     }
 
 
@@ -106,15 +100,18 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         super.onPreExecute();
 
 
+        try{
+                fragment.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                        progressbar.smoothToShow();
 
-        fragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
-                progressbar.smoothToShow();
-
-            }
-        });
+                    }
+            });
+        }catch (Exception e)
+        {
+        }
     }
 
     @Override
@@ -309,20 +306,26 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         //MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
 
         Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName));
-        fragment.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
-                progressbar.smoothToHide();
+
+        try {
+            fragment.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                    progressbar.smoothToHide();
 
 
-            }
-        });
+                }
+            });
+        }catch (Exception e)
+        {
 
-
-        if(!isNetworkAvailable ) {
-            fragment.showNetworkNotAvailableDialog();
         }
+
+
+//        if(!isNetworkAvailable ) {
+//            fragment.showNetworkNotAvailableDialog();
+//        }
 
     }
 

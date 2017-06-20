@@ -1,5 +1,8 @@
 package com.kepler.news.newsly.ViewPagerFragments;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +14,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.kepler.news.newsly.LoadFeedDataAsync;
 import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
@@ -51,15 +56,20 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private String sourceName                               = "";
     private LinkedHashMap<String, Integer> startMap         = null;
     private boolean loadImages = false;
+    private static Activity parent = null;
 
     public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
 
 
+    public static  void Refresh()
+    {
+
+    }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.v("fragmentLifecycle", "onCreateView" + sourceName);
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         startMap                = Common.createStartMap();
@@ -69,9 +79,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.v("fragmentLifecycle", "onViewCreated" + sourceName);
         Bundle mArgs = getArguments();
         int position = FragmentPagerItem.getPosition(mArgs);
+        parent = getActivity();
 
         sourceName = mArgs.getString(Common.SOURCENAME);
         loadImages = mArgs.getBoolean(Common.LOADIMAGE);
@@ -130,7 +141,12 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
+
+
     }
+
+
+
 
     @Override
     public void onItemClicked(View v, int position) {
@@ -178,6 +194,37 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v("fragmentLifecycle", "onResume " + sourceName);
+        if(productsList.size() == 0)
+        {
+            loadMore();
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.v("fragmentLifecycle", "oonStart " + sourceName);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.v("fragmentLifecycle", "onAttach(Context context) " + sourceName);
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Log.v("fragmentLifecycle", "onAttach(Activity activity) " + sourceName);
+    }
+
     private void loadMore() {
         loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
         loadFeedDataAsync.execute();
@@ -185,8 +232,14 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
     }
 
-    public static  void showNetworkNotAvailableDialog() {
-        Log.v("newslyNetwork", "showNetworkNotAvailableDialog called" );
 
-    }
+
+
+//    public static  void showNetworkNotAvailableDialog() {
+//        Log.v("newslyNetwork", "showNetworkNotAvailableDialog called" );
+//
+//
+//
+//
+//    }
 }
