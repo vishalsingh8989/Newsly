@@ -60,11 +60,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
 
+    private boolean paused = false;
 
-    public static  void Refresh()
-    {
-
-    }
 
 
     @Override
@@ -199,10 +196,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     public void onResume() {
         super.onResume();
         Log.v("fragmentLifecycle", "onResume " + sourceName);
-        if(productsList.size() == 0)
-        {
+        if(productsList.size() == 0 && paused == true) {
             loadMore();
         }
+        paused= false;
     }
 
 
@@ -218,6 +215,13 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("fragmentLifecycle", "onAttach(Context context) " + sourceName);
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.v("fragmentLifecycle", "onPause " + sourceName);
+        paused= true;
+    }
 
     @Override
     public void onAttach(Activity activity) {

@@ -236,11 +236,11 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                 for (int i = 0; i < data.length(); i++) {
                     NewsStory story = new NewsStory();
 
-                    Log.v("HYHTTP", "*************************************");
-                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
-                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
-                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
-                    Log.v("HYHTTP", "*************************************");
+//                    Log.v("HYHTTP", "*************************************");
+//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
+//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
+//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
+//                    Log.v("HYHTTP", "*************************************");
 
                     story.setDescription(data.getJSONObject(i).getString(Common.DESCRIPTION));
                     story.setTitle(data.getJSONObject(i).getString(Common.TITLE));

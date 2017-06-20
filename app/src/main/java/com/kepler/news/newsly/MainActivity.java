@@ -212,14 +212,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         screenTitles = loadScreenTitles();
 
 
-        new SlidingRootNavBuilder(this)
-                .withToolbarMenuToggle(toolbar)
-                .withMenuOpened(false)
-                .withSavedState(savedInstanceState)
-                .withMenuLayout(R.layout.menu_left_drawer)
-                .inject();
-
-
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -246,7 +238,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 Bundle bundle = new Bundle();
                 bundle.putString(Common.SOURCENAME, sourceName);
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                pages.add(FragmentPagerItem.of(sourceName, DemoFragment.class, bundle));
+                FragmentPagerItem item = FragmentPagerItem.of(sourceName, DemoFragment.class, bundle);
+                pages.add(item);
                 idx = idx + 1;
             }
         }
@@ -264,28 +257,20 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         viewPager.addOnPageChangeListener(this);
 
 
-        DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
-                createItemFor(POS_DASHBOARD).setChecked(true),
-                createItemFor(POS_ACCOUNT),
-                createItemFor(POS_MESSAGES),
-                createItemFor(POS_CART),
-                createItemFor(POS_SOURCE),
-                new SpaceItem(20),
-                createItemFor(POS_LOGOUT)));
-        adapter.setListener(this);
 
 
 
-        RecyclerView list = (RecyclerView) findViewById(R.id.list);
-        list.setNestedScrollingEnabled(false);
-        list.setLayoutManager(new LinearLayoutManager(this));
-        list.setAdapter(adapter);
+//
+//        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+//        list.setNestedScrollingEnabled(false);
+//        list.setLayoutManager(new LinearLayoutManager(this));
+//        list.setAdapter(adapter);
 
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
-        mSearchView             = (SearchView)findViewById(R.id.search_view);
+        //mSearchView             = (SearchView)findViewById(R.id.search_view);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -325,16 +310,16 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         });
 
 
-        mSearchView.setIconified(true);
-
-        mSearchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent search = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(search);
-
-            }
-        });
+//        mSearchView.setIconified(true);
+//
+//        mSearchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+//                startActivity(search);
+//
+//            }
+//        });
 
 //        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
 //            @Override
@@ -349,13 +334,13 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 //
 //        //TODO com.github.glomadrian.grav.GravView
 //
-        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent search = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(search);
-            }
-        });
+//        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+//                startActivity(search);
+//            }
+//        });
 //
 //        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
@@ -606,6 +591,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     @Override
     public void onPageSelected(int position) {
         Log.v("viewPager" , "onPageSelected " + position );
+
+        FragmentPagerItem page = pages.get(position);
+
+
+
 
     }
 
