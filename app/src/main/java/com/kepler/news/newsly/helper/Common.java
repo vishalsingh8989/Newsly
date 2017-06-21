@@ -15,6 +15,7 @@ import java.util.Map;
 public class Common {
 
 
+    public static final String FIRSTLAUNCH =  "firstlaunch";
     public static int ALWAYS                             = 0;
     public static int NEVER                              = 1;
     public static int ONWIFI                             = 2;

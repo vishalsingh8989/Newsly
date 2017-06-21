@@ -8,10 +8,6 @@
             android:title="News Board"
             />
         <item
-            android:id="@+id/feeds"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Feeds"/>
-        <item
             android:id="@+id/settings"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Settings"/>
@@ -26,7 +22,7 @@
                 android:title="Rate Me"/>
             <item
                 android:id="@+id/more_apps"
-                android:icon="@android:drawable/ic_menu_send"
+                android:icon="@android:drawable/ic_menu_more"
                 android:title="More Apps"/>
         </menu>
     </item>

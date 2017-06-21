@@ -3,6 +3,7 @@ package com.kepler.news.newsly;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -20,6 +21,7 @@ import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
+import com.kepler.news.newsly.helper.Common;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -28,6 +30,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
 
     int currentApiVersion = 0;
+    private SharedPreferences mPreferences;
 
     @SuppressLint("NewApi")
     @Override
@@ -89,6 +92,16 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         super.onCreate(savedInstanceState);
 
 
+        mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+        boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
+
+        if(!firstLaunch)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         Fragment helloFragment = new HelloFragment();
         Fragment newsSourceFragment = new NewsSourceFragment();
         //Fragment languageFragment = new LanguageFragment();
@@ -128,8 +141,14 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+        SharedPreferences.Editor editor = mPreferences.edit();
+
+        editor.putBoolean(Common.FIRSTLAUNCH , false);
+        editor.commit();
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

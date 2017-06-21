@@ -2,6 +2,7 @@ package com.kepler.news.newsly;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -664,15 +666,54 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         Log.v("onOptionsItemSelected" , "test");
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
-            drawer.closeDrawers();
 
+            SharedPreferences.Editor editor = mPreferences.edit();
+
+            editor.putBoolean(Common.FIRSTLAUNCH , true);
+            editor.commit();
+
+            drawer.closeDrawers();
             Intent intro = new Intent(this, IntroActivity.class);
             startActivity(intro);
             return true;
         }
         else if(id ==R.id.rate_me)
         {
+            drawer.closeDrawers();
+
+
+            Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+            }
             Log.v("tst" , "test");
+        }
+        else if (id == R.id.more_apps){
+
+
+            Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Kepler&hl=en");
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+            }
         }
 
         return true;
