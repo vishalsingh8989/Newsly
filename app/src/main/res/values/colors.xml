@@ -42,6 +42,7 @@
     <color name="item_color">#BD5A09</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="drawerlistselector">#b56d4c41</color>
 
 
 </resources>

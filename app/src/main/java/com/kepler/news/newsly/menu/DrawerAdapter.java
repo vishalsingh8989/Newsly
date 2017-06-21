@@ -1,111 +1,96 @@
 package com.kepler.news.newsly.menu;
 
-import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.kepler.news.newsly.NewsStory;
+import com.kepler.news.newsly.R;
+import com.ramotion.foldingcell.FoldingCell;
+
+import java.util.ArrayList;
 
 /**
- * Created by yarolegovich on 25.03.2017.
+ * Created by vishaljasrotia on 11/06/17.
  */
 
-public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
+public class DrawerAdapter extends BaseAdapter {
 
-    private List<DrawerItem> items;
-    private Map<Class<? extends DrawerItem>, Integer> viewTypes;
-    private SparseArray<DrawerItem> holderFactories;
 
-    private OnItemSelectedListener listener;
+    private final Typeface custom_font;
+    private Context mContext = null;
+    private LayoutInflater mLayoutInflater = null;
+    private ArrayList<String> countryList = null;
+    private int[] background = {R.drawable.sample, R.mipmap.usa_flag, R.mipmap.uk_flag, R.mipmap.india_flag,
+            R.mipmap.aus_flag, R.mipmap.canada_flag, R.mipmap.france_flag, R.mipmap.italy_flag
+    };
 
-    public DrawerAdapter(List<DrawerItem> items) {
-        this.items = items;
-        this.viewTypes = new HashMap<>();
-        this.holderFactories = new SparseArray<>();
+    public DrawerAdapter(Context context, ArrayList<String> countryList) {
 
-        processViewTypes();
+
+        this.mContext = context;
+        this.countryList = countryList;
+        mLayoutInflater = LayoutInflater.from(mContext);
+        custom_font = Typeface.createFromAsset(mContext.getAssets(), "fonts/Altair-Thin-trial.ttf");
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder = holderFactories.get(viewType).createViewHolder(parent);
-        holder.adapter = this;
-        return holder;
+    public int getCount() {
+        return countryList.size();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        items.get(position).bindViewHolder(holder);
+    public Object getItem(int i) {
+        return null;
     }
 
     @Override
-    public int getItemCount() {
-        return items.size();
+    public long getItemId(int i) {
+        return 0;
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return viewTypes.get(items.get(position).getClass());
+    public View getView(int position, View convertView, ViewGroup parent) {
+        RelativeLayout cell =null;
+
+        cell = (RelativeLayout) convertView;
+        final CountryHolder viewHolder ;
+
+        if(convertView == null) {
+            viewHolder = new CountryHolder();
+            cell = (RelativeLayout) mLayoutInflater.inflate(R.layout.list_item, parent, false);
+            // binding view parts to view holder
+            viewHolder.txtTitle = (TextView) cell.findViewById(R.id.description);
+            viewHolder.txtTitle.setTypeface(custom_font);
+
+
+            cell.setTag(viewHolder);
+        }else {
+            viewHolder = (CountryHolder) cell.getTag();
+        }
+
+        viewHolder.txtTitle.setText(countryList.get(position));
+
+
+        return cell;
     }
 
-    private void processViewTypes() {
-        int type = 0;
-        for (DrawerItem item : items) {
-            if (!viewTypes.containsKey(item.getClass())) {
-                viewTypes.put(item.getClass(), type);
-                holderFactories.put(type, item);
-                type++;
-            }
-        }
-    }
+    static class CountryHolder
+    {
 
-    public void setSelected(int position) {
-        DrawerItem newChecked = items.get(position);
-        if (!newChecked.isSelectable()) {
-            return;
-        }
+        TextView txtTitle;
 
-        for (int i = 0; i < items.size(); i++) {
-            DrawerItem item = items.get(i);
-            if (item.isChecked()) {
-                item.setChecked(false);
-                notifyItemChanged(i);
-                break;
-            }
-        }
-
-        newChecked.setChecked(true);
-        notifyItemChanged(position);
-
-        if (listener != null) {
-            listener.onItemSelected(position);
-        }
-    }
-
-    public void setListener(OnItemSelectedListener listener) {
-        this.listener = listener;
-    }
-
-    static abstract class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private DrawerAdapter adapter;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            adapter.setSelected(getAdapterPosition());
-        }
-    }
-
-    public interface OnItemSelectedListener {
-        void onItemSelected(int position);
     }
 }

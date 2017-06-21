@@ -16,18 +16,30 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,15 +50,17 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
+
+import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.chip.Chip;
 import com.kepler.news.newsly.helper.Common;
+
+
 import com.kepler.news.newsly.menu.DrawerAdapter;
-import com.kepler.news.newsly.menu.DrawerItem;
-import com.kepler.news.newsly.menu.SimpleItem;
-import com.kepler.news.newsly.menu.SpaceItem;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
+
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
@@ -54,8 +68,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
-import com.wang.avi.AVLoadingIndicatorView;
-import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+
 
 
 
@@ -72,7 +85,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, DrawerAdapter.OnItemSelectedListener , ViewPager.OnPageChangeListener{
+public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
 
     private List<Object> productsList               = null;
     private List<Object> allNewslist                = null;
@@ -112,6 +125,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private SmartTabLayout viewPagerTab;
     private FragmentPagerItemAdapter fragmentPagerItemAdapter;
     private FragmentPagerItems pages;
+    private DrawerLayout drawer;
 
 
     @SuppressLint("NewApi")
@@ -198,18 +212,56 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mMap.put(R.id.chipPolitics, Common.chipPolitics);
 
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.app_drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_navigate_next_white);
+
+       //DrawerLayout  mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+
+        //mDrawerLayout.openDrawer(Gravity.LEFT);
+
+        //mDrawerLayout.setDrawerElevation(70);
+
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
 
 
+
+
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar,R.string.dummy_content, R.string.accept);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //NavigationView navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
+        //navigationViewRight.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        ArrayList<String> countryList = new ArrayList<>();
+
+
+
+        countryList.add("Newsly");
+        countryList.add("");
+        countryList.add("News Board");
+
+        countryList.add("Settings");
+        countryList.add("Rate Me");
+        countryList.add("");
+        countryList.add("Log Out");
+
+
+
+
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
-
-
-        screenIcons = loadScreenIcons();
-        screenTitles = loadScreenTitles();
 
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -449,13 +501,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         return icons;
     }
 
-    private DrawerItem createItemFor(int position) {
-        return new SimpleItem(screenIcons[position], screenTitles[position])
-                .withIconTint(color(R.color.transparent))
-                .withTextTint(color(R.color.item_color))
-                .withSelectedIconTint(color(R.color.black))
-                .withSelectedTextTint(color(R.color.black_transparent));
-    }
 
 
     private String[] loadScreenTitles() {
@@ -545,21 +590,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     }
 
-    @Override
-    public void onItemSelected(int position) {
-        Log.v("onItemSelected", "onItemSelected clicked " +position );
-        switch (position){
-            case 1:
-                Intent category = new Intent(this, Category.class);
-                startActivity(category);
-                break;
-            case 2:
-                break;
 
-        }
-
-
-    }
 
 
     @Override
@@ -603,5 +634,78 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     public void onPageScrollStateChanged(int state) {
         Log.v("viewPager" , "onPageScrollStateChanged " + state );
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        Log.v("navigation" , " " + item.getTitle());
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+
+        int id = item.getItemId();
+
+        Log.v("onOptionsItemSelected" , "test");
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settings) {
+            drawer.closeDrawers();
+
+            Intent intro = new Intent(this, IntroActivity.class);
+            startActivity(intro);
+            return true;
+        }
+        else if(id ==R.id.rate_me)
+        {
+            Log.v("tst" , "test");
+        }
+
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        Log.v("onOptionsItemSelected" , "test");
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settings) {
+            if (drawer.isDrawerOpen(GravityCompat.END)) {
+                drawer.closeDrawer(GravityCompat.END);
+            } else {
+                drawer.openDrawer(GravityCompat.END);
+            }
+
+            Intent intro = new Intent(this, IntroActivity.class);
+            startActivity(intro);
+            return true;
+        }
+        else if(id ==R.id.rate_me)
+        {
+            Log.v("tst" , "test");
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }

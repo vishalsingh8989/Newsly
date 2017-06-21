@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/board"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="News Board"
+            />
+        <item
+            android:id="@+id/feeds"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Feeds"/>
+        <item
+            android:id="@+id/settings"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="Settings"/>
+
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/rate_me"
+                android:icon="@android:drawable/star_big_off"
+                android:title="Rate Me"/>
+            <item
+                android:id="@+id/more_apps"
+                android:icon="@android:drawable/ic_menu_send"
+                android:title="More Apps"/>
+        </menu>
+    </item>
+
+</menu>

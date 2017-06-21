@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="#fff"
+    android:background="#00ffffff"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -15,26 +16,16 @@
         android:orientation="vertical">
 
         <TextView
+            android:paddingLeft="15dp"
             android:textAppearance="@style/TextAppearance.FontPath"
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingTop="10dp"
             android:text="Heading"
-            android:textColor="#1b1b1b"
-            android:textSize="15sp" />
-
-        <TextView
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:id="@+id/source"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="source"
-            android:textColor="#1b1b1b"
-            android:textSize="10sp" />
+            android:textColor="#000000"
+            android:textSize="20sp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
