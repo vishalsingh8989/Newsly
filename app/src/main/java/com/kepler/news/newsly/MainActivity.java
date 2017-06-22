@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         viewPager.setOffscreenPageLimit(idx);
+
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
 
