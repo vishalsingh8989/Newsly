@@ -53,6 +53,7 @@ import com.google.android.gms.ads.NativeExpressAdView;
 
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
+import com.kepler.news.newsly.helper.FontsOverride;
 import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
@@ -200,11 +201,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-//                .setDefaultFontPath("fonts/Altair.ttf")
-//                .setFontAttrId(R.attr.fontPath)
-//                .build()
-//        );
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/RobotoCondensed-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
         super.onCreate(savedInstanceState);
 
         Log.v("lifecycle" , "onCreate");
@@ -219,6 +220,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_navigate_next_white);
 
+
+        //FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Altair-Regular-trial.ttf");
        //DrawerLayout  mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
 
@@ -514,10 +517,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         return ContextCompat.getColor(this, res);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
         Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
@@ -714,7 +717,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
             }
+        }else if(id == R.id.search_news)
+        {
+            Intent search = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(search);
         }
+
 
         return true;
     }

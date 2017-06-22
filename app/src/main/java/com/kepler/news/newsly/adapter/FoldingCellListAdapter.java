@@ -91,7 +91,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.allNewslist = allNewslist;
         this.loadImages = loadImages;
 
-        mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/AltairLighttrial.ttf");
+        subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
+        mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
     }
 
     @Override
@@ -181,6 +182,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     //viewHolder.category = (TextView) cell.findViewById(R.id.category);
                     viewHolder.readFull = (FButton) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
+                    viewHolder.title.setTypeface(mainTypeface);
+                    viewHolder.description.setTypeface(subTypeface);
 
 
                     cell.setTag(viewHolder);

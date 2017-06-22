@@ -7,6 +7,11 @@
             android:icon="@android:drawable/ic_menu_camera"
             android:title="News Board"
             />
+
+        <item
+        android:id="@+id/search_news"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="search"/>
         <item
             android:id="@+id/settings"
             android:icon="@android:drawable/ic_menu_slideshow"
