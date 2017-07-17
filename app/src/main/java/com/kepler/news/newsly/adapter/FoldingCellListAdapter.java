@@ -44,6 +44,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 /**
  * Created by vishaljasrotia on 28/05/17.
@@ -175,12 +176,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.description = (TextView) cell.findViewById(R.id.description);
                     //viewHolder.author = (TextView) cell.findViewById(R.id.author);
                     viewHolder.title = (TextView) cell.findViewById(R.id.title);
-                    viewHolder.source = (FButton) cell.findViewById(R.id.source);
+                    viewHolder.source = (FancyButton) cell.findViewById(R.id.source);
                     viewHolder.sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
                     viewHolder.side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
                     viewHolder.side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
                     //viewHolder.category = (TextView) cell.findViewById(R.id.category);
-                    viewHolder.readFull = (FButton) cell.findViewById(R.id.read_full);
+                    viewHolder.readFull = (FancyButton) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
                     viewHolder.title.setTypeface(mainTypeface);
                     viewHolder.description.setTypeface(subTypeface);
@@ -305,10 +306,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView description;
         TextView title;
         TextView author;
-        FButton source;
+        FancyButton source;
         TextView sourceMini;
         TextView category;
-        FButton readFull;
+        FancyButton readFull;
         TextView publishedat;
         NativeExpressAdView adView;
         ImageView image;

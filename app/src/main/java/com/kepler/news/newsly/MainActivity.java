@@ -228,14 +228,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //mDrawerLayout.openDrawer(Gravity.LEFT);
 
         //mDrawerLayout.setDrawerElevation(70);
-
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-
-
-
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -247,11 +241,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //navigationViewRight.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
         ArrayList<String> countryList = new ArrayList<>();
-
 
 
         countryList.add("Newsly");
@@ -264,10 +254,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         countryList.add("Log Out");
 
 
-
-
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
-
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -302,9 +289,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         }
 
         fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
-
-
-
         viewPager.setOffscreenPageLimit(idx);
 
         viewPager.setAdapter(fragmentPagerItemAdapter);
@@ -437,7 +421,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         final FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(MainActivity.this)
-                .setImageRecourse(R.drawable.happy)
+                //.setImageRecourse(R.drawable.happy) // not working on small resolution
                 .setTextTitle("SORRY")
                 .setTextSubTitle("Internet is not available.")
                 .setBody("Please switch on your internet connection and open app again.")
@@ -462,7 +446,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                         dialog.dismiss();
                         startActivity(new Intent(
                                 Settings.ACTION_DATA_ROAMING_SETTINGS));
-
                     }
                 })
                 .setAutoHide(true)
