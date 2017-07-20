@@ -296,7 +296,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
         result = addNativeExpressAds(result);
-        startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
+        //startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
         Random rn = new Random(15L);
         //Collections.shuffle(result, rn);
         foldingCellListAdapter.upDateEntries(result , onRefresh);

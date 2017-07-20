@@ -78,13 +78,37 @@ public class Common {
         myMap.put("The New York Times", "The New York Times");
         myMap.put("The Wall Street Journal", "The Wall Street Journal");
         myMap.put("Los Angeles Times", "Los Angeles Times");
-        myMap.put("Bloomberg Business", "Bloomberg Business");
-        myMap.put("FOX Sports" , "FOX Sports");
-        myMap.put("ABC News" , "ABC News");
-        myMap.put("Washington Post" , "Washington Post");
-        myMap.put("Engadget" , "engadget");
+        myMap.put("Bloomberg", "Bloomberg");
+        myMap.put("Al Jazeera English" , "Al Jazeera English");
+        myMap.put("Associated Press" , "Associated Press");
+        myMap.put("Breitbart News" , "Breitbart News");
+        myMap.put("Business Insider" , "Business Insider");
+        myMap.put("Buzzfeed" , "Buzzfeed");
+        myMap.put("CNBC" , "CNBC");
+        myMap.put("CNN" , "CNN");
+        myMap.put("Engadget" , "Engadget");
+        myMap.put("Entertainment Weekly" , "Entertainment Weekly");
+        myMap.put("ESPN" , "ESPN");
+        myMap.put("ESPN Cric Info" , "ESPN Cric Info");
+        myMap.put("Fox Sports" , "Fox Sports");
+        myMap.put("Google News" , "Google News");
+        myMap.put("Hacker News" , "Hacker News");
+        myMap.put("IGN" , "IGN");
+        myMap.put("MTV News" , "MTV News");
+        myMap.put("National Geographic" , "National Geographic");
+        myMap.put("New Scientist" , "New Scientist");
+        myMap.put("New York Magazine" , "New York Magazine");
+        myMap.put("Newsweek" , "Newsweek");
+        myMap.put("NFL News" , "NFL News");
+        myMap.put("Recode" , "Recode");
+        myMap.put("TechCrunch" , "TechCrunch");
+        myMap.put("The Huffington Post" , "The Huffington Post");
+        myMap.put("The Next Web" , "The Next Web");
         myMap.put("The Verge" , "The Verge");
-        myMap.put("Mashable", "Mashable");
+        myMap.put("The Washington Post" , "The Washington Post");
+        myMap.put("Time" , "Time");
+
+
         return myMap;
     }
 
@@ -96,11 +120,20 @@ public class Common {
         //display name , sourceName
         myMap.put("The Guardian", "The Guardian");
         myMap.put("BBC News","BBC News");
+        myMap.put("BBC Sport" , "BBC Sport");
         myMap.put("CNN International", "CNN International");
         myMap.put("Cricinfo" ,"Cricinfo");
         myMap.put("Reuters" ,"Reuters");
         myMap.put("The Independent", "The Independent");
         myMap.put("Daily Mail","Daily Mail");
+        myMap.put("Business Insider (UK)" , "Business Insider (UK)");
+        myMap.put("Financial Times" , "Financial Times");
+        myMap.put("FourFourTwo" , "FourFourTwo");
+        myMap.put("Metro" , "Metro");
+        myMap.put("Mirror" , "Mirror");
+        myMap.put("TalkSport" , "TalkSport");
+        myMap.put("The Economist" , "The Economist");
+        myMap.put("The Guardian (UK)" , "The Guardian (UK)");
 
         return myMap;
     }
@@ -129,6 +162,9 @@ public class Common {
         myMap.put("The Sydney Morning Herald","The Sydney Morning Herald");
         myMap.put("Brisbane Times" , "Brisbane Times");
         myMap.put("The Australian" , "The Australian");
+        myMap.put("ABC News (AU)" , "ABC News (AU)");
+        myMap.put("The Guardian (AU)" , "The Guardian (AU)");
+
         return myMap;
     }
 
@@ -138,12 +174,18 @@ public class Common {
         //display name , sourceName
         myMap.put("Bild", "Bild");
         myMap.put("Focus","FOCUS Online");
-        myMap.put("Spiegel", "SPIEGEL ONLINE");
+        myMap.put("Spiegel Online", "Spiegel Online");
         myMap.put("Stern" , "stern.de");
         myMap.put("MorgenPost","morgenpost.de");
         myMap.put("The Local", "thelocal.de");
         myMap.put("Sddeutsche Zeitung","Sddeutsche Zeitung");
         myMap.put("Kicker" , "kicker online");
+        myMap.put("Der Tagesspiegel" , "Der Tagesspiegel");
+        myMap.put("Die Zeit" , "Die Zeit");
+        myMap.put("Gruenderszene" , "Gruenderszene");
+        myMap.put("Handelsblatt" , "Handelsblatt");
+        myMap.put("T3n" , "T3n");
+        myMap.put("Wired.de" , "Wired.de");
         return myMap;
     }
 
@@ -152,6 +194,7 @@ public class Common {
     {
         LinkedHashMap<String,String> myMap = new LinkedHashMap<String,String>();
         //display name , sourceName
+        myMap.put("Football Italia","Football Italia");
         myMap.put("Le Monde", "Le Monde.fr");
         myMap.put("Le Figaro" , "Le Figaro.fr");
         myMap.put("L'Equipe" , "L'Equipe.fr");

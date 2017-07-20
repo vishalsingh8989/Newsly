@@ -3,6 +3,7 @@ package com.kepler.news.newsly.ViewPagerFragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private LinkedHashMap<String, Integer> startMap         = null;
     private boolean loadImages = false;
     private static Activity parent = null;
+    private int calledOn = 0;
 
     public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
 
@@ -94,6 +96,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         loadFeedDataAsync = new LoadFeedDataAsync(this , getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
 
         loadFeedDataAsync.execute();
+        startMap.put(sourceName, calledOn);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -185,9 +188,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         Log.v("LOADASYNCFEED",  sourceName + " END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+startMap.get(sourceName)  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
         if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
-                ||(foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE)) {
+                ||(foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE) && calledOn != foldingCellListAdapter.getProductsList().size()) {
             Log.v("LOADASYNCFEED", "END REACHED" );
             loadMore();
+
         }
     }
 
@@ -230,8 +234,13 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     }
 
     private void loadMore() {
-        loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
-        loadFeedDataAsync.execute();
+        if((loadFeedDataAsync!=null)&&(loadFeedDataAsync.getStatus() != AsyncTask.Status.PENDING)&& (loadFeedDataAsync.getStatus()!= AsyncTask.Status.RUNNING)) {
+            calledOn = calledOn + MainActivity.offset;
+            startMap.put(sourceName, calledOn);
+            loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+            loadFeedDataAsync.execute();
+        }
+
         //calledOn=foldingCellListAdapter.getProductsList().size();
         //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
     }
