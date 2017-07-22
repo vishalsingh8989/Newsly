@@ -13,8 +13,8 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:id="@+id/title"
-        android:text="Show news from "
-        android:textSize="30dp"
+        android:text="Choose your interest"
+        android:textSize="27dp"
         android:textColor="@color/d"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

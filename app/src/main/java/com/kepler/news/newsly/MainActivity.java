@@ -240,13 +240,14 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //NavigationView navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
         //navigationViewRight.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.home);
 
         ArrayList<String> countryList = new ArrayList<>();
 
 
         countryList.add("Newsly");
         countryList.add("");
-        countryList.add("News Board");
+        countryList.add("Home");
 
         countryList.add("Settings");
         countryList.add("Rate Me");

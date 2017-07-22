@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kepler.news.newsly.helper.BounceScroller xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -36,4 +36,4 @@
         app:indicatorColor="#c69e00"
 
         />
-</RelativeLayout>
+</com.kepler.news.newsly.helper.BounceScroller>

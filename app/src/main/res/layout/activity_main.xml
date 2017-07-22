@@ -73,7 +73,7 @@
         app:stl_defaultTabTextColor="@color/black"
         app:stl_defaultTabTextMinWidth="120dp"
         app:stl_indicatorAlwaysInCenter="true"
-        app:stl_indicatorColor="@color/n"
+        app:stl_indicatorColor="@color/p"
         app:stl_indicatorCornerRadius="1.5dp"
         app:stl_indicatorInterpolation="smart"
         app:stl_indicatorThickness="3dp"
@@ -121,7 +121,7 @@
         style="@style/AVLoadingIndicatorView"
         android:visibility="invisible"
         app:indicatorName="BallClipRotatePulseIndicator"
-        app:indicatorColor="#c69e00"
+        app:indicatorColor="@color/p"
 
     />
 

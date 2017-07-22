@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,6 +26,8 @@ import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+import com.kepler.news.newsly.helper.BounceListener;
+import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ramotion.foldingcell.FoldingCell;
@@ -35,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+import static com.thefinestartist.utils.content.ContextUtil.getApplicationContext;
 
 /**
  * Created by vishaljasrotia on 16/06/17.
@@ -63,7 +68,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
 
     private boolean paused = false;
-
+    private Animation animFadein;
+    private BounceScroller scroller;
 
 
     @Override
@@ -97,6 +103,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         loadFeedDataAsync.execute();
         startMap.put(sourceName, calledOn);
+
+
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -239,6 +247,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
             startMap.put(sourceName, calledOn);
             loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
             loadFeedDataAsync.execute();
+
         }
 
         //calledOn=foldingCellListAdapter.getProductsList().size();
@@ -248,6 +257,31 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
+
+    private BounceListener bl = new BounceListener() {
+        @Override
+        public void onState(boolean header, BounceScroller.State state) {
+            if (header) {
+                if (state == BounceScroller.State.STATE_SHOW) {
+                    Log.v("BounceListener","STATE_SHOW");
+                } else if (state == BounceScroller.State.STATE_OVER) {
+                    Log.v("BounceListener","STATE_OVER");
+                } else if (state == BounceScroller.State.STATE_FIT_EXTRAS) {
+                    scroller.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scroller.resetState();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        @Override
+        public void onOffset(boolean header, int offset) {
+
+        }
+    };
 //    public static  void showNetworkNotAvailableDialog() {
 //        Log.v("newslyNetwork", "showNetworkNotAvailableDialog called" );
 //

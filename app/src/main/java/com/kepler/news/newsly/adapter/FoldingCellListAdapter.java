@@ -199,7 +199,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 // bind data from selected element to view through view holder
                 viewHolder.description.setText(item.getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
                 viewHolder.source.setText(item.getSourceName());
-                viewHolder.sourceMini.setText(item.getSourceName());
+                viewHolder.sourceMini.setText(item.getCategory());
                 viewHolder.title.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
                 //viewHolder.author.setText("Author: " + item.getAuthor());
                 //viewHolder.category.setText(item.getCategory());
