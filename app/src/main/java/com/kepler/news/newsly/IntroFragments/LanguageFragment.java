@@ -120,9 +120,9 @@ public class LanguageFragment extends Fragment {
 
 
 
-        CountryAdapter adapter = new CountryAdapter(getActivity(),languageList );
+        //CountryAdapter adapter = new CountryAdapter(getActivity(),languageList );
 
-        countryListView.setAdapter(adapter);
+        //countryListView.setAdapter(adapter);
 
 
         countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);

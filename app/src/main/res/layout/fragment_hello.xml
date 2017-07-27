@@ -12,9 +12,23 @@
         android:id="@+id/app_name_middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
         android:text="Newsly"
-        android:textSize="70dp"
-        android:textColor="@color/d"
+        android:textSize="50dp"
+        android:textColor="@color/p"
+        />
+    <TextView
+        android:id="@+id/details"
+        android:gravity="center"
+        android:layout_below="@+id/app_name_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/details"
+        android:textSize="20dp"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:textColor="@color/b"
         />
 </RelativeLayout>

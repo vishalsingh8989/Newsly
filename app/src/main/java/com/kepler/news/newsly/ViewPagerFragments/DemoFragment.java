@@ -26,6 +26,8 @@ import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
@@ -70,6 +72,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private boolean paused = false;
     private Animation animFadein;
     private BounceScroller scroller;
+    private AppDatabase database;
+    private List<Feed> feeds;
 
 
     @Override
@@ -77,7 +81,15 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("fragmentLifecycle", "onCreateView" + sourceName);
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
-        startMap                = Common.createStartMap();
+        database = AppDatabase.getDatabase(getActivity().getApplicationContext());
+        feeds = database.feedModel().getAllFeeds();
+        startMap                = new LinkedHashMap<>();
+
+        for(Feed feedObj : feeds)
+        {
+            startMap.put(feedObj.newsSource, 0);
+        }
+
         return inflater.inflate(R.layout.demo_fragment, container, false);
     }
 

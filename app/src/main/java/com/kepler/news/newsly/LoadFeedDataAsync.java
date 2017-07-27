@@ -121,28 +121,28 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         String result   = "";
         try {
 
-            boolean music            = pref.getBoolean(Common.MUSIC, true);
-            boolean politics         = pref.getBoolean(Common.chipPolitics, true);
-            boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
-
-
-
-            //language
-            boolean english   = pref.getBoolean(Common.english, true);
-            boolean german    = pref.getBoolean(Common.german, true);
-            boolean french    = pref.getBoolean(Common.french, true);
-            boolean italian   = pref.getBoolean(Common.italian, true);
-
-
-            //country
-            boolean usa          = pref.getBoolean(Common.usa, true);
-            boolean uk           = pref.getBoolean(Common.uk, true);
-            boolean india        = pref.getBoolean(Common.india, true);
-            boolean australia    = pref.getBoolean(Common.australia, true);
-            boolean canada       = pref.getBoolean(Common.canada, true);
-            boolean france       = pref.getBoolean(Common.france, true);
-            boolean italy        = pref.getBoolean(Common.italy, true);
-            boolean germany      = pref.getBoolean(Common.germany, true);
+//            boolean music            = pref.getBoolean(Common.MUSIC, true);
+//            boolean politics         = pref.getBoolean(Common.chipPolitics, true);
+//            boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
+//
+//
+//
+//            //language
+//            boolean english   = pref.getBoolean(Common.english, true);
+//            boolean german    = pref.getBoolean(Common.german, true);
+//            boolean french    = pref.getBoolean(Common.french, true);
+//            boolean italian   = pref.getBoolean(Common.italian, true);
+//
+//
+//            //country
+//            boolean usa          = pref.getBoolean(Common.usa, true);
+//            boolean uk           = pref.getBoolean(Common.uk, true);
+//            boolean india        = pref.getBoolean(Common.india, true);
+//            boolean australia    = pref.getBoolean(Common.australia, true);
+//            boolean canada       = pref.getBoolean(Common.canada, true);
+//            boolean france       = pref.getBoolean(Common.france, true);
+//            boolean italy        = pref.getBoolean(Common.italy, true);
+//            boolean germany      = pref.getBoolean(Common.germany, true);
 
 
 

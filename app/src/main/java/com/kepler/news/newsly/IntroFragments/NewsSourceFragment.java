@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArraySet;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,22 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.google.gson.Gson;
+import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
+import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.Common;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.thefinestartist.utils.content.ContextUtil.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +46,7 @@ public class NewsSourceFragment extends Fragment{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ListView countryListView = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -56,12 +58,16 @@ public class NewsSourceFragment extends Fragment{
 
 
 
-    private  ArrayList<Boolean> countrySelected = new ArrayList<>();
+    private  ArrayList<String> countrySelected = new ArrayList<>();
     private Context mContext = null;
     private String[] countries = {"Global" , Common.usa,Common.uk, Common.india, Common.australia, Common.canada, Common.french, Common.italy, Common.germany};
     private SharedPreferences mPreferences                  = null;
     private SharedPreferences.Editor editor                 = null;
+    private LoadNewSourceAsync loadNewSourceAsync          = null;
+    private AppDatabase database = null;
 
+    ArrayList<String> mSources = new ArrayList<>();
+    private List<Feed> feeds;
 
     public NewsSourceFragment() {
         // Required empty public constructor
@@ -94,6 +100,7 @@ public class NewsSourceFragment extends Fragment{
         }
 
         mContext = getContext();
+        mSources.clear();
     }
 
     @Override
@@ -102,67 +109,75 @@ public class NewsSourceFragment extends Fragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_country, container, false);
 
-        final ListView countryListView = (ListView) v.findViewById(R.id.countrylist);
+        countryListView = (ListView) v.findViewById(R.id.countrylist);
 
         //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
 
-
-        ArrayList<String> countryList = new ArrayList<>();
-        final ArrayList<String> countries = new ArrayList<>();
-
-        countryList.clear();
-        countries.clear();
-
-
-        countryList.add("Global");
-        countries.add("Global");
+        database = AppDatabase.getDatabase(getActivity().getApplicationContext());
+        feeds = database.feedModel().getAllFeeds();
+//        final ArrayList<Object> countryList = new ArrayList<>();
+//
+//        countryList.clear();
 
 
-        LinkedHashMap<String, String> choosen = Common.createChoosenMap();
-        for (Map.Entry<String, String> mapEntry : choosen.entrySet()) {
-            //myMap.put(mapEntry.getKey(), mapEntry.getValue());
-            countryList.add(mapEntry.getKey());
-            countries.add(mapEntry.getKey());
+//        LinkedHashMap<String, String> choosen = Common.createChoosenMap();
+//        for (Map.Entry<String, String> mapEntry : choosen.entrySet()) {
+//            //myMap.put(mapEntry.getKey(), mapEntry.getValue());
+//            countryList.add(mapEntry.getKey());
+//            countries.add(mapEntry.getKey());
+//
+//        }
 
-        }
-//        countryList.add("USA");
-//        countryList.add("UK");
-//        countryList.add("India");
-//        countryList.add("Australia");
-//        countryList.add("Canada");
-//        countryList.add("France");
-//        countryList.add("Italy");
-//        countryList.add("Germany");
-
-        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
-
-        countrySelected.clear();
-        for (int index = 0;index <countries.size() ; index++) {
-            boolean  checked = mPreferences.getBoolean(countries.get(index), false);
-            countrySelected.add(checked);
-        }
+            mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+//
+//        countrySelected.clear();
+//        for (int index = 0;index <countries.size() ; index++) {
+//            boolean  checked = mPreferences.getBoolean(countries.get(index), false);
+//            countrySelected.add(checked);
+//        }
 
 
 
 
         //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,countryList);
 
-        CountryAdapter adapter = new CountryAdapter(getActivity(),countryList );
+        CountryAdapter adapter = new CountryAdapter(getActivity(),feeds);
 
         countryListView.setAdapter(adapter);
+
         countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
+        loadNewSourceAsync = new LoadNewSourceAsync(this, adapter);
+
+        loadNewSourceAsync.execute();
 
 
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("multichoice" , i + ", " + view);
-                countryListView.setItemChecked(i, !countrySelected.get(i));
-                countrySelected.set(i, !countrySelected.get(i));
-                SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean(countries.get(i), countrySelected.get(i));
-                editor.commit();
+                Log.v("multichoice" , i + ", " + feeds.get(i).newsSource);
+                boolean subscribed = !database.feedModel().getFeed(feeds.get(i).newsSource).get(0).subscribed;
+                countryListView.setItemChecked(i, subscribed);
+
+                database.feedModel().updateTask(new Feed(feeds.get(i).newsSource, subscribed, i));
+
+
+//                SharedPreferences.Editor editor = mPreferences.edit();
+//                if(countrySelected.contains(countryList.get(i)))
+//                {
+//                    Log.v("multichoice", "contains");
+//                    countryListView.setItemChecked(i, false);
+//                    editor.putBoolean((String) countryList.get(i), false);
+//                    mSources.remove((String) countryList.get(i));
+//
+//                }else{
+//                    Log.v("multichoice", "doesn't contains");
+//                    countryListView.setItemChecked(i, true);
+//                    editor.putBoolean((String) countryList.get(i), true);
+//                    mSources.add((String) countryList.get(i));
+//                }
+//
+//                editor.commit();
 
             }
         });
@@ -196,13 +211,13 @@ public class NewsSourceFragment extends Fragment{
 
 
 
-        Log.v("COUNTRYFRAG" , "" + countrySelected.size() + " " + countries.size());
-        SharedPreferences.Editor editor = mPreferences.edit();
-        for(int index = 0 ; index < countrySelected.size();index++) {
-            countryListView.setItemChecked(index, countrySelected.get(index));
-            editor.putBoolean(countries.get(index), countrySelected.get(index));
-        }
-        editor.commit();
+//        Log.v("COUNTRYFRAG" , "" + countrySelected.size() + " " + countries.size());
+//        SharedPreferences.Editor editor = mPreferences.edit();
+//        for(int index = 0 ; index < countrySelected.size();index++) {
+//            countryListView.setItemChecked(index, countrySelected.get(index));
+//            editor.putBoolean(countries.get(index), countrySelected.get(index));
+//        }
+//        editor.commit();
         return v;
     }
 
@@ -245,5 +260,58 @@ public class NewsSourceFragment extends Fragment{
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onNewsSourceFragmentInteraction(Uri uri);
+    }
+
+
+    public void setChecked(ArrayList<Feed> objects)
+    {
+
+
+
+
+//        for(int index = 0 ; index < objects.size();index++) {
+//            if(mPreferences.getBoolean((String) objects.get(index), false))
+//            {
+//                countryListView.setItemChecked(index, true);
+//                mSources.add((String) objects.get(index));
+//            }
+//
+//        }
+//        String strBecons = new Gson().toJson(mSources);
+//
+//        mPreferences.edit().putString("BECON_LIST", strBecons).apply();
+//
+//        Log.v("GsonTest", "" + strBecons);
+//
+//
+//
+        int idx = 0;
+        for (Feed obj: objects) {
+
+            //Feed feed = Feed.builder().setNewsSource((String)obj).setSubscribed(true).setPriority(idx).build();
+            database.feedModel().addTask(obj);
+
+            Log.v("RoomAdd", "true");
+
+
+        }
+//
+//        List<Feed> allFeeds = database.feedModel().getAllFeeds();
+//
+//        Log.v("RoomAdd", "alltask : " + allFeeds.size());
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v("NEWSOURCE","onResume");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.v("NEWSOURCE","onStart");
     }
 }

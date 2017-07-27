@@ -1,35 +1,41 @@
-package com.kepler.news.newsly.adapter;
+package com.kepler.news.newsly.helper;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
-import com.kepler.news.newsly.databaseHelper.Feed;
+import com.ramotion.foldingcell.FoldingCell;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vishaljasrotia on 11/06/17.
  */
 
-public class CountryAdapter extends BaseAdapter {
+public class LoadImagesAdapter extends BaseAdapter {
 
 
     private Context mContext = null;
     private LayoutInflater mLayoutInflater = null;
-    private List<Feed> countryList = null;
-    private ArrayList<Boolean> countrySelected = null;
+    private ArrayList<String> countryList = null;
     private int[] background = {R.drawable.sample, R.mipmap.usa_flag, R.mipmap.uk_flag, R.mipmap.india_flag,
-                                R.mipmap.aus_flag, R.mipmap.canada_flag, R.mipmap.france_flag, R.mipmap.italy_flag
+            R.mipmap.aus_flag, R.mipmap.canada_flag, R.mipmap.france_flag, R.mipmap.italy_flag
     };
 
-    public CountryAdapter(Context context, List<Feed> countryList) {
+    public LoadImagesAdapter(Context context, ArrayList<String> countryList) {
 
 
         this.mContext = context;
@@ -71,7 +77,7 @@ public class CountryAdapter extends BaseAdapter {
             viewHolder = (CountryHolder) cell.getTag();
         }
 
-        viewHolder.txtTitle.setText((String) countryList.get(position).newsSource);
+        viewHolder.txtTitle.setText(countryList.get(position));
 
 
         return cell;
@@ -83,13 +89,4 @@ public class CountryAdapter extends BaseAdapter {
         TextView txtTitle;
 
     }
-    public void upDateEntries(List<Feed> entries) {
-
-        countryList.addAll(entries);
-
-        this.notifyDataSetChanged();
-
-
-    }
-
 }

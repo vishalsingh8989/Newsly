@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.helper.LoadImagesAdapter;
 
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class LoadImagesFragment extends Fragment {
 
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
-        CountryAdapter adapter = new CountryAdapter(getActivity(),loadImagesOption );
+        LoadImagesAdapter adapter = new LoadImagesAdapter(getActivity(),loadImagesOption );
 
         listView.setAdapter(adapter);
 

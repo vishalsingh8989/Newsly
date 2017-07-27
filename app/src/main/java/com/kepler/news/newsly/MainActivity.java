@@ -51,8 +51,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
+import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.FontsOverride;
 import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
@@ -129,13 +133,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private FragmentPagerItemAdapter fragmentPagerItemAdapter;
     private FragmentPagerItems pages;
     private DrawerLayout drawer;
-
+    private AppDatabase database = null;
+    private List<Feed> feeds;
 
     @SuppressLint("NewApi")
     @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-
+    public void onWindowFocusChanged(boolean hasFocus) {
         Log.v("lifecycle" , "onWindowFocusChanged");
         super.onWindowFocusChanged(hasFocus);
         if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
@@ -158,7 +161,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         start =0;
         offset = 30;
         currentApiVersion = android.os.Build.VERSION.SDK_INT;
-
         // Hide both the navigation bar and the status bar.
         // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
         // a general rule, you should design your app to hide the status bar whenever you
@@ -213,7 +215,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mMap = new HashMap();
         mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
         mMap.put(R.id.chipPolitics, Common.chipPolitics);
-
+        database = AppDatabase.getDatabase(getApplicationContext());
+        feeds = database.feedModel().getAllFeeds();
 
         setContentView(R.layout.app_drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -274,16 +277,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         pages = new FragmentPagerItems(this);
 
-        LinkedHashMap<String, String> sourceNameMap = Common.createChoosenMap();
+        //ArrayList<String> sourceNameMap = new Gson().fromJson(mPreferences.getString("BECON_LIST", ""),new TypeToken<List<String>>() {}.getType());;//Common.getNewsSources();
+
+        //database.feedModel().getAllFeeds();
         int idx  = 0;
-        for (String  sourceName : sourceNameMap.keySet()) {
-            //set from
-            boolean  checked = mPreferences.getBoolean(sourceName, true);
-            if(checked) {
+        Log.v("NEWSSOURCE", "size : "+feeds.size());
+        for (Feed  feedObj : feeds) {
+            Log.v("NEWSSOURCE", "" + feedObj.newsSource +" , "+feedObj.subscribed);
+            ///boolean  checked = mPreferences.getBoolean(sourceName, false);
+            if(feedObj.subscribed) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Common.SOURCENAME, sourceName);
+                bundle.putString(Common.SOURCENAME, feedObj.newsSource);
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                FragmentPagerItem item = FragmentPagerItem.of(sourceName, DemoFragment.class, bundle);
+                FragmentPagerItem item = FragmentPagerItem.of(feedObj.newsSource, DemoFragment.class, bundle);
                 pages.add(item);
                 idx = idx + 1;
             }

@@ -83,11 +83,11 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Altair.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
+//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+//                .setDefaultFontPath("fonts/Altair.ttf")
+//                .setFontAttrId(R.attr.fontPath)
+//                .build()
+//        );
 
         super.onCreate(savedInstanceState);
 
@@ -167,10 +167,10 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
 
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     @Override
     public void onLanguageFragmentInteraction(Uri uri) {
