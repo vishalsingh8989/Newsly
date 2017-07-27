@@ -68,6 +68,7 @@ public class NewsSourceFragment extends Fragment{
 
     ArrayList<String> mSources = new ArrayList<>();
     private List<Feed> feeds;
+    private List<Feed> allfeeds;
 
     public NewsSourceFragment() {
         // Required empty public constructor
@@ -147,7 +148,7 @@ public class NewsSourceFragment extends Fragment{
 
         countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
-        loadNewSourceAsync = new LoadNewSourceAsync(this, adapter);
+        loadNewSourceAsync = new LoadNewSourceAsync(this, adapter, database);
 
         loadNewSourceAsync.execute();
 
@@ -285,13 +286,21 @@ public class NewsSourceFragment extends Fragment{
 //
 //
 //
+
+        allfeeds = database.feedModel().getAllFeeds();
         int idx = 0;
-        for (Feed obj: objects) {
+        for (Feed obj: allfeeds) {
 
             //Feed feed = Feed.builder().setNewsSource((String)obj).setSubscribed(true).setPriority(idx).build();
-            database.feedModel().addTask(obj);
+            if(obj.subscribed)
+            {
+                Log.v("RoomAdd", obj.newsSource +" true");
+                countryListView.setItemChecked(idx ,  true);
+            }else{
+                Log.v("RoomAdd", obj.newsSource +" false");
+            }
+            idx++;
 
-            Log.v("RoomAdd", "true");
 
 
         }

@@ -37,14 +37,17 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Feed>> {
 
+    private final AppDatabase database;
     private CountryAdapter mAdapter         = null;
     private NewsSourceFragment mFragment    = null;
     ArrayList<Feed> newList               = new ArrayList<>();
+    private int ZERO=0;
 
 
-    public LoadNewSourceAsync(NewsSourceFragment fragment, CountryAdapter adapter) {
+    public LoadNewSourceAsync(NewsSourceFragment fragment, CountryAdapter adapter, AppDatabase database) {
         this.mAdapter = adapter;
         this.mFragment = fragment;
+        this.database = database;
     }
 
     @Override
@@ -101,8 +104,18 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
                 Log.v("NEWSOURCE", "newsSource " + data.length());
 
                 for (int i = 0; i < data.length(); i++) {
+                    List<Feed> temp= null;
+                    try{
+                        temp = database.feedModel().getFeed(data.getJSONObject(i).getString("sourceName"));
+                        Log.v("NEWSOURCE", "from db " + temp +", "+temp.size());
+                    }catch (Exception e) {
+                        Log.v("NEWSOURCE","e "+e.toString());
+                    }
                     Log.v("NEWSOURCE",data.getJSONObject(i).getString("sourceName"));
-                    newList.add(new Feed(data.getJSONObject(i).getString("sourceName"), false, i));
+                    if(temp.size()==ZERO) {
+                        newList.add(new Feed(data.getJSONObject(i).getString("sourceName"), false, i));
+                        database.feedModel().addTask(new Feed(data.getJSONObject(i).getString("sourceName"), false, i));
+                    }
                 }
 
             }
@@ -142,9 +155,9 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
         super.onPostExecute(objects);
 
         mAdapter.upDateEntries(objects);
-        mAdapter.notifyDataSetChanged();
-
+        //mAdapter.notifyDataSetChanged();
         mFragment.setChecked(objects);
+
         //Common.update(objects);
     }
 
