@@ -22,17 +22,15 @@
     </android.support.design.widget.AppBarLayout>
 
 
+   <com.kepler.news.newsly.helper.DynamicListView
+       android:id="@+id/dynamicListView"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       android:divider="@drawable/intro_list_divider"
+       >
 
 
-    <com.woxthebox.draglistview.DragListView
-
-        android:id="@+id/dragsortlist"
-        android:layout_below="@+id/toolbar_parent"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.woxthebox.draglistview.DragListView>
+   </com.kepler.news.newsly.helper.DynamicListView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_alignParentBottom="true"
