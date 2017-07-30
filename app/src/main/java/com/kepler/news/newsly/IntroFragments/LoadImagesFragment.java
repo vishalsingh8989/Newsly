@@ -47,11 +47,18 @@ public class LoadImagesFragment extends Fragment {
     private Context mContext = null;
     private SharedPreferences mPreferences = null;
     private int[] loadImageOptionList = {Common.ALWAYS , Common.NEVER, Common.ONWIFI};
-
+    private String TAG = "";
     public LoadImagesFragment() {
         // Required empty public constructor
     }
 
+    public String getTAG() {
+        return TAG;
+    }
+
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
+    }
 
     /**
      * Use this factory method to create a new instance of

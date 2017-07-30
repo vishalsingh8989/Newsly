@@ -69,9 +69,17 @@ public class NewsSourceFragment extends Fragment{
     ArrayList<String> mSources = new ArrayList<>();
     private List<Feed> feeds;
     private List<Feed> allfeeds;
+    private String TAG = "";
 
     public NewsSourceFragment() {
         // Required empty public constructor
+    }
+    public String getTAG() {
+        return TAG;
+    }
+
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
     }
 
     /**

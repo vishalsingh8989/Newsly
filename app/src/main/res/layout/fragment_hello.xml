@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:text="Newsly"
         android:textSize="50dp"
-        android:textColor="@color/p"
+        android:textColor="#111111"
         />
     <TextView
         android:id="@+id/details"
@@ -29,6 +29,6 @@
         android:textSize="20dp"
         android:layout_margin="20dp"
         android:padding="10dp"
-        android:textColor="@color/b"
+        android:textColor="@color/p"
         />
 </RelativeLayout>

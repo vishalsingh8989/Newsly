@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 
@@ -102,7 +103,10 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
             finish();
         }
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment helloFragment = new HelloFragment();
+
+
         Fragment newsSourceFragment = new NewsSourceFragment();
         //Fragment languageFragment = new LanguageFragment();
         Fragment loadImagesFragment = new LoadImagesFragment();
@@ -154,16 +158,14 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
+        Log.v("FRAGMENTInteraction",oldFragment + "  to " + newFragment);
+
         // Do something when the slide changes.
     }
 
 
 
 
-    @Override
-    public void onHelloFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENT", "onHelloFragmentInteraction");
-    }
 
 
 
@@ -174,17 +176,22 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
     @Override
     public void onLanguageFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENT", "onLanguageFragmentInteraction");
+        Log.v("FRAGMENTInteraction", "onLanguageFragmentInteraction");
 
     }
 
     @Override
     public void onFragmentLoadImagesFragmentInteraction(Uri uri) {
-
+        Log.v("FRAGMENTInteraction", "onFragmentLoadImagesFragmentInteraction");
     }
 
     @Override
     public void onNewsSourceFragmentInteraction(Uri uri) {
+        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction");
+    }
 
+    @Override
+    public void onHelloFragmentInteraction(Uri uri, String mFrag) {
+        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction " + mFrag);
     }
 }

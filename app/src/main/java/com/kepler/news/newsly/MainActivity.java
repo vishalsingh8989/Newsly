@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -218,6 +219,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         database = AppDatabase.getDatabase(getApplicationContext());
         feeds = database.feedModel().getAllFeeds();
 
+        for (Feed feed:feeds) {
+            Log.v("DATAFEEDS",  "Source : " + feed.newsSource +" , " + feed.priority);
+        }
         setContentView(R.layout.app_drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -233,6 +237,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //mDrawerLayout.setDrawerElevation(70);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+        viewPager.setPageTransformer(false, new ParallaxTranformation() );
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -712,6 +717,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         {
             Intent search = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(search);
+        }else if(id == R.id.rearrange)
+        {
+            Intent rearrange = new Intent(MainActivity.this, Rearrange.class);
+            startActivity(rearrange);
+
         }
 
 
@@ -748,4 +758,21 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         return super.onOptionsItemSelected(item);
     }
+}
+
+class ParallaxTranformation implements ViewPager.PageTransformer {
+
+    @Override
+    public void transformPage(View page, float position) {
+
+        int width = page.getWidth();
+
+        ViewTreeObserver obj = page.getViewTreeObserver();
+
+
+
+        Log.v("ParallaxTranformation", " " + width);
+    }
+
+
 }
