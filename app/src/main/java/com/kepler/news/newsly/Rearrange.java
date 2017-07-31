@@ -72,6 +72,7 @@ public class Rearrange extends AppCompatActivity {
         dynamicListView.setItemList(mItemArray);
         dynamicListView.setAdapter(adapter);
         dynamicListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
 //        mDragListView = (DragListView)findViewById(R.id.dragsortlist);
 //        mDragListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 //        RearrangeItemAdapter RearrangeItemAdapter = new RearrangeItemAdapter(mItemArray, R.layout.rearr_list_item, R.id.image, true);
