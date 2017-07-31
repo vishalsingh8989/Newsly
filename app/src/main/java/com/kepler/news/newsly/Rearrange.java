@@ -26,6 +26,7 @@ import com.kepler.news.newsly.databaseHelper.AppDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.DynamicListView;
 import com.kepler.news.newsly.helper.MySwipeRefreshLayout;
+import com.mobeta.android.dslv.DragSortListView;
 import com.woxthebox.draglistview.DragItemAdapter;
 import com.woxthebox.draglistview.DragListView;
 import com.woxthebox.draglistview.swipe.ListSwipeHelper;
@@ -40,7 +41,8 @@ public class Rearrange extends AppCompatActivity {
     private AppDatabase database  = null;
     private List<Feed> feeds  =null;
    // private MySwipeRefreshLayout mRefreshLayout;
-    private DynamicListView dynamicListView;
+    private DragSortListView dragSortListView;
+    private DragSortListView.DropListener onDrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +63,31 @@ public class Rearrange extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ArrayList<String> mItemArray;
+        final ArrayList<String> mItemArray;
         mItemArray = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
-            mItemArray.add(feeds.get(i).newsSource);
+        for (int i = 0; i < feeds.size(); i++) {
+            mItemArray.add(feeds.get(i).newsSource );
         }
-        dynamicListView = (DynamicListView)findViewById(R.id.dynamicListView);
+        dragSortListView = (DragSortListView)findViewById(R.id.dragsortlist);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.rearr_list_item, mItemArray);
-        dynamicListView.setItemList(mItemArray);
-        dynamicListView.setAdapter(adapter);
-        dynamicListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.rearr_list_item, mItemArray);
+        dragSortListView.setAdapter(adapter);
+
+
+        onDrop = new DragSortListView.DropListener() {
+            @Override
+            public void drop(int from, int to) {
+                Log.v("DropListener" , "from " + from + "  to " + to);
+                if (from != to) {
+                    String item = (String) adapter.getItem(from);
+                    adapter.remove(item);
+                    adapter.insert(item, to);
+                }
+
+            }
+        };
+        dragSortListView.setDropListener(onDrop);
+        //dragSortListView.setOnD
 
 //        mDragListView = (DragListView)findViewById(R.id.dragsortlist);
 //        mDragListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -141,6 +157,10 @@ public class Rearrange extends AppCompatActivity {
 //        });
 
 
+    }
+
+    private void rearrange(int from, int to) {
+        onDrop.drop(from, to);
     }
 
 

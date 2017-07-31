@@ -4,7 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    xmlns:dslv="http://schemas.android.com/apk/res-auto"
     tools:context="com.kepler.news.newsly.Rearrange">
+
+
+    <com.github.glomadrian.grav.GravView
+        android:id="@+id/country_grav"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:colorGenerator="com.github.glomadrian.grav.generator.paint.ArrayColorGenerator"
+        app:array_colors="@array/rainbow"
+        app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+        app:ball_from_size="2dp"
+        app:ball_to_size="5dp"
+        app:animationGenerators="@array/WallaIcon"
+        app:alpha_from="100"
+        app:alpha_to="200"
+        app:alpha_min_duration="1600"
+        app:alpha_max_duration="3000"
+        app:shake_direction="vertical"
+        app:shake_variance="5dp"
+        app:shake_min_duration="1100"
+        app:shake_max_duration="3500"
+        app:percent_points_array="@array/walla_points_percent_points"
+        app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+        />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_parent"
@@ -20,17 +46,27 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+        <com.mobeta.android.dslv.DragSortListView
+            android:layout_marginBottom="70dp"
+            android:divider="@drawable/intro_list_divider"
+            android:id="@+id/dragsortlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="48dp"
+            android:scrollbars="none"
+            android:dividerHeight="1dp"
+            android:layout_below="@+id/toolbar_parent"
+            dslv:drag_enabled="true"
+            dslv:collapsed_height="2dp"
+            dslv:drag_scroll_start="0.33"
+            dslv:max_drag_scroll_speed="0.7"
+            dslv:float_alpha="1"
+            dslv:slide_shuffle_speed="0.5"
+            dslv:drag_start_mode="onLongPress"
+            />
 
-
-   <com.kepler.news.newsly.helper.DynamicListView
-       android:id="@+id/dynamicListView"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:divider="@drawable/intro_list_divider"
-       >
-
-
-   </com.kepler.news.newsly.helper.DynamicListView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_alignParentBottom="true"

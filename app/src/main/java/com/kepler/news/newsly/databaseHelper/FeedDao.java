@@ -16,7 +16,7 @@ public interface FeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTask(Feed feed);
 
-    @Query("select * from feed")
+    @Query("select * from feed order by priority ASC")
     public List<Feed> getAllFeeds();
 
     @Query("select * from feed where newsSource = :newsSource")

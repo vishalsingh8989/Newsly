@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //mDrawerLayout.setDrawerElevation(70);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-        viewPager.setPageTransformer(false, new ParallaxTranformation() );
+        //viewPager.setPageTransformer(false, new ParallaxTranformation() );
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -760,19 +760,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     }
 }
 
-class ParallaxTranformation implements ViewPager.PageTransformer {
-
-    @Override
-    public void transformPage(View page, float position) {
-
-        int width = page.getWidth();
-
-        ViewTreeObserver obj = page.getViewTreeObserver();
 
 
 
-        Log.v("ParallaxTranformation", " " + width);
-    }
-
-
-}
