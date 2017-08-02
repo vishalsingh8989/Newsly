@@ -16,7 +16,7 @@ public interface FeedDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTask(Feed feed);
 
-    @Query("select * from feed order by priority ASC")
+    @Query("select * from feed")
     public List<Feed> getAllFeeds();
 
     @Query("select * from feed where newsSource = :newsSource")
@@ -25,6 +25,17 @@ public interface FeedDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateTask(Feed feed);
 
+    @Query("select * from feed order by priority ASC LIMIT 0,1")
+    public int  getMaxPriority();
+
+    @Query("select * from feed where newsSource = :newsSource")
+    public Feed getSingleFeed(String newsSource);
+
+
+
     @Query("delete from feed")
     void removeAllTasks();
+
+    @Query("select * from feed order by priority ASC")
+    List<Feed> getPriorityFeeds();
 }

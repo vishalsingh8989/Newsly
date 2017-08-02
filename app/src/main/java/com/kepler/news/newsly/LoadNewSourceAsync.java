@@ -113,8 +113,8 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
                     }
                     Log.v("NEWSOURCE",data.getJSONObject(i).getString("sourceName"));
                     if(temp.size()==ZERO) {
-                        newList.add(new Feed(data.getJSONObject(i).getString("sourceName"), false, i));
-                        database.feedModel().addTask(new Feed(data.getJSONObject(i).getString("sourceName"), false, i));
+                        newList.add(new Feed(data.getJSONObject(i).getString("sourceName"), false, 0));
+                        database.feedModel().addTask(new Feed(data.getJSONObject(i).getString("sourceName"), false, 0));
                     }
                 }
 

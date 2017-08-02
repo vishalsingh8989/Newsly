@@ -70,6 +70,7 @@ public class NewsSourceFragment extends Fragment{
     private List<Feed> feeds;
     private List<Feed> allfeeds;
     private String TAG = "";
+    private int priority = 0;
 
     public NewsSourceFragment() {
         // Required empty public constructor
@@ -168,65 +169,19 @@ public class NewsSourceFragment extends Fragment{
                 boolean subscribed = !database.feedModel().getFeed(feeds.get(i).newsSource).get(0).subscribed;
                 countryListView.setItemChecked(i, subscribed);
 
-                database.feedModel().updateTask(new Feed(feeds.get(i).newsSource, subscribed, i));
+                int priority = 0;
+                if(subscribed) {
+                    priority = database.feedModel().getMaxPriority() + 1;
+                }
+                database.feedModel().updateTask(new Feed(feeds.get(i).newsSource, subscribed, priority));
 
 
-//                SharedPreferences.Editor editor = mPreferences.edit();
-//                if(countrySelected.contains(countryList.get(i)))
-//                {
-//                    Log.v("multichoice", "contains");
-//                    countryListView.setItemChecked(i, false);
-//                    editor.putBoolean((String) countryList.get(i), false);
-//                    mSources.remove((String) countryList.get(i));
-//
-//                }else{
-//                    Log.v("multichoice", "doesn't contains");
-//                    countryListView.setItemChecked(i, true);
-//                    editor.putBoolean((String) countryList.get(i), true);
-//                    mSources.add((String) countryList.get(i));
-//                }
-//
-//                editor.commit();
-
-            }
-        });
-
-        countryListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-            @Override
-            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
-
-            }
-
-            @Override
-            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode actionMode) {
 
             }
         });
 
 
 
-//        Log.v("COUNTRYFRAG" , "" + countrySelected.size() + " " + countries.size());
-//        SharedPreferences.Editor editor = mPreferences.edit();
-//        for(int index = 0 ; index < countrySelected.size();index++) {
-//            countryListView.setItemChecked(index, countrySelected.get(index));
-//            editor.putBoolean(countries.get(index), countrySelected.get(index));
-//        }
-//        editor.commit();
         return v;
     }
 
@@ -294,7 +249,6 @@ public class NewsSourceFragment extends Fragment{
 //
 //
 //
-
         allfeeds = database.feedModel().getAllFeeds();
         int idx = 0;
         for (Feed obj: allfeeds) {
@@ -302,10 +256,8 @@ public class NewsSourceFragment extends Fragment{
             //Feed feed = Feed.builder().setNewsSource((String)obj).setSubscribed(true).setPriority(idx).build();
             if(obj.subscribed)
             {
-                Log.v("RoomAdd", obj.newsSource +" true");
+                Log.v("RoomAdd", obj.newsSource + " ,  " + obj.priority);
                 countryListView.setItemChecked(idx ,  true);
-            }else{
-                Log.v("RoomAdd", obj.newsSource +" false");
             }
             idx++;
 

@@ -200,7 +200,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         if(!isNetworkAvailable()){
             showNetworkNotAvailableDialog();
         }
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,7 +220,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
         mMap.put(R.id.chipPolitics, Common.chipPolitics);
         database = AppDatabase.getDatabase(getApplicationContext());
-        feeds = database.feedModel().getAllFeeds();
+        feeds = database.feedModel().getPriorityFeeds();
 
         for (Feed feed:feeds) {
             Log.v("DATAFEEDS",  "Source : " + feed.newsSource +" , " + feed.priority);
@@ -364,68 +367,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         });
 
 
-//        mSearchView.setIconified(true);
-//
-//        mSearchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent search = new Intent(MainActivity.this, SearchActivity.class);
-//                startActivity(search);
-//
-//            }
-//        });
-
-//        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                List<Object> entries = foldingCellListAdapter.AllNewsEntries();
-//                foldingCellListAdapter.refreshEntries(entries);
-//                mSearchText = "";
-//                return false;
-//            }
-//        });
-//
-//
-//        //TODO com.github.glomadrian.grav.GravView
-//
-//        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent search = new Intent(MainActivity.this, SearchActivity.class);
-//                startActivity(search);
-//            }
-//        });
-//
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                mSearchText = s;
-//                Log.v("QuerySearch" , "onQueryTextSubmit");
-//                List<Object> entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
-//                foldingCellListAdapter.refreshEntries(entries);
-//                if(entries.size()<minEntries)
-//                {
-//                    loadMore();
-//                    entries = filterNewsBasesOnSearch(foldingCellListAdapter.AllNewsEntries(), s);
-//                }
-//                foldingCellListAdapter.refreshEntries(entries);
-//                return true;
-//            }
-//
-//
-//
-//            @Override
-//            public boolean onQueryTextChange(String searchText) {
-//                Log.v("QuerySearch" , "onQueryTextChange");
-////                if(searchText.trim()=="") {
-////                    new LoadFeedDataAsync(MainActivity.this ,foldingCellListAdapter,false, mPreferences).execute();
-////                }
-//                 return true;
-//            }
-//        });
-//
-//
-//
 
     }
 
