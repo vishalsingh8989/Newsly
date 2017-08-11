@@ -183,6 +183,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     //viewHolder.category = (TextView) cell.findViewById(R.id.category);
                     viewHolder.readFull = (FancyButton) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
+                    viewHolder.title_back = (TextView)cell.findViewById(R.id.title_back);
+
+                    viewHolder.title_back.setTypeface(mainTypeface);
                     viewHolder.title.setTypeface(mainTypeface);
                     viewHolder.description.setTypeface(subTypeface);
 
@@ -201,12 +204,21 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.source.setText(item.getSourceName());
                 viewHolder.sourceMini.setText(item.getCategory());
                 viewHolder.title.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                viewHolder.title_back.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+
                 //viewHolder.author.setText("Author: " + item.getAuthor());
                 //viewHolder.category.setText(item.getCategory());
                 viewHolder.publishedat.setText(item.getPublishedat());
 
                 viewHolder.readFull.setText("Read Full Article");
                 viewHolder.description.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Callback.onItemClicked(view, position);
+                    }
+                });
+
+                viewHolder.title_back.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Callback.onItemClicked(view, position);
@@ -305,6 +317,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         LinearLayout side_bar1;
         TextView description;
         TextView title;
+        TextView title_back;
         TextView author;
         FancyButton source;
         TextView sourceMini;

@@ -10,7 +10,6 @@
     android:layout_marginTop="10dp"
     android:layout_marginLeft="7dp"
     android:layout_marginRight="7dp"
-
     folding-cell:animationDuration="500"
     folding-cell:backSideColor="#8e8c8c"
     folding-cell:additionalFlipsCount="2"
@@ -28,21 +27,42 @@
             android:layout_height="match_parent"
             android:layout_width="4dp"
             android:orientation="horizontal" />
-        <TextView
-            android:text="@string/title_sample"
-            android:gravity="center"
-            android:textSize="13dp"
+        <LinearLayout
+            android:id="@+id/main_bar"
             android:background="@color/transparent"
-            android:textAppearance="@style/TextAppearance.FontPath"
-            android:textColor="@color/black"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:id="@+id/description"
+            android:layout_height="199dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:orientation="vertical" >
+            <TextView
+                android:text="@string/title_sample"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:background="@color/transparent"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/title_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/title_sample"
+                android:layout_below="@+id/title_back"
+                android:textSize="13dp"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.FontPath"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/divider1"
-            android:layout_below="@+id/description"
+            android:layout_below="@+id/main_bar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="8dp"
@@ -59,7 +79,7 @@
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
                 android:id="@+id/source"
                 android:textSize="@dimen/read_artciel_button_text_size"
                 android:layout_width="wrap_content"
@@ -78,29 +98,11 @@
                 fancy:fb_radius="10dp"
                 fancy:fb_text="The New York Times"
                 fancy:fb_textColor="#FFFFFF" />
-            <!--  <info.hoang8f.widget.FButton
-                  android:layout_alignParentTop="true"
-                  android:layout_centerHorizontal="true"
-                  android:id="@+id/source"
-                  android:text="The New York Times"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/read_artciel_button_text_size"
-                  fbutton:buttonColor="@color/Color_Black"
-                  fbutton:shadowEnabled="true"
-                  fbutton:shadowHeight="0dp"
-                  fbutton:cornerRadius="15dp"
-                  android:layout_height="30dp"
-                  android:layout_width="wrap_content"
-                  android:minWidth="190dp"
-                  android:paddingLeft="10dp"
-                  android:paddingRight="10dp"
-                  android:layout_marginTop="10dp"
-                  />
-                  -->
+
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
                 android:id="@+id/read_full"
                 android:textSize="@dimen/read_artciel_button_text_size"
                 android:layout_width="wrap_content"
@@ -117,25 +119,9 @@
                 fancy:fb_defaultColor="@color/black"
                 fancy:fb_focusColor="@color/n"
                 fancy:fb_radius="10dp"
-                fancy:fb_text="The New York Times"
+                fancy:fb_text="Read Full Article"
                 fancy:fb_textColor="#FFFFFF" />
-            <!--<info.hoang8f.widget.FButton
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/read_full"
-                android:text="READ FULL ARTICLE"
-                android:textSize="@dimen/read_artciel_button_text_size"
-                fbutton:buttonColor="@color/n"
-                fbutton:cornerRadius="15dp"
-                android:layout_height="30dp"
-                android:layout_width="@dimen/fab_button_size"
-                android:minWidth="@dimen/min_fab_width"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginBottom="10dp"
-                />
 
-                -->
         </RelativeLayout>
 
     </RelativeLayout>

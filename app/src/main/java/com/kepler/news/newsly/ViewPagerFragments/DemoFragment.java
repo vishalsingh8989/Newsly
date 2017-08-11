@@ -158,11 +158,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         });
 
 
-
-
-
-
-
     }
 
 
@@ -182,15 +177,16 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
                 break;
             case R.id.source:
                 story = (NewsStory) productsList.get(position);
-                Log.v("READFULL", "read full clicked "+ story.getSourceUrl());
+                Log.v("SOURCEURL", "read full clicked "+ story.getSourceUrl());
                 new FinestWebView.Builder(getActivity())
                         .showMenuShareVia(true)
-                        .show("http://"+story.getSourceUrl());
+                        .show(story.getSourceUrl());
                 break;
             case R.id.description:
+            case R.id.title_back:
                 Log.v("READFULL", "description full clicked");
                 foldingCellListAdapter.registerToggle(position);
-                ((FoldingCell) v.getParent().getParent()).toggle(false);
+                ((FoldingCell) v.getParent().getParent().getParent()).toggle(false);
                 break;
 
 
