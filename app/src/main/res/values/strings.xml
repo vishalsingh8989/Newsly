@@ -43,6 +43,6 @@
     <string name="ad_unit_id">ca-app-pub-5223778660504166/2968121932</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="details">Faster access to different sources of news and information and topics you really care about.</string>
-    <string name="title_activity_rearrange">Rearrange</string>
+    <string name="title_activity_rearrange">ReArrange News Source</string>
 
 </resources>
