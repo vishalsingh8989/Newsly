@@ -8,7 +8,9 @@ import android.view.View;
 
 public class NewsStory {
 
-    private View.OnClickListener requestBtnClickListener;
+
+
+    private String id          = "";
     private String sourceName  = "";
     private String description = "";
     private String title       = "";
@@ -18,7 +20,32 @@ public class NewsStory {
     private String url         = "";
     private String publishedat = "";
     private String sourceUrl   = "";
+    private String addtime     = "";
+    private String source           = "";
+    private String langauge         = "";
+    private String country          = "";
 
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setLangauge(String langauge) {
+        this.langauge = langauge;
+    }
+
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setAddtime(String addtime) {
+        this.addtime = addtime;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setAuthor(String author) {
         this.author = author;
@@ -54,6 +81,27 @@ public class NewsStory {
 
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
+    }
+
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getLangauge() {
+        return langauge;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAddtime() {
+        return addtime;
     }
 
     public String getDescription() {
@@ -92,11 +140,5 @@ public class NewsStory {
         return publishedat;
     }
 
-    public View.OnClickListener getRequestBtnClickListener() {
-        return requestBtnClickListener;
-    }
 
-    public void setRequestBtnClickListener(View.OnClickListener requestBtnClickListener) {
-        this.requestBtnClickListener = requestBtnClickListener;
-    }
 }

@@ -28,7 +28,10 @@ public class Common {
     public static String LOADIMAGE                         = "loadimage";
 
 
-    public static String SOURCEURL                          ="sourceUrl" ;
+    public static String ID                                 = "id" ;
+    public static String LANGUAGE                           = "language" ;
+    public static String COUNTRY                            = "country";
+    public static String SOURCEURL                          = "sourceUrl" ;
     public static String PUBLISHEDAT                        = "publishedat";
     public static String PREFERENCES                        = "newslyPreferences";
 

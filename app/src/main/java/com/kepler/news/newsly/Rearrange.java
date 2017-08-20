@@ -1,45 +1,25 @@
 package com.kepler.news.newsly;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.kepler.news.newsly.adapter.RearrangeItemAdapter;
-import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
-import com.kepler.news.newsly.helper.DynamicListView;
-import com.kepler.news.newsly.helper.MySwipeRefreshLayout;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
-import com.woxthebox.draglistview.DragItemAdapter;
 import com.woxthebox.draglistview.DragListView;
-import com.woxthebox.draglistview.swipe.ListSwipeHelper;
-import com.woxthebox.draglistview.swipe.ListSwipeItem;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +28,7 @@ public class Rearrange extends AppCompatActivity {
 
     private ImageView mImageView;
     private DragListView mDragListView = null;
-    private AppDatabase database  = null;
+    private NewsSourceDatabase database  = null;
     private List<Feed> feeds  =null;
    // private MySwipeRefreshLayout mRefreshLayout;
     private DragSortListView dragSortListView;
@@ -61,7 +41,7 @@ public class Rearrange extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //mRefreshLayout = (MySwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
         setSupportActionBar(toolbar);
-        database = AppDatabase.getDatabase(getApplicationContext());
+        database = NewsSourceDatabase.getDatabase(getApplicationContext());
         feeds = database.feedModel().getPriorityFeeds();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

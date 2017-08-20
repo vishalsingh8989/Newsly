@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.ArraySet;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -17,21 +16,17 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
-import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.Common;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.thefinestartist.utils.content.ContextUtil.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,7 +59,7 @@ public class NewsSourceFragment extends Fragment{
     private SharedPreferences mPreferences                  = null;
     private SharedPreferences.Editor editor                 = null;
     private LoadNewSourceAsync loadNewSourceAsync          = null;
-    private AppDatabase database = null;
+    private NewsSourceDatabase database = null;
 
     ArrayList<String> mSources = new ArrayList<>();
     private List<Feed> feeds;
@@ -123,7 +118,7 @@ public class NewsSourceFragment extends Fragment{
 
         //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
 
-        database = AppDatabase.getDatabase(getActivity().getApplicationContext());
+        database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
         feeds = database.feedModel().getAllFeeds();
 //        final ArrayList<Object> countryList = new ArrayList<>();
 //

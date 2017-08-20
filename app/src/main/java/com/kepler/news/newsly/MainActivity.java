@@ -19,32 +19,23 @@ import android.provider.Settings;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
@@ -52,21 +43,15 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
-import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
-import com.kepler.news.newsly.helper.FontsOverride;
-import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
-import com.kepler.news.newsly.chip.Chip;
 import com.kepler.news.newsly.helper.Common;
 
 
-import com.kepler.news.newsly.menu.DrawerAdapter;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -81,11 +66,8 @@ import com.thefinestartist.finestwebview.FinestWebView;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -134,8 +116,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private FragmentPagerItemAdapter fragmentPagerItemAdapter;
     private FragmentPagerItems pages;
     private DrawerLayout drawer;
-    private AppDatabase database = null;
+    private NewsSourceDatabase database = null;
     private List<Feed> feeds;
+    private NavigationView navigationView;
 
     @SuppressLint("NewApi")
     @Override
@@ -219,7 +202,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         mMap = new HashMap();
         mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
         mMap.put(R.id.chipPolitics, Common.chipPolitics);
-        database = AppDatabase.getDatabase(getApplicationContext());
+        database = NewsSourceDatabase.getDatabase(getApplicationContext());
         feeds = database.feedModel().getPriorityFeeds();
 
         for (Feed feed:feeds) {
@@ -247,7 +230,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 this, drawer, toolbar,R.string.dummy_content, R.string.accept);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
         //NavigationView navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
         //navigationViewRight.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
@@ -590,6 +573,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         }
     }
 
+
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -597,7 +583,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         Log.v("navigation" , " " + item.getTitle());
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
 
@@ -671,6 +657,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -678,7 +666,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Log.v("onOptionsItemSelected" , "test");
+        Log.v("DemoFrag" , "main : " + id);
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
             if (drawer.isDrawerOpen(GravityCompat.END)) {
@@ -699,6 +687,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
 
 

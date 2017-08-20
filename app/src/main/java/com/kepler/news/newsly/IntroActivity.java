@@ -18,11 +18,15 @@ import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
+import com.github.paolorotolo.appintro.AppIntro2;
+import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
+import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.helper.DiffTransformer;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -118,10 +122,13 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         addSlide(loadImagesFragment);
 
 
+
         showSkipButton(false);
         setProgressButtonEnabled(true);
 
-        setFadeAnimation();
+
+        setCustomTransformer(new DiffTransformer());
+        //setFadeAnimation();
         setIndicatorColor(R.color.colorChipBackground, R.color.n);
         setColorDoneText(Color.parseColor("#111111"));
 
@@ -155,10 +162,15 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         finish();
     }
 
+
+
+
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
         Log.v("FRAGMENTInteraction",oldFragment + "  to " + newFragment);
+
+
 
         // Do something when the slide changes.
     }
@@ -194,4 +206,31 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     public void onHelloFragmentInteraction(Uri uri, String mFrag) {
         Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction " + mFrag);
     }
+}
+
+class DepthPageTransformer extends ABaseTransformer {
+
+    private static final float MIN_SCALE = 0.75f;
+
+    @Override
+    protected void onTransform(View view, float position) {
+        if (position <= 0f) {
+            view.setTranslationX(0f);
+            view.setScaleX(1f);
+            view.setScaleY(1f);
+        } else if (position <= 1f) {
+            final float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
+            view.setAlpha(1 - position);
+            view.setPivotY(0.5f * view.getHeight());
+            view.setTranslationX(view.getWidth() * -position);
+            view.setScaleX(scaleFactor);
+            view.setScaleY(scaleFactor);
+        }
+    }
+
+    @Override
+    protected boolean isPagingEnabled() {
+        return true;
+    }
+
 }

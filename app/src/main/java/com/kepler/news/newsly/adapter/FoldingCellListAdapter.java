@@ -60,10 +60,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private List<Object> productsList = null;
-    private List<Object> allNewslist = null;
+    private List<NewsStory> allNewslist = null;
     private static String DESCRIPTION        = "description";
-    private static String SOURCE             = "source";
+    private  String sourceName;
     private static String  SOURCENAME        = "sourceName";
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private RoundedTransformation transformation = null;
@@ -82,7 +83,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     };
 
-    public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<Object> allNewslist, boolean loadImages) {
+    public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<NewsStory> allNewslist, boolean loadImages, String sourceName) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,6 +92,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.Callback = Callback;
         this.allNewslist = allNewslist;
         this.loadImages = loadImages;
+        this.sourceName = sourceName;
 
         subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
@@ -125,7 +127,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         int type= getItemViewType(position);
-        Log.v("FoldingCell", "POS : " + position + " , "+ (type == ADVIEW )+ " , "+convertView);
+        Log.v("FoldingCell", "POS : " + position +" , "+ sourceName +" , "+ (type == ADVIEW )+ " , "+convertView);
         FoldingCell cell =null;
         NewsStory item;
         switch (type) {
@@ -288,10 +290,12 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     public void upDateEntries(List<Object> entries, boolean onRefresh) {
 
-        productsList.addAll(entries);
-        allNewslist.addAll(entries);
+        productsList.addAll(0,entries);
+
+        //allNewslist.addAll(entries);
 
         Log.v("LOADASYNCFEED" , "size : " +productsList.size());
+
         this.notifyDataSetChanged();
 
 
@@ -308,9 +312,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-    public List<Object> AllNewsEntries() {
-        return allNewslist;
-    }
+//    public List<Object> AllNewsEntries() {
+//        return allNewslist;
+//    }
 
     private static class ViewHolder {
         LinearLayout side_bar;
@@ -363,6 +367,13 @@ public class FoldingCellListAdapter extends BaseAdapter {
             super.onPostExecute(aVoid);
             adView.loadAd(adRequest);
         }
+    }
+
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        Log.v("NOTIFITYTEST", "CALLED");
     }
 
 }

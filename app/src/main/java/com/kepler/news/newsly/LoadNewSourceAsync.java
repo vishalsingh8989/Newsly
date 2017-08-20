@@ -6,10 +6,8 @@ import android.util.Log;
 
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 import com.kepler.news.newsly.adapter.CountryAdapter;
-import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
-import com.kepler.news.newsly.databaseHelper.FeedDao;
-import com.kepler.news.newsly.helper.Common;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,14 +35,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Feed>> {
 
-    private final AppDatabase database;
+    private final NewsSourceDatabase database;
     private CountryAdapter mAdapter         = null;
     private NewsSourceFragment mFragment    = null;
     ArrayList<Feed> newList               = new ArrayList<>();
     private int ZERO=0;
 
 
-    public LoadNewSourceAsync(NewsSourceFragment fragment, CountryAdapter adapter, AppDatabase database) {
+    public LoadNewSourceAsync(NewsSourceFragment fragment, CountryAdapter adapter, NewsSourceDatabase database) {
         this.mAdapter = adapter;
         this.mFragment = fragment;
         this.database = database;

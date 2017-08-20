@@ -11,6 +11,8 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.Common;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -33,7 +35,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Exchanger;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -54,10 +55,24 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     private MainActivity mainActivity                       = null;
     public static int oldsize                               = 0;
     private Context mContext                                = null;
-    private String sourceName                       = "";
+
     private DemoFragment fragment = null;
     private boolean isNetworkAvailable  = true;
-
+    private  NewsDatabase database = null;
+    private String description;
+    private String title;
+    private String urltoimage;
+    private String sourceName                       = "";
+    private String author;
+    private String category;
+    private String url;
+    private String sourceurl;
+    private String publishedat;
+    private String name = "";
+    private String language;
+    private String country;
+    private String id;
+    private String addtime;
 
 
     public LoadFeedDataAsync( FoldingCellListAdapter adapter) {
@@ -76,7 +91,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     }
 
-    public LoadFeedDataAsync(DemoFragment fragment , Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap) {
+    public LoadFeedDataAsync(DemoFragment fragment , Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap, NewsDatabase database) {
 
         Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
         this.foldingCellListAdapter = adapter;
@@ -90,6 +105,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         this.startFrom               = startMap.get(sourceName);
         this.startMap               = startMap;
         this.fragment               = fragment;
+        this.database               = database;
+
         isNetworkAvailable = true;
 
     }
@@ -119,80 +136,25 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
         List<Object> newList               = new ArrayList<>();
         String result   = "";
+        int count = database.feedModel().getNewsCount();
+        Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
         try {
 
-//            boolean music            = pref.getBoolean(Common.MUSIC, true);
-//            boolean politics         = pref.getBoolean(Common.chipPolitics, true);
-//            boolean scienceandnature = pref.getBoolean(Common.chipScienceAndNatureSelected, true);
-//
-//
-//
-//            //language
-//            boolean english   = pref.getBoolean(Common.english, true);
-//            boolean german    = pref.getBoolean(Common.german, true);
-//            boolean french    = pref.getBoolean(Common.french, true);
-//            boolean italian   = pref.getBoolean(Common.italian, true);
-//
-//
-//            //country
-//            boolean usa          = pref.getBoolean(Common.usa, true);
-//            boolean uk           = pref.getBoolean(Common.uk, true);
-//            boolean india        = pref.getBoolean(Common.india, true);
-//            boolean australia    = pref.getBoolean(Common.australia, true);
-//            boolean canada       = pref.getBoolean(Common.canada, true);
-//            boolean france       = pref.getBoolean(Common.france, true);
-//            boolean italy        = pref.getBoolean(Common.italy, true);
-//            boolean germany      = pref.getBoolean(Common.germany, true);
 
-
-
-            //Log.v("LOADASYNCFEED", " start-offset" + MainActivity.start + " " +MainActivity.offset);
-
-
-            //String baseUrl = "http://192.168.0.4:8000/";
-//            int startFrom = startMap.get(sourceName);
            String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(startFrom)
                     +"&offset="+String.valueOf(MainActivity.offset)
-                    +"&sourceName="+sourceName.replace(" ", "%20")
-//                    +"&general=true"
-//                    +"&music="+music
-//                    +"&politics="+politics
-//                    +"&scienceandnature="+scienceandnature
-//                    +"&business=true"
-//                    +"&gaming=true"
-//                    +"&technology=true"
-//                    +"&entertainment=true"
-//                    +"&sport=true"
-//                    +"&english="+english
-//                    +"&german="+german
-//                    +"&french="+french
-//                    +"&italian="+italian
-//                    +"&hindi="+true
-//                    +"&usa="+usa
-//                    +"&uk="+uk
-//                    +"&india="+india
-//                    +"&australia="+australia
-//                    +"&canada="+canada
-//                    +"&france="+france
-//                    +"&italy="+italy
-//                    +"&germany="+germany
+                    +"&sourceName="+sourceName.replace(" ", "%20");
 
-                    ;
-
-                //url = &general=true&music=true&politics=false&scienceandnature=false&business=true&gaming=true&technology=true&entertainment=true&sport=true
-
-
-
-            URL url = new URL(mUrl); // here is your URL path
-            Log.v("MYURL",url + "");
+            URL url1 = new URL(mUrl); // here is your URL path
+            Log.v("MYURL",url1 + "");
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());
 
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
             conn.setReadTimeout(15000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
             conn.setRequestMethod("POST");
@@ -242,21 +204,45 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 //                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
 //                    Log.v("HYHTTP", "*************************************");
 
-                    story.setDescription(data.getJSONObject(i).getString(Common.DESCRIPTION));
-                    story.setTitle(data.getJSONObject(i).getString(Common.TITLE));
-                    story.setSourceName(data.getJSONObject(i).getString(Common.SOURCENAME));
-                    story.setUrltoimage(data.getJSONObject(i).getString(Common.IMAGEURL));
-                    story.setAuthor(data.getJSONObject(i).getString(Common.AUTHOR));
-                    story.setCategory(data.getJSONObject(i).getString(Common.CATEGORY));
-                    story.setUrl(data.getJSONObject(i).getString(Common.URL));
-                    story.setSourceUrl(data.getJSONObject(i).getString(Common.SOURCEURL));
-                    story.setPublishedat(data.getJSONObject(i).getString(Common.PUBLISHEDAT));
+
+                    id = data.getJSONObject(i).getString(Common.ID);
+
+                    description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
+                    title           = data.getJSONObject(i).getString(Common.TITLE);
+                    urltoimage      = data.getJSONObject(i).getString(Common.IMAGEURL);
+                    sourceName      = data.getJSONObject(i).getString(Common.SOURCENAME);
+                    author          = data.getJSONObject(i).getString(Common.AUTHOR);
+                    category        = data.getJSONObject(i).getString(Common.CATEGORY);
+                    url             = data.getJSONObject(i).getString(Common.URL);
+                    sourceurl       = data.getJSONObject(i).getString(Common.SOURCEURL);
+                    publishedat     = data.getJSONObject(i).getString(Common.PUBLISHEDAT);
+                    language        = data.getJSONObject(i).getString(Common.LANGUAGE);
+                    country         = data.getJSONObject(i).getString(Common.COUNTRY);
+                    addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
+
+
+
+                    story.setId(id);
+
+                    story.setDescription(description);
+                    story.setTitle(title);
+                    story.setSourceName(sourceName);
+                    story.setUrltoimage(urltoimage);
+                    story.setAuthor(author);
+                    story.setCategory(category);
+                    story.setUrl(url);
+                    story.setSourceUrl(sourceurl);
+                    story.setPublishedat(publishedat);
+
                     newList.add(story);
+
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime)));
                 }
 
 
             }
-
+            count = database.feedModel().getNewsCount();
+            Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -299,6 +285,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         //startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
         Random rn = new Random(15L);
         //Collections.shuffle(result, rn);
+
         foldingCellListAdapter.upDateEntries(result , onRefresh);
 
 

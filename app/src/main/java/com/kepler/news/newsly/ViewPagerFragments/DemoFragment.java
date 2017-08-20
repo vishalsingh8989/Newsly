@@ -1,33 +1,37 @@
 package com.kepler.news.newsly.ViewPagerFragments;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.geniusforapp.fancydialog.FancyAlertDialog;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.LoadFeedDataAsync;
 import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
-import com.kepler.news.newsly.databaseHelper.AppDatabase;
+import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
@@ -39,6 +43,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 import static com.thefinestartist.utils.content.ContextUtil.getApplicationContext;
@@ -72,24 +77,64 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private boolean paused = false;
     private Animation animFadein;
     private BounceScroller scroller;
-    private AppDatabase database;
-    private List<Feed> feeds;
+    private NewsSourceDatabase newsSourceDatabase;
+    private List<Feed> newsSourcelist;
+    private NewsDatabase newsDatabase;
+    private List<News> newsList;
+    private Context mContext;
+    private NewsDatabase database;
+    private List<NewsStory> alldbnews;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.v("fragmentLifecycle", "onCreateView" + sourceName);
+        Log.v("fragmentLifecycle", "onCreateView " + sourceName);
+
+        Bundle mArgs = getArguments();
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
-        database = AppDatabase.getDatabase(getActivity().getApplicationContext());
-        feeds = database.feedModel().getAllFeeds();
+        mContext                = getActivity().getApplicationContext();
+
+
+        newsSourceDatabase      = NewsSourceDatabase.getDatabase(mContext);
+        newsSourcelist          = newsSourceDatabase.feedModel().getAllFeeds();
+
+        newsDatabase            = NewsDatabase.getDatabase(mContext);
+        alldbnews = newsDatabase.feedModel().getAllNews();
+
+
+        sourceName = mArgs.getString(Common.SOURCENAME);
+
+        Log.v("NEWSSOURCE","***********************************");
+        Log.v("NEWSSOURCE" , "productlist " + productsList);
+        productsList= new ArrayList<>();
+        for (NewsStory story: alldbnews) {
+            if(story.getSourceName().equals(sourceName))
+            productsList.add(story);
+        }
+
+        Log.v("NEWSSOURCE" , "ALL OBJS SIZE BF AD : " + productsList.size());
+
+        productsList = addNativeExpressAds(productsList);
+        Log.v("NEWSSOURCE" , "ALL OBJS SIZE AF AD : " + productsList.size());
+
+
+
+        Log.v("NEWSSOURCE" , "SOURCE : " +sourceName);
+        Log.v("NEWSSOURCE" , "ALL NEWS SIZE : " + alldbnews.size());
+
+        Log.v("NEWSSOURCE","***********************************");
+
+
         startMap                = new LinkedHashMap<>();
 
-        for(Feed feedObj : feeds)
+        for(Feed feedObj : newsSourcelist)
         {
             startMap.put(feedObj.newsSource, 0);
         }
 
+
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.demo_fragment, container, false);
     }
 
@@ -99,7 +144,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("fragmentLifecycle", "onViewCreated" + sourceName);
         Bundle mArgs = getArguments();
         int position = FragmentPagerItem.getPosition(mArgs);
-        parent = getActivity();
+
+
 
         sourceName = mArgs.getString(Common.SOURCENAME);
         loadImages = mArgs.getBoolean(Common.LOADIMAGE);
@@ -107,13 +153,15 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("onViewCreated", position + " : " + sourceName);
 
         listView                = (ListView)view.findViewById(R.id.list1);
-        foldingCellListAdapter  = new FoldingCellListAdapter(this, getContext(), productsList, allNewslist, loadImages);
+        foldingCellListAdapter  = new FoldingCellListAdapter(this, mContext, productsList, alldbnews, loadImages, sourceName);
+
+
 
 
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(this , getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+        loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
 
-        loadFeedDataAsync.execute();
+        //loadFeedDataAsync.execute();
         startMap.put(sourceName, calledOn);
 
 
@@ -160,9 +208,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     }
 
-
-
-
+    
     @Override
     public void onItemClicked(View v, int position) {
         Log.v("READFULL", "" +position);
@@ -253,13 +299,12 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         if((loadFeedDataAsync!=null)&&(loadFeedDataAsync.getStatus() != AsyncTask.Status.PENDING)&& (loadFeedDataAsync.getStatus()!= AsyncTask.Status.RUNNING)) {
             calledOn = calledOn + MainActivity.offset;
             startMap.put(sourceName, calledOn);
-            loadFeedDataAsync = new LoadFeedDataAsync(this, getActivity().getApplicationContext(), foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap);
+            loadFeedDataAsync = new LoadFeedDataAsync(this, mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
             loadFeedDataAsync.execute();
 
         }
 
-        //calledOn=foldingCellListAdapter.getProductsList().size();
-        //Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
+
     }
 
 
@@ -290,11 +335,46 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         }
     };
-//    public static  void showNetworkNotAvailableDialog() {
-//        Log.v("newslyNetwork", "showNetworkNotAvailableDialog called" );
-//
-//
-//
-//
-//    }
+
+
+    private List<Object> addNativeExpressAds(List<Object> result){
+        for(int i = 0 ; i < result.size(); i +=1)
+        {
+            if(i%12==0 && i!=0) {
+                NativeExpressAdView adView = new NativeExpressAdView(mContext);
+                adView.setAdSize(new AdSize(300, 100));
+
+                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+                adView.loadAd(new AdRequest.Builder()
+                        .addTestDevice("32C278BA97F2B33C41A02691587B4F29")
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                        .build());
+                result.add(i, adView);
+            }
+
+        }
+
+        return result;
+
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        Log.v("DemoFrag" , "item selected :" + item.getItemId());
+
+
+        loadFeedDataAsync.execute();
+        return super.onOptionsItemSelected(item);
+
+
+    }
 }

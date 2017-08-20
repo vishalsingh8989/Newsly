@@ -62,7 +62,7 @@ public class HelloFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_hello, container, false);
-        TextView app_name = (TextView) v.findViewById(R.id.app_name_middle);
+        ///TextView app_name = (TextView) v.findViewById(R.id.app_name_middle);
         return v;
     }
 
