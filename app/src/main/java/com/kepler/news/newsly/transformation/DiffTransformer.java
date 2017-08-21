@@ -37,7 +37,7 @@ public class DiffTransformer implements ViewPager.PageTransformer {
         int pageWidth = page.getWidth();
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
-            page.setAlpha(0);
+            page.setAlpha(1);
         }else if (position <= 1) {
             if(mPageNumber == 0) {
 
@@ -58,7 +58,7 @@ public class DiffTransformer implements ViewPager.PageTransformer {
             }
         }else{
             // This page is way off-screen to the right.
-            page.setAlpha(0);
+            page.setAlpha(1);
         }
     }
 }
