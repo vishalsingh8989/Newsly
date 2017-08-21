@@ -1,7 +1,6 @@
 package com.kepler.news.newsly;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,8 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -18,18 +15,13 @@ import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
-import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
-import com.kepler.news.newsly.helper.DiffTransformer;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import com.kepler.news.newsly.transformation.DiffTransformer;
 
 
 public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
