@@ -120,32 +120,7 @@ public class NewsSourceFragment extends Fragment{
 
         database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
         feeds = database.feedModel().getAllFeeds();
-//        final ArrayList<Object> countryList = new ArrayList<>();
-//
-//        countryList.clear();
-
-
-//        LinkedHashMap<String, String> choosen = Common.createChoosenMap();
-//        for (Map.Entry<String, String> mapEntry : choosen.entrySet()) {
-//            //myMap.put(mapEntry.getKey(), mapEntry.getValue());
-//            countryList.add(mapEntry.getKey());
-//            countries.add(mapEntry.getKey());
-//
-//        }
-
-            mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
-//
-//        countrySelected.clear();
-//        for (int index = 0;index <countries.size() ; index++) {
-//            boolean  checked = mPreferences.getBoolean(countries.get(index), false);
-//            countrySelected.add(checked);
-//        }
-
-
-
-
-        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,countryList);
-
+        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         CountryAdapter adapter = new CountryAdapter(getActivity(),feeds);
 
         countryListView.setAdapter(adapter);

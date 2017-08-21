@@ -12,7 +12,7 @@
     android:id="@+id/newspaper"
     android:src="@drawable/newspaper"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="80dp"
     />
 
     <TextView

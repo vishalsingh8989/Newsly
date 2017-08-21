@@ -11,7 +11,7 @@
         android:id="@+id/photocamera"
         android:src="@drawable/photocamera"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         />
     <TextView
         android:layout_below="@+id/photocamera"
