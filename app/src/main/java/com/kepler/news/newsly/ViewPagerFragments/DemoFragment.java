@@ -148,7 +148,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         listView.setAdapter(foldingCellListAdapter);
         loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
 
-        loadFeedDataAsync.execute();
+        //loadFeedDataAsync.execute();
         startMap.put(sourceName, calledOn);
 
 
@@ -285,16 +285,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private void loadMore() {
         Log.v("LOADASYNCFEED", "END REACHED2" );
 
-//        if((loadFeedDataAsync!=null)&&(loadFeedDataAsync.getStatus() != AsyncTask.Status.PENDING)&& (loadFeedDataAsync.getStatus()!= AsyncTask.Status.RUNNING)) {
-//            calledOn = calledOn + MainActivity.offset;
-//            startMap.put(sourceName, calledOn);
-//            Log.v("LOADASYNCFEED", "END REACHED3" );
-//            loadFeedDataAsync = new LoadFeedDataAsync(this, mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
-//            loadFeedDataAsync.execute();
-//
-//        }
-
-
     }
 
 
@@ -349,29 +339,4 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        Log.v("DemoFrag" , "item selected :" + item.getItemId());
-
-
-        loadFeedDataAsync.execute();
-        return super.onOptionsItemSelected(item);
-
-
-    }
-
-    public void getFeeds() {
-        alldbnews = newsDatabase.feedModel().getAllNews();
-
-
-
-    }
 }

@@ -19,7 +19,7 @@ public interface FeedDao {
     @Query("select * from feed")
     public List<Feed> getAllFeeds();
 
-    @Query("select * from feed where newsSource = :newsSource")
+    @Query("select * from feed where newsSource = :newsSource limit 0,30")
     public List<Feed> getFeed(String newsSource);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -28,7 +28,7 @@ public interface FeedDao {
     @Query("select * from feed order by priority ASC LIMIT 0,1")
     public int  getMaxPriority();
 
-    @Query("select * from feed where newsSource = :newsSource")
+    @Query("select * from feed where newsSource = :newsSource ")
     public Feed getSingleFeed(String newsSource);
 
 

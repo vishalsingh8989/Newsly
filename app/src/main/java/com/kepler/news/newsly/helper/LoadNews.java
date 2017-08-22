@@ -79,7 +79,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
             String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(0)
-                    +"&offset="+String.valueOf(100)
+                    +"&offset="+String.valueOf(200)
                     +"&sourceName="+newsSource.replace(" ", "%20");
 
             URL url1 = new URL(mUrl); // here is your URL path

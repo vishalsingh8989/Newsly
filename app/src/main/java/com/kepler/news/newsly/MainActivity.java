@@ -198,10 +198,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         super.onCreate(savedInstanceState);
 
         Log.v("lifecycle" , "onCreate");
-
-        mMap = new HashMap();
-        mMap.put(R.id.chipScienceAndNature , Common.chipScienceAndNatureSelected);
-        mMap.put(R.id.chipPolitics, Common.chipPolitics);
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
         feeds = database.feedModel().getPriorityFeeds();
 
@@ -230,23 +226,13 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 this, drawer, toolbar,R.string.dummy_content, R.string.accept);
         toggle.syncState();
 
-         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         //NavigationView navigationViewRight = (NavigationView) findViewById(R.id.nav_view_right);
         //navigationViewRight.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.home);
 
-        ArrayList<String> countryList = new ArrayList<>();
 
-
-        countryList.add("Newsly");
-        countryList.add("");
-        countryList.add("Home");
-
-        countryList.add("Settings");
-        countryList.add("Rate Me");
-        countryList.add("");
-        countryList.add("Log Out");
 
 
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
@@ -285,7 +271,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         }
 
         fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
-        viewPager.setOffscreenPageLimit(idx);
+        viewPager.setOffscreenPageLimit(4);
 
         viewPager.setAdapter(fragmentPagerItemAdapter);
 
@@ -293,16 +279,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         viewPagerTab.setViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(this);
-
-
-
-
-
-//
-//        RecyclerView list = (RecyclerView) findViewById(R.id.list);
-//        list.setNestedScrollingEnabled(false);
-//        list.setLayoutManager(new LinearLayoutManager(this));
-//        list.setAdapter(adapter);
 
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
@@ -392,48 +368,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-    private List<Object> addNativeExpressAds(List<Object> result){
-        for(int i = 0 ; i < result.size(); i +=1)
-        {
-            if(i%12==0 && i!=0) {
-                NativeExpressAdView adView = new NativeExpressAdView(getApplicationContext());
-                adView.setAdSize(new AdSize(300, 100));
-                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
-                adView.loadAd(new AdRequest.Builder().addTestDevice("32C278BA97F2B33C41A02691587B4F29").build());
-                result.add(i, adView);
-            }
-
-        }
-
-        return result;
-
-
-    }
-
-
-    private Drawable[] loadScreenIcons() {
-        TypedArray ta = getResources().obtainTypedArray(R.array.ld_activityScreenIcons);
-        Drawable[] icons = new Drawable[ta.length()];
-        for (int i = 0; i < ta.length(); i++) {
-            int id = ta.getResourceId(i, 0);
-            if (id != 0) {
-                icons[i] = ContextCompat.getDrawable(this, id);
-            }
-        }
-        ta.recycle();
-        return icons;
-    }
-
-
-
-    private String[] loadScreenTitles() {
-        return getResources().getStringArray(R.array.ld_activityScreenTitles);
-    }
-
-    @ColorInt
-    private int color(@ColorRes int res) {
-        return ContextCompat.getColor(this, res);
-    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -457,34 +391,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     }
 
 
-    private List<Object> filterNewsBasesOnSearch(List<Object> entries, String searchText) {
 
-
-        NewsStory story = null;
-        List<Object> filteredNews = new ArrayList<>();
-
-        for(int i = 0 ; i < entries.size(); i =i+1 ){
-
-            if(i%12 != 0 &&  i != 0) {
-                Log.v("FILTER" , " F " +i);
-                story = (NewsStory)entries.get(i);
-                if(story.getDescription().toLowerCase().contains(searchText.toLowerCase())
-                        || story.getTitle().toLowerCase().contains(searchText.toLowerCase())
-                        || story.getAuthor().toLowerCase().contains(searchText.toLowerCase())
-                        || story.getSourceName().toLowerCase().contains(searchText.toLowerCase()) ) {
-                    filteredNews.add(story);
-                }
-
-            }
-
-        }
-
-        filteredNews = addNativeExpressAds(filteredNews);
-
-        Log.v("QuerySearch" , "filtersize " + filteredNews.size() + " , " + entries.size());
-        LoadFeedDataAsync.oldsize = entries.size();
-        return filteredNews;
-    }
 
     @Override
     public void onItemClicked(View v, int position) {
@@ -507,12 +414,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 ((FoldingCell) v.getParent().getParent()).toggle(false);
                 break;
 
-
         }
-
-
     }
-
 
 
 
@@ -638,10 +541,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
             }
-        }else if(id == R.id.search_news)
-        {
-            Intent search = new Intent(MainActivity.this, SearchActivity.class);
-            startActivity(search);
+
         }else if(id == R.id.rearrange)
         {
             Intent rearrange = new Intent(MainActivity.this, Rearrange.class);

@@ -1,6 +1,9 @@
 package com.kepler.news.newsly;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -22,6 +25,9 @@ import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.transformation.DiffTransformer;
+import com.kepler.news.newsly.updateUtils.UpdateDBservice;
+
+import java.util.Calendar;
 
 
 public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
@@ -144,6 +150,21 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+
+        Calendar cal = null;
+        cal = Calendar.getInstance();
+
+        Intent intent1= new Intent(getApplicationContext(), UpdateDBservice.class);
+        PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent1, 0);
+        AlarmManager alarm = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+
+
+        //5 seconds
+        alarm.cancel(pintent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 3*60*60*1000, pintent);
+
+        //
+
         SharedPreferences.Editor editor = mPreferences.edit();
 
         editor.putBoolean(Common.FIRSTLAUNCH , false);
@@ -162,22 +183,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         super.onSlideChanged(oldFragment, newFragment);
         Log.v("FRAGMENTInteraction",oldFragment + "  to " + newFragment);
 
-
-
-        // Do something when the slide changes.
     }
-
-
-
-
-
-
-
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-//    }
-
     @Override
     public void onLanguageFragmentInteraction(Uri uri) {
         Log.v("FRAGMENTInteraction", "onLanguageFragmentInteraction");

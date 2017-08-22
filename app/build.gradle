@@ -63,7 +63,6 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
     compile 'com.github.nicolasjafelle:paginglistview:1.2'
-    compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
     compile 'com.google.android.gms:play-services-ads:10.2.6'
     compile 'com.github.glomadrian:Grav:1.1'
     compile 'com.android.support:support-v4:25.3.1'
@@ -80,21 +79,6 @@ dependencies {
 
 
 
-    String htextview_version = "0.1.1"
-
-    compile "com.hanks:htextview-base:$htextview_version"    // base library
-
-    compile "com.hanks:htextview-fade:$htextview_version"        // optional
-    compile "com.hanks:htextview-line:$htextview_version"        // optional
-    compile "com.hanks:htextview-rainbow:$htextview_version"     // optional
-    compile "com.hanks:htextview-fade:$htextview_version"        // optional
-    compile "com.hanks:htextview-typer:$htextview_version"       // optional
-
-    compile "com.hanks:htextview-scale:$htextview_version"       // optional
-    compile "com.hanks:htextview-evaporate:$htextview_version"   // optional
-    compile "com.hanks:htextview-fall:$htextview_version"        // optional
-
-    compile 'mallethugo-translucent:translucentlib:1.0.0'
 
 
     compile project(path: ':library')
