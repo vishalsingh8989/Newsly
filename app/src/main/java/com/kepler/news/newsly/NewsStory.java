@@ -1,7 +1,5 @@
 package com.kepler.news.newsly;
 
-import android.view.View;
-
 /**
  * Created by vishaljasrotia on 28/05/17.
  */
@@ -22,7 +20,7 @@ public class NewsStory {
     private String sourceUrl   = "";
     private String addtime     = "";
     private String source           = "";
-    private String langauge         = "";
+    private String language = "";
     private String country          = "";
 
 
@@ -30,8 +28,8 @@ public class NewsStory {
         this.country = country;
     }
 
-    public void setLangauge(String langauge) {
-        this.langauge = langauge;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
 
@@ -88,8 +86,8 @@ public class NewsStory {
         return country;
     }
 
-    public String getLangauge() {
-        return langauge;
+    public String getLanguage() {
+        return language;
     }
 
     public String getSource() {

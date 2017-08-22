@@ -55,7 +55,7 @@ import static com.thefinestartist.utils.content.ContextUtil.getApplicationContex
 public class DemoFragment extends Fragment implements FoldingCellItemClickListener {
 
 
-
+    public static final String NEWSSOURCE = "NEWSSOURCE";
     private int currentScrollState;
     private String mSearchText = "";
     public int firstVisibleItem, visibleItemCount, totalItemCount;
@@ -84,55 +84,42 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private Context mContext;
     private NewsDatabase database;
     private List<NewsStory> alldbnews;
+    private Bundle mArgs;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.v("fragmentLifecycle", "onCreateView " + sourceName);
 
-        Bundle mArgs = getArguments();
+        mArgs                   = getArguments();
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         mContext                = getActivity().getApplicationContext();
-
-
         newsSourceDatabase      = NewsSourceDatabase.getDatabase(mContext);
         newsSourcelist          = newsSourceDatabase.feedModel().getAllFeeds();
-
         newsDatabase            = NewsDatabase.getDatabase(mContext);
-        alldbnews = newsDatabase.feedModel().getAllNews();
+        sourceName              = mArgs.getString(Common.SOURCENAME);
+        alldbnews               = newsDatabase.feedModel().getSourceNews(sourceName);
 
-
-        sourceName = mArgs.getString(Common.SOURCENAME);
-
-        Log.v("NEWSSOURCE","***********************************");
-        Log.v("NEWSSOURCE" , "productlist " + productsList);
-        productsList= new ArrayList<>();
+        Log.v(NEWSSOURCE       ,"***********************************");
+        Log.v(NEWSSOURCE       ,"productlist " + productsList);
+        productsList            = new ArrayList<>();
+        
         for (NewsStory story: alldbnews) {
             if(story.getSourceName().equals(sourceName))
             productsList.add(story);
         }
-
-        Log.v("NEWSSOURCE" , "ALL OBJS SIZE BF AD : " + productsList.size());
-
-        productsList = addNativeExpressAds(productsList);
-        Log.v("NEWSSOURCE" , "ALL OBJS SIZE AF AD : " + productsList.size());
-
-
-
-        Log.v("NEWSSOURCE" , "SOURCE : " +sourceName);
-        Log.v("NEWSSOURCE" , "ALL NEWS SIZE : " + alldbnews.size());
-
-        Log.v("NEWSSOURCE","***********************************");
-
-
+        Log.v(NEWSSOURCE       ,"ALL OBJS SIZE BF AD : " + productsList.size());
+        productsList            = addNativeExpressAds(productsList);
+        Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
+        Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
+        Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
+        Log.v(NEWSSOURCE       ,"***********************************");
         startMap                = new LinkedHashMap<>();
 
-        for(Feed feedObj : newsSourcelist)
-        {
+        for(Feed feedObj : newsSourcelist) {
             startMap.put(feedObj.newsSource, 0);
         }
-
 
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.demo_fragment, container, false);
@@ -142,7 +129,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.v("fragmentLifecycle", "onViewCreated" + sourceName);
-        Bundle mArgs = getArguments();
+        mArgs = getArguments();
         int position = FragmentPagerItem.getPosition(mArgs);
 
 
@@ -161,7 +148,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         listView.setAdapter(foldingCellListAdapter);
         loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
 
-        //loadFeedDataAsync.execute();
+        loadFeedDataAsync.execute();
         startMap.put(sourceName, calledOn);
 
 
@@ -251,7 +238,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("LOADASYNCFEED",  sourceName + " END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+startMap.get(sourceName)  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
         if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
                 ||(foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE) && calledOn != foldingCellListAdapter.getProductsList().size()) {
-            Log.v("LOADASYNCFEED", "END REACHED" );
+            Log.v("LOADASYNCFEED", "END REACHED1" );
             loadMore();
 
         }
@@ -296,13 +283,16 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     }
 
     private void loadMore() {
-        if((loadFeedDataAsync!=null)&&(loadFeedDataAsync.getStatus() != AsyncTask.Status.PENDING)&& (loadFeedDataAsync.getStatus()!= AsyncTask.Status.RUNNING)) {
-            calledOn = calledOn + MainActivity.offset;
-            startMap.put(sourceName, calledOn);
-            loadFeedDataAsync = new LoadFeedDataAsync(this, mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
-            loadFeedDataAsync.execute();
+        Log.v("LOADASYNCFEED", "END REACHED2" );
 
-        }
+//        if((loadFeedDataAsync!=null)&&(loadFeedDataAsync.getStatus() != AsyncTask.Status.PENDING)&& (loadFeedDataAsync.getStatus()!= AsyncTask.Status.RUNNING)) {
+//            calledOn = calledOn + MainActivity.offset;
+//            startMap.put(sourceName, calledOn);
+//            Log.v("LOADASYNCFEED", "END REACHED3" );
+//            loadFeedDataAsync = new LoadFeedDataAsync(this, mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
+//            loadFeedDataAsync.execute();
+//
+//        }
 
 
     }
@@ -374,6 +364,13 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         loadFeedDataAsync.execute();
         return super.onOptionsItemSelected(item);
+
+
+    }
+
+    public void getFeeds() {
+        alldbnews = newsDatabase.feedModel().getAllNews();
+
 
 
     }

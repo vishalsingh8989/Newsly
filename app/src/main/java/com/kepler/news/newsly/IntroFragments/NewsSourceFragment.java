@@ -22,6 +22,7 @@ import com.kepler.news.newsly.adapter.CountryAdapter;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.helper.LoadNews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +143,8 @@ public class NewsSourceFragment extends Fragment{
                 int priority = 0;
                 if(subscribed) {
                     priority = database.feedModel().getMaxPriority() + 1;
+                    LoadNews loadnews = new LoadNews(feeds.get(i).newsSource, mContext);
+                    loadnews.execute();
                 }
                 database.feedModel().updateTask(new Feed(feeds.get(i).newsSource, subscribed, priority));
 
@@ -177,6 +180,7 @@ public class NewsSourceFragment extends Fragment{
             }
         });
 
+        setChecked(null);
         return v;
     }
 
@@ -226,24 +230,6 @@ public class NewsSourceFragment extends Fragment{
     {
 
 
-
-
-//        for(int index = 0 ; index < objects.size();index++) {
-//            if(mPreferences.getBoolean((String) objects.get(index), false))
-//            {
-//                countryListView.setItemChecked(index, true);
-//                mSources.add((String) objects.get(index));
-//            }
-//
-//        }
-//        String strBecons = new Gson().toJson(mSources);
-//
-//        mPreferences.edit().putString("BECON_LIST", strBecons).apply();
-//
-//        Log.v("GsonTest", "" + strBecons);
-//
-//
-//
         allfeeds = database.feedModel().getAllFeeds();
         int idx = 0;
         for (Feed obj: allfeeds) {
@@ -256,13 +242,7 @@ public class NewsSourceFragment extends Fragment{
             }
             idx++;
 
-
-
         }
-//
-//        List<Feed> allFeeds = database.feedModel().getAllFeeds();
-//
-//        Log.v("RoomAdd", "alltask : " + allFeeds.size());
 
     }
 

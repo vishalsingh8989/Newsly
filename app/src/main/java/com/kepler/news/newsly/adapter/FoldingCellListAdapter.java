@@ -290,9 +290,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     public void upDateEntries(List<Object> entries, boolean onRefresh) {
 
-        productsList.addAll(0,entries);
+        //productsList.addAll(0,entries);
 
         //allNewslist.addAll(entries);
+        //Callback.getFeeds();
 
         Log.v("LOADASYNCFEED" , "size : " +productsList.size());
 
@@ -303,6 +304,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     public List<Object> getProductsList() {
         return productsList;
+    }
+    public void setProductsList(List<NewsStory> list) {
+
     }
 
     public void refreshEntries(List<Object> entries) {
@@ -372,6 +376,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public void notifyDataSetChanged() {
+
         super.notifyDataSetChanged();
         Log.v("NOTIFITYTEST", "CALLED");
     }

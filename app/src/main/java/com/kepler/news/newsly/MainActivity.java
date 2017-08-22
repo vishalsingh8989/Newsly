@@ -268,9 +268,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         pages = new FragmentPagerItems(this);
 
-        //ArrayList<String> sourceNameMap = new Gson().fromJson(mPreferences.getString("BECON_LIST", ""),new TypeToken<List<String>>() {}.getType());;//Common.getNewsSources();
 
-        //database.feedModel().getAllFeeds();
         int idx  = 0;
         Log.v("NEWSSOURCE", "size : "+feeds.size());
         for (Feed  feedObj : feeds) {

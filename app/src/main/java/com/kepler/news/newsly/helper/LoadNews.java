@@ -1,20 +1,15 @@
-package com.kepler.news.newsly;
+package com.kepler.news.newsly.helper;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.NativeExpressAdView;
-import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
-import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+import com.kepler.news.newsly.MainActivity;
+import com.kepler.news.newsly.NewsStory;
+import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-import com.kepler.news.newsly.helper.Common;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,33 +27,23 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by vishaljasrotia on 28/05/17.
+ * Created by vishaljasrotia on 8/22/17.
  */
 
-public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
+public class LoadNews  extends AsyncTask<Void, Void, Void> {
 
 
-    private  int startFrom                                = 0;
-    private LinkedHashMap<String, Integer> startMap        = null;
-    private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private ArrayList<NewsStory> productsList               = null;
-    private int    offset                                   = 30;
-    private boolean onRefresh                               = false;
-    private SharedPreferences pref                          = null;
-    private MainActivity mainActivity                       = null;
-    public static int oldsize                               = 0;
-    private Context mContext                                = null;
+    private static final int ZERO =0 ;
+    private Context mContext;
+    private String newsSource;
+    private NewsDatabase database;
 
-    private DemoFragment fragment = null;
-    private boolean isNetworkAvailable  = true;
-    private  NewsDatabase database = null;
+
     private String description;
     private String title;
     private String urltoimage;
@@ -73,82 +58,32 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     private String country;
     private String id;
     private String addtime;
+    public LoadNews(String newsSource, Context mContext) {
 
-
-    public LoadFeedDataAsync( FoldingCellListAdapter adapter) {
-        this.foldingCellListAdapter = adapter;
-        this.productsList           = new ArrayList<>();
-        this.onRefresh              = false;
-        this.mainActivity           = mainActivity;
-
-    }
-
-    public LoadFeedDataAsync(FoldingCellListAdapter adapter, boolean onRefresh) {
-        this.foldingCellListAdapter = adapter;
-        this.productsList           = new ArrayList<>();
-        this.onRefresh              = onRefresh;
-        //this.mainActivity           = mainActivity;
-
-    }
-
-    public LoadFeedDataAsync(DemoFragment fragment , Context context, FoldingCellListAdapter adapter, boolean onRefresh, SharedPreferences pref, String sourceName , LinkedHashMap<String, Integer> startMap, NewsDatabase database) {
-
-        Log.v("LOADASYNC" ,sourceName + "OLDSIZE : " + sourceName + " , " +startFrom);
-        this.foldingCellListAdapter = adapter;
-        this.productsList           = new ArrayList<>();
-        this.onRefresh              = onRefresh;
-        this.pref                   = pref;
-        //this.mainActivity           = mainActivity;
-        this.oldsize                = adapter.getProductsList().size();
-        this.sourceName             = sourceName;
-        this.mContext               = context;
-        this.startFrom               = startMap.get(sourceName);
-        this.startMap               = startMap;
-        this.fragment               = fragment;
-        this.database               = database;
-
-        isNetworkAvailable = true;
-
-    }
-
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-
-        try{
-                fragment.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
-                        progressbar.smoothToShow();
-
-                    }
-            });
-        }catch (Exception e)
-        {
-        }
+        this.newsSource = newsSource;
+        this.mContext   = mContext;
     }
 
     @Override
-    protected List<Object> doInBackground(Void... voids) {
+    protected Void doInBackground(Void... voids) {
+
+        database = NewsDatabase.getDatabase(mContext);
 
         List<Object> newList               = new ArrayList<>();
         String result   = "";
         int count = database.feedModel().getNewsCount();
-        Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
+        Log.v("LOADINSETTING","COUNT : " + count);
         try {
 
 
-           String baseUrl = "http://13.58.159.13/";
+            String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
-                    +"&start="+String.valueOf(startFrom)
-                    +"&offset="+String.valueOf(MainActivity.offset)
-                    +"&sourceName="+sourceName.replace(" ", "%20");
+                    +"&start="+String.valueOf(0)
+                    +"&offset="+String.valueOf(100)
+                    +"&sourceName="+newsSource.replace(" ", "%20");
 
             URL url1 = new URL(mUrl); // here is your URL path
-            Log.v("MYURL",url1 + "");
+            Log.v("LOADINSETTING",url1 + "");
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());
@@ -244,18 +179,18 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
             }
             count = database.feedModel().getNewsCount();
-            Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
+            Log.v("LOADINSETTING","source : " + sourceName + " , "+  "COUNT : " + count);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "MalformedURLException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
 
         } catch (IOException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "IOException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -265,81 +200,19 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         {
             e.printStackTrace();
             Log.v("HYHTTP", "NetworkErrorException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
 
         } catch (Exception e) {
             e.printStackTrace();
             Log.v("HYHTTP", "Exception");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
         }
 
-        return newList;
-    }
-
-
-
-
-    @Override
-    protected void onPostExecute(List<Object> result) {
-        super.onPostExecute(result);
-        result = addNativeExpressAds(result);
-        //startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
-        Random rn = new Random(15L);
-        //Collections.shuffle(result, rn);
-
-        foldingCellListAdapter.upDateEntries(result , onRefresh);
-
-
-        //DemoFragment.avLoadingIndicatorView.smoothToHide();
-        //MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
-
-        Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName));
-
-        try {
-            fragment.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
-                    progressbar.smoothToHide();
-
-
-                }
-            });
-        }catch (Exception e)
-        {
-
-        }
-
-
-//        if(!isNetworkAvailable ) {
-//            fragment.showNetworkNotAvailableDialog();
-//        }
+        return null;
 
     }
 
-
-    private List<Object> addNativeExpressAds(List<Object> result){
-        for(int i = oldsize ; i < result.size(); i +=1)
-        {
-            if(i%12==0 && i!=0) {
-                NativeExpressAdView adView = new NativeExpressAdView(mContext);
-                adView.setAdSize(new AdSize(300, 100));
-
-                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
-                adView.loadAd(new AdRequest.Builder()
-                        .addTestDevice("32C278BA97F2B33C41A02691587B4F29")
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                        .build());
-                result.add(i, adView);
-            }
-
-        }
-
-        return result;
-
-
-    }
 
     public String getPostDataString(JSONObject params) throws Exception {
 
