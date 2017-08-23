@@ -2,10 +2,12 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.-->
         <item name="colorPrimary">@color/p</item>
         <item name="colorPrimaryDark">@color/p</item>
         <item name="colorAccent">@color/p</item>
+        <item name="actionBarPopupTheme">@style/ToolbarTheme</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -40,4 +42,16 @@
     </style>
 
 
+
+    <style name="Theme.Custom" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
 </resources>

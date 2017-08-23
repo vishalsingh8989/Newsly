@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -32,6 +34,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -197,6 +200,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         );
         super.onCreate(savedInstanceState);
 
+
         Log.v("lifecycle" , "onCreate");
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
         feeds = database.feedModel().getPriorityFeeds();
@@ -207,7 +211,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         setContentView(R.layout.app_drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_navigate_next_white);
+
+
+
 
 
         //FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Altair-Regular-trial.ttf");
