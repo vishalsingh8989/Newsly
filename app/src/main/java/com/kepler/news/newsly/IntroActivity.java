@@ -24,6 +24,7 @@ import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.helper.MyAppIntro;
 import com.kepler.news.newsly.transformation.DiffTransformer;
 import com.kepler.news.newsly.updateUtils.UpdateDBservice;
 
@@ -95,6 +96,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         super.onCreate(savedInstanceState);
 
 
+
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
@@ -135,10 +137,6 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         setNextArrowColor(Color.parseColor("#aa1133"));
 
 
-        // Turn vibration on and set intensity.
-        // NOTE: you will probably need to ask VIBRATE permission in Manifest.
-//        setVibrate(true);
-//        setVibrateIntensity(30);
     }
 
     @Override

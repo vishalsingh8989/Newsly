@@ -339,4 +339,31 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_menu, menu);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        Log.v("DemoFrag" , "item selected :" + item.getItemId());
+
+
+        loadFeedDataAsync.execute();
+        return super.onOptionsItemSelected(item);
+
+
+    }
+
+    public void getFeeds() {
+        alldbnews = newsDatabase.feedModel().getAllNews();
+
+
+
+    }
 }

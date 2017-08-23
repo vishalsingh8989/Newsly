@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#e9e9e9"
+    android:background="#00e9e9e9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -12,7 +12,7 @@
 
 
 
-    <com.github.glomadrian.grav.GravView
+<!--    <com.github.glomadrian.grav.GravView
         android:id="@+id/country_grav"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         />
 
 
-
+-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_parent"
         android:layout_width="match_parent"
@@ -70,15 +70,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tab_height"
         android:paddingBottom="4dp"
-        app:stl_defaultTabTextColor="@color/black"
+        app:stl_defaultTabTextColor="@color/white"
         app:stl_defaultTabTextMinWidth="120dp"
         app:stl_indicatorAlwaysInCenter="true"
-        app:stl_indicatorColor="@color/p"
+        app:stl_indicatorColor="#ffffff"
         app:stl_indicatorCornerRadius="1.5dp"
         app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorThickness="3dp"
+        app:stl_indicatorThickness="2px"
         app:stl_underlineColor="@color/transparent"
-        app:stl_dividerColor="#4D000000"
+        app:stl_dividerColor="#97ffffff"
         app:stl_dividerThickness="1dp"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="false"
