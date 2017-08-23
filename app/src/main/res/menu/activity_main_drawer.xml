@@ -25,11 +25,18 @@
                 android:icon="@drawable/rateme"
                 android:title="Rate Me"/>
             <item
-                android:id="@+id/more_apps"
+                android:id="@+id/remove_ads"
                 android:icon="@drawable/moreapps"
+                android:title="Remove Ads"
+                />
+            <item
+
+                android:id="@+id/more_apps"
+                android:icon="@drawable/play_store"
                 android:title="More Apps"/>
         </menu>
     </item>
+
 
 
 </menu>

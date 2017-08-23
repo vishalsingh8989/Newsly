@@ -18,5 +18,6 @@
     <dimen name="tab_height">70dp</dimen>
     <dimen name="fab_button_size">190dp</dimen>
     <dimen name="min_fab_width">200dp</dimen>
-    <dimen name="arc_width">136dp</dimen>
+    <dimen name="list_item_side_margin">14dp</dimen>
+
 </resources>

@@ -98,20 +98,32 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         Log.v(NEWSSOURCE       ,"***********************************");
         Log.v(NEWSSOURCE       ,"productlist " + productsList);
+
+
         productsList            = new ArrayList<>();
         
         for (NewsStory story: alldbnews) {
+            if(story.getSourceName().contains("New York Post")) {
+                Log.v(NEWSSOURCE, "before sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
+            }
             if(story.getSourceName().equals(sourceName))
             productsList.add(story);
+
         }
-        Log.v(NEWSSOURCE       ,"ALL OBJS SIZE BF AD : " + productsList.size());
+        //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE BF AD : " + productsList.size());
         productsList            = addNativeExpressAds(productsList);
-        Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
-        Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
-        Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
-        Log.v(NEWSSOURCE       ,"***********************************");
+        //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
+        //Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
+        //Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
+        //Log.v(NEWSSOURCE       ,"***********************************");
         startMap                = new LinkedHashMap<>();
 
+
+        for (NewsStory story: alldbnews) {
+            if (story.getSourceName().contains("New York Post")) {
+                Log.v(NEWSSOURCE, "after sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
+            }
+        }
         for(NewsSource newsSourceObj : newsSourcelist) {
             startMap.put(newsSourceObj.newsSource, 0);
         }

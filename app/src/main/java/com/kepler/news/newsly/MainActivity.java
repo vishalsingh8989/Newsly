@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private NewsSourceDatabase database = null;
     private List<NewsSource> newsSources;
     private NavigationView navigationView;
-    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4 };
+    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5 ,R.drawable.main_item_cell_bg };
 
     @SuppressLint("NewApi")
     @Override

@@ -46,6 +46,8 @@ import java.util.List;
 import info.hoang8f.widget.FButton;
 import mehdi.sakout.fancybuttons.FancyButton;
 
+import static com.kepler.news.newsly.ViewPagerFragments.DemoFragment.NEWSSOURCE;
+
 /**
  * Created by vishaljasrotia on 28/05/17.
  */
@@ -71,6 +73,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private DemoFragment Callback               = null;
     private Typeface mainTypeface               = null;
     private Typeface subTypeface                = null;
+    private int errorItem[] = {R.drawable.error1, R.drawable.error2, R.drawable.error3, R.drawable.error4};
 
 
 
@@ -96,6 +99,19 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
+
+        int idx = 0;
+        for (Object obj: productsList) {
+            if(idx == 7)
+            {
+                break;
+            }
+            NewsStory story = (NewsStory)obj;
+            if (story.getSourceName().contains("New York Post")) {
+                Log.v(NEWSSOURCE, "in cell sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
+            }
+            idx++;
+        }
     }
 
     @Override
@@ -252,14 +268,19 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 if(loadImages) {
                     try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
                         Picasso.with(mContext)
-                                .load(item.getUrltoimage())
+                                .load(item.getUrltoimage()+"")
                                 .resize(180, 180)
                                 .centerCrop()
-                                .error(R.drawable.sample)
+                                .error(errorItem[position%errorItem.length])
                                 .into(viewHolder.image);
 
                     } catch (Exception e) {
-
+                        Log.v("NEWSSOURCE" ,item.getSourceName() + " : " + item.getUrltoimage()+" " +e.toString());
+                        Picasso.with(mContext)
+                                .load(errorItem[position%errorItem.length])
+                                .resize(180, 180)
+                                .centerCrop()
+                                .into(viewHolder.image);
                     }
                 }
 
