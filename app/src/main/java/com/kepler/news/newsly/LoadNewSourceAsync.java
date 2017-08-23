@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
 import com.kepler.news.newsly.adapter.CountryAdapter;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.Feed;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +33,12 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by vishaljasrotia on 23/07/17.
  */
 
-public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Feed>> {
+public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<NewsSource>> {
 
     private final NewsSourceDatabase database;
     private CountryAdapter mAdapter         = null;
     private NewsSourceFragment mFragment    = null;
-    ArrayList<Feed> newList               = new ArrayList<>();
+    ArrayList<NewsSource> newList               = new ArrayList<>();
     private int ZERO=0;
 
 
@@ -49,7 +49,7 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
     }
 
     @Override
-    protected ArrayList<Feed> doInBackground(Object... voids) {
+    protected ArrayList<NewsSource> doInBackground(Object... voids) {
         String result   = "";
         try {
             String mUrl = "http://13.58.159.13/newsSourceName.php";
@@ -102,7 +102,7 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
                 Log.v("NEWSOURCE", "newsSource " + data.length());
 
                 for (int i = 0; i < data.length(); i++) {
-                    List<Feed> temp= null;
+                    List<NewsSource> temp= null;
                     try{
                         temp = database.feedModel().getFeed(data.getJSONObject(i).getString("sourceName"));
                         Log.v("NEWSOURCE", "from db " + temp +", "+temp.size());
@@ -111,8 +111,8 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
                     }
                     Log.v("NEWSOURCE",data.getJSONObject(i).getString("sourceName"));
                     if(temp.size()==ZERO) {
-                        newList.add(new Feed(data.getJSONObject(i).getString("sourceName"), false, 0));
-                        database.feedModel().addTask(new Feed(data.getJSONObject(i).getString("sourceName"), false, 0));
+                        newList.add(new NewsSource(data.getJSONObject(i).getString("sourceName"), false, 0));
+                        database.feedModel().addTask(new NewsSource(data.getJSONObject(i).getString("sourceName"), false, 0));
                     }
                 }
 
@@ -149,7 +149,7 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<Fee
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Feed> objects) {
+    protected void onPostExecute(ArrayList<NewsSource> objects) {
         super.onPostExecute(objects);
 
         if(mFragment!=null)

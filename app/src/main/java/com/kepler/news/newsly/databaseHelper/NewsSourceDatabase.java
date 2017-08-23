@@ -9,17 +9,17 @@ import android.content.Context;
  * Created by vishaljasrotia on 27/07/17.
  */
 
-@Database(entities = {Feed.class}, version = 1, exportSchema = false)
+@Database(entities = {NewsSource.class}, version = 1, exportSchema = false)
 public abstract class NewsSourceDatabase extends RoomDatabase {
 
     private static NewsSourceDatabase INSTANCE;
 
-    public abstract FeedDao feedModel();
+    public abstract NewsSourceDao feedModel();
 
     public static NewsSourceDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context, NewsSourceDatabase.class, "feeds")
+                    Room.databaseBuilder(context, NewsSourceDatabase.class, "NewsSource")
 //                    Room.inMemoryDatabaseBuilder(context.getApplicationContext(), NewsSourceDatabase.class)
                             // To simplify the exercise, allow queries on the main thread.
                             // Don't do this on a real app!

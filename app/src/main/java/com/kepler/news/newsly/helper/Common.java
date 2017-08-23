@@ -1,17 +1,9 @@
 package com.kepler.news.newsly.helper;
 
-import android.util.ArrayMap;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.kepler.news.newsly.databaseHelper.Feed;
-import com.kepler.news.newsly.databaseHelper.FeedDao;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Created by vishaljasrotia on 29/05/17.
@@ -20,6 +12,9 @@ import java.util.Map;
 public class Common {
 
 
+
+    //5*1000 means 5 seconds.
+    public static int UPDATEINTERVAL = 30*1000;
     public static final String FIRSTLAUNCH =  "firstlaunch";
     public static int ALWAYS                             = 0;
     public static int NEVER                              = 1;
@@ -76,7 +71,7 @@ public class Common {
 
     public static  LinkedHashMap<String, String> mNewsSources = new LinkedHashMap<>();
 
-    public static void update(ArrayList<Feed> objects)
+    public static void update(ArrayList<NewsSource> objects)
     {
 //        LinkedHashMap<String, String> mNewsSources = new LinkedHashMap<>();
 //        Log.v("NEWSSOURCE","update : " + objects.size());

@@ -29,7 +29,7 @@ public interface NewsDao {
     int getNewsCount();
 
     @SuppressWarnings(CURSOR_MISMATCH)
-    @Query("select * from news where sourceName =:sourceName order by publishedat DESC")
+    @Query("select * from news where sourceName =:sourceName order by addtime DESC")
     List<NewsStory> getSourceNews(String sourceName);
 
     //@SuppressWarnings(CURSOR_MISMATCH)
@@ -42,7 +42,8 @@ public interface NewsDao {
     int getLastFetchTime();
 
 
-
+    @Query("delete from news where publishedat =:publishedat ")
+    void delete(String publishedat);
 }
 
 

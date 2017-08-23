@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.Feed;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.woxthebox.draglistview.DragListView;
@@ -29,7 +29,7 @@ public class Rearrange extends AppCompatActivity {
     private ImageView mImageView;
     private DragListView mDragListView = null;
     private NewsSourceDatabase database  = null;
-    private List<Feed> feeds  =null;
+    private List<NewsSource> newsSources =null;
    // private MySwipeRefreshLayout mRefreshLayout;
     private DragSortListView dragSortListView;
     private DragSortListView.DropListener onDrop;
@@ -42,7 +42,7 @@ public class Rearrange extends AppCompatActivity {
         //mRefreshLayout = (MySwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
         setSupportActionBar(toolbar);
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
-        feeds = database.feedModel().getPriorityFeeds();
+        newsSources = database.feedModel().getPriorityFeeds();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,10 +64,10 @@ public class Rearrange extends AppCompatActivity {
 
         final LinkedList<String> mItemArray;
         mItemArray = new LinkedList<>();
-        for (int i = 0; i < feeds.size(); i++) {
-            map.put(feeds.get(i).newsSource, feeds.get(i).priority);
-            if (feeds.get(i).subscribed) {
-                mItemArray.add(feeds.get(i).newsSource);
+        for (int i = 0; i < newsSources.size(); i++) {
+            map.put(newsSources.get(i).newsSource, newsSources.get(i).priority);
+            if (newsSources.get(i).subscribed) {
+                mItemArray.add(newsSources.get(i).newsSource);
             }
         }
         dragSortListView = (DragSortListView)findViewById(R.id.dragsortlist);
@@ -141,8 +141,8 @@ public class Rearrange extends AppCompatActivity {
 
                     for(int idx = 0 ; idx < adapter.getCount() ; idx ++)
                     {
-                        Feed  feed = new Feed((String) adapter.getItem(idx), true, idx);
-                        database.feedModel().updateTask(feed);
+                        NewsSource newsSource = new NewsSource((String) adapter.getItem(idx), true, idx);
+                        database.feedModel().updateTask(newsSource);
                     }
 
                 }

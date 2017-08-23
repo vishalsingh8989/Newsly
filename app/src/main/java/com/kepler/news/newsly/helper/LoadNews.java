@@ -5,9 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
-import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 
@@ -79,11 +77,11 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
             String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(0)
-                    +"&offset="+String.valueOf(200)
+                    +"&offset="+String.valueOf(500)
                     +"&sourceName="+newsSource.replace(" ", "%20");
 
             URL url1 = new URL(mUrl); // here is your URL path
-            Log.v("LOADINSETTING",url1 + "");
+            Log.v("LOADINSETTING",mUrl);
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());

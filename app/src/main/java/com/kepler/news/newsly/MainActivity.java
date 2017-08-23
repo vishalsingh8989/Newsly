@@ -7,9 +7,6 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,11 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.Settings;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -31,10 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -42,14 +34,12 @@ import android.widget.ListView;
 
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.NativeExpressAdView;
 
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.Feed;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
@@ -120,8 +110,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private FragmentPagerItems pages;
     private DrawerLayout drawer;
     private NewsSourceDatabase database = null;
-    private List<Feed> feeds;
+    private List<NewsSource> newsSources;
     private NavigationView navigationView;
+    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4 };
 
     @SuppressLint("NewApi")
     @Override
@@ -201,16 +192,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         super.onCreate(savedInstanceState);
 
 
+
         Log.v("lifecycle" , "onCreate");
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
-        feeds = database.feedModel().getPriorityFeeds();
+        newsSources = database.feedModel().getPriorityFeeds();
 
-        for (Feed feed:feeds) {
-            Log.v("DATAFEEDS",  "Source : " + feed.newsSource +" , " + feed.priority);
+        for (NewsSource newsSource : newsSources) {
+            Log.v("DATAFEEDS",  "Source : " + newsSource.newsSource +" , " + newsSource.priority);
         }
         setContentView(R.layout.app_drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
 
 
@@ -227,7 +221,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         //viewPager.setPageTransformer(false, new ParallaxTranformation() );
 
+
+        mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        int bgNumber = mPreferences.getInt("count" , 0);
+
+        Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
+        drawer.setBackground(backg);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt("count", ++bgNumber);
+        editor.commit();
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar,R.string.dummy_content, R.string.accept);
         toggle.syncState();
@@ -241,7 +247,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-        mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -262,15 +268,15 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         int idx  = 0;
-        Log.v("NEWSSOURCE", "size : "+feeds.size());
-        for (Feed  feedObj : feeds) {
-            Log.v("NEWSSOURCE", "" + feedObj.newsSource +" , "+feedObj.subscribed);
+        Log.v("NEWSSOURCE", "size : "+ newsSources.size());
+        for (NewsSource newsSourceObj : newsSources) {
+            Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
             ///boolean  checked = mPreferences.getBoolean(sourceName, false);
-            if(feedObj.subscribed) {
+            if(newsSourceObj.subscribed) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Common.SOURCENAME, feedObj.newsSource);
+                bundle.putString(Common.SOURCENAME, newsSourceObj.newsSource);
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                FragmentPagerItem item = FragmentPagerItem.of(feedObj.newsSource, DemoFragment.class, bundle);
+                FragmentPagerItem item = FragmentPagerItem.of(newsSourceObj.newsSource, DemoFragment.class, bundle);
                 pages.add(item);
                 idx = idx + 1;
             }
@@ -533,20 +539,26 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         else if (id == R.id.more_apps){
 
 
-            Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Kepler&hl=en");
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            // To count with Play market backstack, After pressing back button,
-            // to taken back to our application, we need to add following flags to intent.
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            //only for debugging
 
-            try {
-                startActivity(goToMarket);
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
-            }
+            NewsDatabase.getDatabase(getApplicationContext()).feedModel().delete("23-8-2017");
+
+
+            //original intent
+//            Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Kepler&hl=en");
+//            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+//            // To count with Play market backstack, After pressing back button,
+//            // to taken back to our application, we need to add following flags to intent.
+//            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+//                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+//                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+//
+//            try {
+//                startActivity(goToMarket);
+//            } catch (ActivityNotFoundException e) {
+//                startActivity(new Intent(Intent.ACTION_VIEW,
+//                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+//            }
 
         }else if(id == R.id.rearrange)
         {
@@ -591,6 +603,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 

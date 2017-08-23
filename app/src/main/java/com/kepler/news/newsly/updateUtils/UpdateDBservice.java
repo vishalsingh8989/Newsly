@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.kepler.news.newsly.MainActivity;
-import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
-import com.kepler.news.newsly.databaseHelper.Feed;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.helper.Common;
-import com.kepler.news.newsly.helper.LoadNews;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,7 +37,7 @@ public class UpdateDBservice extends IntentService {
     
     private static String TAG = "UpdateDBservice";
     private NewsSourceDatabase sourcesDB;
-    private List<Feed> allSources;
+    private List<NewsSource> allSources;
     
 
 
@@ -84,9 +81,9 @@ public class UpdateDBservice extends IntentService {
         sourcesDB = NewsSourceDatabase.getDatabase(getApplicationContext());
         allSources = sourcesDB.feedModel().getAllFeeds();
 
-        for (Feed feed: allSources) {
+        for (NewsSource newsSource : allSources) {
 
-            if(!feed.subscribed)
+            if(!newsSource.subscribed)
             {
                 continue;
             }
@@ -97,7 +94,7 @@ public class UpdateDBservice extends IntentService {
                 String mUrl = baseUrl+ "?addtime=14955596"
                         +"&start="+String.valueOf(0)
                         +"&offset="+String.valueOf(100)
-                        +"&sourceName="+feed.newsSource.replace(" ", "%20");
+                        +"&sourceName="+ newsSource.newsSource.replace(" ", "%20");
 
                 URL url1 = new URL(mUrl); // here is your URL path
                 //Log.v(TAG,url1 + "");
@@ -169,8 +166,8 @@ public class UpdateDBservice extends IntentService {
 
 
                 }
-                count = database.feedModel().getSourceNews(feed.newsSource).size();
-                Log.v(TAG,"COUNT : " + feed.newsSource + " ,  "+ count );
+                count = database.feedModel().getSourceNews(newsSource.newsSource).size();
+                Log.v(TAG,"COUNT : " + newsSource.newsSource + " ,  "+ count );
             }catch (Exception e)
             {
                 Log.v(TAG,"error:" + e.toString());

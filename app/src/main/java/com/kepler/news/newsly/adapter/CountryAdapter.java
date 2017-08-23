@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kepler.news.newsly.R;
-import com.kepler.news.newsly.databaseHelper.Feed;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +23,13 @@ public class CountryAdapter extends BaseAdapter {
 
     private Context mContext = null;
     private LayoutInflater mLayoutInflater = null;
-    private List<Feed> countryList = null;
+    private List<NewsSource> countryList = null;
     private ArrayList<Boolean> countrySelected = null;
     private int[] background = {R.drawable.sample, R.mipmap.usa_flag, R.mipmap.uk_flag, R.mipmap.india_flag,
                                 R.mipmap.aus_flag, R.mipmap.canada_flag, R.mipmap.france_flag, R.mipmap.italy_flag
     };
 
-    public CountryAdapter(Context context, List<Feed> countryList) {
+    public CountryAdapter(Context context, List<NewsSource> countryList) {
 
 
         this.mContext = context;
@@ -83,7 +83,7 @@ public class CountryAdapter extends BaseAdapter {
         TextView txtTitle;
 
     }
-    public void upDateEntries(List<Feed> entries) {
+    public void upDateEntries(List<NewsSource> entries) {
 
         countryList.addAll(entries);
 

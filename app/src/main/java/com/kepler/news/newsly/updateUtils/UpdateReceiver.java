@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.kepler.news.newsly.helper.Common;
+
 import java.util.Calendar;
 
 public class UpdateReceiver extends BroadcastReceiver {
@@ -29,7 +31,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 
             //5 seconds
             alarm.cancel(pintent);
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 3*60*60*1000, pintent);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), Common.UPDATEINTERVAL, pintent);
 
 
 

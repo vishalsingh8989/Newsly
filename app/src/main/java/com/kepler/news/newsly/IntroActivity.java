@@ -159,7 +159,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
         //5 seconds
         alarm.cancel(pintent);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 3*60*60*1000, pintent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), Common.UPDATEINTERVAL, pintent);
 
         //
 

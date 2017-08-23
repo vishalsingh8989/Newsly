@@ -19,8 +19,8 @@ import android.widget.ListView;
 import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.CountryAdapter;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.helper.LoadNews;
 
@@ -63,8 +63,8 @@ public class NewsSourceFragment extends Fragment{
     private NewsSourceDatabase database = null;
 
     ArrayList<String> mSources = new ArrayList<>();
-    private List<Feed> feeds;
-    private List<Feed> allfeeds;
+    private List<NewsSource> newsSources;
+    private List<NewsSource> allfeeds;
     private String TAG = "";
     private int priority = 0;
 
@@ -120,9 +120,9 @@ public class NewsSourceFragment extends Fragment{
         //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
 
         database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
-        feeds = database.feedModel().getAllFeeds();
+        newsSources = database.feedModel().getAllFeeds();
         mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
-        CountryAdapter adapter = new CountryAdapter(getActivity(),feeds);
+        CountryAdapter adapter = new CountryAdapter(getActivity(), newsSources);
 
         countryListView.setAdapter(adapter);
 
@@ -136,17 +136,17 @@ public class NewsSourceFragment extends Fragment{
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("multichoice" , i + ", " + feeds.get(i).newsSource);
-                boolean subscribed = !database.feedModel().getFeed(feeds.get(i).newsSource).get(0).subscribed;
+                Log.v("multichoice" , i + ", " + newsSources.get(i).newsSource);
+                boolean subscribed = !database.feedModel().getFeed(newsSources.get(i).newsSource).get(0).subscribed;
                 countryListView.setItemChecked(i, subscribed);
 
                 int priority = 0;
                 if(subscribed) {
                     priority = database.feedModel().getMaxPriority() + 1;
-                    LoadNews loadnews = new LoadNews(feeds.get(i).newsSource, mContext);
+                    LoadNews loadnews = new LoadNews(newsSources.get(i).newsSource, mContext);
                     loadnews.execute();
                 }
-                database.feedModel().updateTask(new Feed(feeds.get(i).newsSource, subscribed, priority));
+                database.feedModel().updateTask(new NewsSource(newsSources.get(i).newsSource, subscribed, priority));
 
 
 
@@ -226,15 +226,15 @@ public class NewsSourceFragment extends Fragment{
     }
 
 
-    public void setChecked(ArrayList<Feed> objects)
+    public void setChecked(ArrayList<NewsSource> objects)
     {
 
 
         allfeeds = database.feedModel().getAllFeeds();
         int idx = 0;
-        for (Feed obj: allfeeds) {
+        for (NewsSource obj: allfeeds) {
 
-            //Feed feed = Feed.builder().setNewsSource((String)obj).setSubscribed(true).setPriority(idx).build();
+            //NewsSource feed = NewsSource.builder().setNewsSource((String)obj).setSubscribed(true).setPriority(idx).build();
             if(obj.subscribed)
             {
                 Log.v("RoomAdd", obj.newsSource + " ,  " + obj.priority);

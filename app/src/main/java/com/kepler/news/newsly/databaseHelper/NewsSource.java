@@ -3,20 +3,18 @@ package com.kepler.news.newsly.databaseHelper;
 
 import android.arch.persistence.room.*;
 
-
-import java.util.Date;
 /**
  * Created by vishaljasrotia on 27/07/17.
  */
 
 @Entity
-public class Feed {
+public class NewsSource {
     @PrimaryKey
     public  String newsSource;
     public boolean subscribed;
     public int priority;
 
-    public Feed(String newsSource, boolean subscribed, int priority)
+    public NewsSource(String newsSource, boolean subscribed, int priority)
     {
         this.newsSource = newsSource;
         this.subscribed = subscribed;
@@ -48,8 +46,8 @@ public class Feed {
             this.subscribed = subscribed;
             return this;
         }
-        public Feed build() {
-            return new Feed(newsSource, subscribed, priority);
+        public NewsSource build() {
+            return new NewsSource(newsSource, subscribed, priority);
         }
     }
 
@@ -57,7 +55,7 @@ public class Feed {
 
     @Override
     public String toString() {
-        return "Feed{" +
+        return "NewsSource{" +
                 "newsSource=" + newsSource +
                 ", priority='" + priority + '\'' +
                 ", subscribed=" + subscribed +

@@ -2,11 +2,9 @@ package com.kepler.news.newsly.ViewPagerFragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,14 +21,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.LoadFeedDataAsync;
-import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.Feed;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
@@ -43,10 +40,8 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Objects;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
-import static com.thefinestartist.utils.content.ContextUtil.getApplicationContext;
 
 /**
  * Created by vishaljasrotia on 16/06/17.
@@ -78,7 +73,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private Animation animFadein;
     private BounceScroller scroller;
     private NewsSourceDatabase newsSourceDatabase;
-    private List<Feed> newsSourcelist;
+    private List<NewsSource> newsSourcelist;
     private NewsDatabase newsDatabase;
     private List<News> newsList;
     private Context mContext;
@@ -117,8 +112,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v(NEWSSOURCE       ,"***********************************");
         startMap                = new LinkedHashMap<>();
 
-        for(Feed feedObj : newsSourcelist) {
-            startMap.put(feedObj.newsSource, 0);
+        for(NewsSource newsSourceObj : newsSourcelist) {
+            startMap.put(newsSourceObj.newsSource, 0);
         }
 
         setHasOptionsMenu(true);
