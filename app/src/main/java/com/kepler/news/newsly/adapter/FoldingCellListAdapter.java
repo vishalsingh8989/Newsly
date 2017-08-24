@@ -73,7 +73,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private DemoFragment Callback               = null;
     private Typeface mainTypeface               = null;
     private Typeface subTypeface                = null;
-    private int errorItem[] = {R.drawable.error1, R.drawable.error2, R.drawable.error3, R.drawable.error4};
+    private int errorItem[] = {R.drawable.error1, R.drawable.error2, R.drawable.error3, R.drawable.error4,R.drawable.error5,R.drawable.error6, R.drawable.error7, R.drawable.error8};
 
 
 
@@ -355,6 +355,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView publishedat;
         NativeExpressAdView adView;
         ImageView image;
+        FoldingCell  foldingCell;
 
     }
 

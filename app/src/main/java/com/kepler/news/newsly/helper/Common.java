@@ -14,7 +14,7 @@ public class Common {
 
 
     //5*1000 means 5 seconds.
-    public static int UPDATEINTERVAL = 30*1000;
+    public static int UPDATEINTERVAL = 10*60*1000;
     public static final String FIRSTLAUNCH =  "firstlaunch";
     public static int ALWAYS                             = 0;
     public static int NEVER                              = 1;

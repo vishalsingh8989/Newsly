@@ -112,13 +112,11 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
 
         Fragment newsSourceFragment = new NewsSourceFragment();
-        //Fragment languageFragment = new LanguageFragment();
         Fragment loadImagesFragment = new LoadImagesFragment();
 
 
         addSlide(helloFragment);
         addSlide(newsSourceFragment);
-        //addSlide(languageFragment);
         addSlide(loadImagesFragment);
 
 

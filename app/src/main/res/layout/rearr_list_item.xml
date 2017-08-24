@@ -6,6 +6,11 @@
     android:layout_gravity="center_horizontal"
     android:gravity="center"
     android:textSize="16dp"
-    android:textColor="#101010"
+    android:textStyle="bold"
+    android:textColor="#ffffff"
+    android:shadowRadius="1"
+    android:shadowDx="1"
+    android:shadowDy="1"
+    android:shadowColor="#111111"
     android:padding="10dp"
     />

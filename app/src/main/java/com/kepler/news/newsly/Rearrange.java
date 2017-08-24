@@ -1,10 +1,13 @@
 package com.kepler.news.newsly;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
+import com.kepler.news.newsly.helper.Common;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.woxthebox.draglistview.DragListView;
@@ -33,11 +38,24 @@ public class Rearrange extends AppCompatActivity {
    // private MySwipeRefreshLayout mRefreshLayout;
     private DragSortListView dragSortListView;
     private DragSortListView.DropListener onDrop;
+    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
+    private SharedPreferences mPreferences;
+    private RelativeLayout root;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rearrange);
+
+        mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+        root = (RelativeLayout) findViewById(R.id.rearrange_root);
+
+        int bgNumber = mPreferences.getInt("count" , 0);
+
+        Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
+        root.setBackground(backg);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //mRefreshLayout = (MySwipeRefreshLayout)findViewById(R.id.swipe_refresh_layout);
         setSupportActionBar(toolbar);
