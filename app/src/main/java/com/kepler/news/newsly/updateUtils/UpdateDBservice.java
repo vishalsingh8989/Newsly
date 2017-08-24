@@ -60,6 +60,7 @@ public class UpdateDBservice extends IntentService {
     private String id;
     private String addtime;
     private int count = 0;
+    private String num_of_likes;
 
     public UpdateDBservice(){
         super("");
@@ -160,8 +161,10 @@ public class UpdateDBservice extends IntentService {
                         language        = data.getJSONObject(i).getString(Common.LANGUAGE);
                         country         = data.getJSONObject(i).getString(Common.COUNTRY);
                         addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
+
+                        num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
                         
-                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime)));
+                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
                     }
 
 

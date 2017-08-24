@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_width="4dp"
             android:orientation="horizontal" />
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/main_bar"
             android:background="@color/transparent"
             android:layout_height="199dp"
@@ -66,7 +66,76 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/first"
+                    android:layout_weight="1"
+                    android:src="@drawable/bookmark"
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_toRightOf="@+id/first"
+                    android:layout_weight="1"
+                    android:id="@+id/second"
+                    android:src="@drawable/share"
+                    />
+                <ImageView
+                    android:id="@+id/third"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_toRightOf="@+id/second"
+                    android:layout_weight="1"
+                    android:src="@drawable/comment"
+                    />
+                <RelativeLayout
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_toRightOf="@+id/third"
+                    android:layout_weight="1"
+                    android:background="#00111111">
+                    <TextView
+                        android:id="@+id/num_of_likes"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:textSize="10sp"
+                        android:text="10"
+                        android:layout_marginLeft="1dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:textColor="#FFFFFF"
+                        />
+                    <ImageView
+                        android:id="@+id/fourth"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/divider1"
             android:layout_below="@+id/main_bar"
@@ -185,10 +254,11 @@
                     android:padding="2dp"
                     android:layout_marginLeft="2dp"
                     android:textSize="@dimen/subtext_size"
+                    android:textStyle="bold"
                     android:text="Source : ABC news"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.FontPath"
-                    android:textColor="@color/p" />
+                    android:textColor="@color/white" />
                 <TextView
                     android:id="@+id/publishedat"
                     android:layout_centerVertical="true"
@@ -198,10 +268,11 @@
                     android:padding="2dp"
                     android:layout_marginRight="2dp"
                     android:textSize="@dimen/subtext_size"
+                    android:textStyle="bold"
                     android:text="12/02/2017"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.FontPath"
-                    android:textColor="@color/p" />
+                    android:textColor="@color/white" />
 
             </RelativeLayout>
         </LinearLayout>

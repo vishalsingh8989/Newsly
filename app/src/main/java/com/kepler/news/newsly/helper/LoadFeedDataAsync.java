@@ -1,42 +1,50 @@
-package com.kepler.news.newsly;
+package com.kepler.news.newsly.helper;
 
-import android.accounts.NetworkErrorException;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.util.Log;
+/**
+ * Created by vishaljasrotia on 8/24/17.
+ */
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.NativeExpressAdView;
-import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
-import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
-import com.kepler.news.newsly.databaseHelper.News;
-import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-import com.kepler.news.newsly.helper.Common;
-import com.wang.avi.AVLoadingIndicatorView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+    import android.accounts.NetworkErrorException;
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import android.os.AsyncTask;
+    import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Random;
+    import com.google.android.gms.ads.AdRequest;
+    import com.google.android.gms.ads.AdSize;
+    import com.google.android.gms.ads.NativeExpressAdView;
+    import com.kepler.news.newsly.MainActivity;
+    import com.kepler.news.newsly.NewsStory;
+    import com.kepler.news.newsly.R;
+    import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
+    import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+    import com.kepler.news.newsly.databaseHelper.News;
+    import com.kepler.news.newsly.databaseHelper.NewsDatabase;
+    import com.kepler.news.newsly.helper.Common;
+    import com.wang.avi.AVLoadingIndicatorView;
 
-import javax.net.ssl.HttpsURLConnection;
+    import org.json.JSONArray;
+    import org.json.JSONException;
+    import org.json.JSONObject;
+
+    import java.io.BufferedReader;
+    import java.io.BufferedWriter;
+    import java.io.IOException;
+    import java.io.InputStreamReader;
+    import java.io.OutputStream;
+    import java.io.OutputStreamWriter;
+    import java.net.HttpURLConnection;
+    import java.net.MalformedURLException;
+    import java.net.URL;
+    import java.net.URLEncoder;
+    import java.util.ArrayList;
+    import java.util.Iterator;
+    import java.util.LinkedHashMap;
+    import java.util.List;
+    import java.util.Random;
+
+    import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by vishaljasrotia on 28/05/17.
@@ -73,6 +81,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     private String country;
     private String id;
     private String addtime;
+    private String num_of_likes;
 
 
     public LoadFeedDataAsync( FoldingCellListAdapter adapter) {
@@ -118,13 +127,13 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
         try{
-                fragment.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
-                        progressbar.smoothToShow();
+            fragment.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                    progressbar.smoothToShow();
 
-                    }
+                }
             });
         }catch (Exception e)
         {
@@ -141,7 +150,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         try {
 
 
-           String baseUrl = "http://13.58.159.13/";
+            String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
                     +"&start="+String.valueOf(startFrom)
                     +"&offset="+String.valueOf(MainActivity.offset)
@@ -220,6 +229,8 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     country         = data.getJSONObject(i).getString(Common.COUNTRY);
                     addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
 
+                    num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
+
 
 
                     story.setId(id);
@@ -235,10 +246,11 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     story.setPublishedat(publishedat);
                     story.setLanguage(language);
                     story.setCountry(country);
+                    story.setNum_of_likes(num_of_likes);
 
                     newList.add(story);
 
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime)));
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
                 }
 
 

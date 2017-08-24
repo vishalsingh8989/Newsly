@@ -1,7 +1,9 @@
 package com.kepler.news.newsly;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 
@@ -45,6 +47,9 @@ import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
 
 
+import com.kepler.news.newsly.helper.FontsOverride;
+import com.kepler.news.newsly.helper.LoadFeedDataAsync;
+import com.kepler.news.newsly.updateUtils.UpdateDBservice;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -59,6 +64,7 @@ import com.thefinestartist.finestwebview.FinestWebView;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private LoadFeedDataAsync  loadFeedDataAsync            = null;
+    private LoadFeedDataAsync loadFeedDataAsync            = null;
     public static  int calledOn = 35;
     private int minEntries = 30;
     private int currentScrollState;
@@ -180,8 +186,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -191,6 +195,19 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         );
         super.onCreate(savedInstanceState);
 
+        Calendar cal = null;
+        cal = Calendar.getInstance();
+
+        Intent intent1= new Intent(getApplicationContext(), UpdateDBservice.class);
+        PendingIntent pintent = PendingIntent.getService(getApplicationContext(), 0, intent1, 0);
+        AlarmManager alarm = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+
+
+        //5 seconds
+        alarm.cancel(pintent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), Common.UPDATEINTERVAL, pintent);
+
+        //
 
 
         Log.v("lifecycle" , "onCreate");

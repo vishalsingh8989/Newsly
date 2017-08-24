@@ -23,6 +23,7 @@ public class News {
     public  String country;
     public  String category;
     public  int  addtime;
+    public  int  num_of_likes;
 
 
     public News(String id,
@@ -37,8 +38,8 @@ public class News {
                 String language,
                 String country,
                 String category,
-
-                int addtime) {
+                int addtime,
+                int num_of_likes) {
 
         this.id = id;
         this.title = title;
@@ -53,6 +54,7 @@ public class News {
         this.country = country;
         this.category = category;
         this.addtime = addtime;
+        this.num_of_likes = num_of_likes;
 
     }
 
@@ -76,11 +78,12 @@ public class News {
         public  String country;
         public  String name;
         public  String category;
-        public int addtime;
+        public  int addtime;
+        public  int num_of_likes;
 
 
         public News build() {
-            return new News(id,title, description, publishedat,source,sourceName,url,urltoimage,author,language,country,category, addtime);
+            return new News(id,title, description, publishedat,source,sourceName,url,urltoimage,author,language,country,category, addtime, num_of_likes);
         }
     }
 

@@ -202,6 +202,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.readFull = (FancyButton) cell.findViewById(R.id.read_full);
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
                     viewHolder.title_back = (TextView)cell.findViewById(R.id.title_back);
+                    viewHolder.num_of_likes = (TextView)cell.findViewById(R.id.num_of_likes);
 
                     viewHolder.title_back.setTypeface(mainTypeface);
                     viewHolder.title.setTypeface(mainTypeface);
@@ -224,6 +225,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.title.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
                 viewHolder.title_back.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
 
+
+                viewHolder.num_of_likes.setText(item.getNum_of_likes());
                 //viewHolder.author.setText("Author: " + item.getAuthor());
                 //viewHolder.category.setText(item.getCategory());
                 viewHolder.publishedat.setText(item.getPublishedat());
@@ -262,6 +265,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
                 viewHolder.side_bar.setBackground(gradientDrawable);
                 viewHolder.side_bar1.setBackground(gradientDrawable);
+
 
 
 
@@ -355,7 +359,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView publishedat;
         NativeExpressAdView adView;
         ImageView image;
-        FoldingCell  foldingCell;
+        TextView num_of_likes;
+
 
     }
 

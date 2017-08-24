@@ -56,6 +56,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
     private String country;
     private String id;
     private String addtime;
+    private String  num_of_likes;
     public LoadNews(String newsSource, Context mContext) {
 
         this.newsSource = newsSource;
@@ -152,6 +153,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     language        = data.getJSONObject(i).getString(Common.LANGUAGE);
                     country         = data.getJSONObject(i).getString(Common.COUNTRY);
                     addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
+                    num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
 
 
@@ -168,10 +170,11 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     story.setPublishedat(publishedat);
                     story.setLanguage(language);
                     story.setCountry(country);
+                    story.setNum_of_likes(num_of_likes);
 
                     newList.add(story);
 
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime)));
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
                 }
 
 

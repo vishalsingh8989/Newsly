@@ -20,9 +20,14 @@ public class NewsStory {
     private String sourceUrl   = "";
     private String addtime     = "";
     private String source           = "";
-    private String language = "";
+    private String language         = "";
     private String country          = "";
+    private String num_of_likes     = "";
 
+
+    public void setNum_of_likes(String num_of_likes) {
+        this.num_of_likes = num_of_likes;
+    }
 
     public void setCountry(String country) {
         this.country = country;
@@ -81,6 +86,9 @@ public class NewsStory {
         this.sourceUrl = sourceUrl;
     }
 
+    public String getNum_of_likes() {
+        return num_of_likes;
+    }
 
     public String getCountry() {
         return country;
