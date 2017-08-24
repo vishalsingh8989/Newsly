@@ -74,6 +74,12 @@ public class UpdateDBservice extends IntentService {
         Log.v(TAG, "UpdateDBservice : onHandleIntent");
 
         List<Object> newList               = new ArrayList<>();
+        updateDB();
+
+
+    }
+
+    public void updateDB() {
         String result   = "";
 
         database =  NewsDatabase.getDatabase(getApplicationContext());
@@ -146,7 +152,7 @@ public class UpdateDBservice extends IntentService {
                     JSONArray data = jObject.getJSONArray("articles");
                     //Log.v(TAG, "articles " + data.length());
                     for (int i = 0; i < data.length(); i++) {
-                        
+
                         id = data.getJSONObject(i).getString(Common.ID);
 
                         description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
@@ -163,8 +169,8 @@ public class UpdateDBservice extends IntentService {
                         addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
 
                         num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
-                        
-                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
+
+                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
                     }
 
 
@@ -179,14 +185,7 @@ public class UpdateDBservice extends IntentService {
 
 
         }
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-
-
-        }
     }
-
 
 
     @Override

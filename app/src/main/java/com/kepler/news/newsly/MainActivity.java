@@ -45,15 +45,9 @@ import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
-
-
-import com.kepler.news.newsly.helper.FontsOverride;
-import com.kepler.news.newsly.helper.LoadFeedDataAsync;
 import com.kepler.news.newsly.updateUtils.UpdateDBservice;
 import com.kepler.news.newsly.views.CircleRefreshLayout;
-
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private LoadFeedDataAsync loadFeedDataAsync            = null;
+
     public static  int calledOn = 35;
     private int minEntries = 30;
     private int currentScrollState;

@@ -1,4 +1,4 @@
-package com.kepler.news.newsly.helper;
+package com.kepler.news.newsly.updateUtils;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.util.Log;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
+import com.kepler.news.newsly.helper.Common;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,15 +131,6 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                 JSONArray data = jObject.getJSONArray("articles");
                 Log.v("HYHTTP", "articles " + data.length());
                 for (int i = 0; i < data.length(); i++) {
-                    NewsStory story = new NewsStory();
-
-//                    Log.v("HYHTTP", "*************************************");
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
-//                    Log.v("HYHTTP", "*************************************");
-
-
                     id = data.getJSONObject(i).getString(Common.ID);
 
                     description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
@@ -155,26 +147,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
                     num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
-
-
-                    story.setId(id);
-
-                    story.setDescription(description);
-                    story.setTitle(title);
-                    story.setSourceName(sourceName);
-                    story.setUrltoimage(urltoimage);
-                    story.setAuthor(author);
-                    story.setCategory(category);
-                    story.setUrl(url);
-                    story.setSourceUrl(sourceurl);
-                    story.setPublishedat(publishedat);
-                    story.setLanguage(language);
-                    story.setCountry(country);
-                    story.setNum_of_likes(num_of_likes);
-
-                    newList.add(story);
-
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false));
                 }
 
 

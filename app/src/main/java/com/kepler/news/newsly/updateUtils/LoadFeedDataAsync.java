@@ -1,4 +1,4 @@
-package com.kepler.news.newsly.helper;
+package com.kepler.news.newsly.updateUtils;
 
 /**
  * Created by vishaljasrotia on 8/24/17.
@@ -250,7 +250,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
                     newList.add(story);
 
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes)));
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
                 }
 
 
@@ -300,7 +300,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         Random rn = new Random(15L);
         //Collections.shuffle(result, rn);
 
-        foldingCellListAdapter.upDateEntries(result , onRefresh);
+        //foldingCellListAdapter.upDateEntries(result , onRefresh);
 
 
         //DemoFragment.avLoadingIndicatorView.smoothToHide();

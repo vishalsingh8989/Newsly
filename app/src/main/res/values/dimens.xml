@@ -30,5 +30,7 @@
     <dimen name="nav_header_height">230dp</dimen>
     <dimen name="arc_width">86dp</dimen>
     <dimen name="list_item_side_margin">7dp</dimen>
+    <dimen name="options_btn_size">20dp</dimen>
+    <dimen name="like_btn_size">14dp</dimen>
 
 </resources>

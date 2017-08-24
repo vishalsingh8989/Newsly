@@ -19,5 +19,7 @@
     <dimen name="fab_button_size">190dp</dimen>
     <dimen name="min_fab_width">200dp</dimen>
     <dimen name="list_item_side_margin">14dp</dimen>
+    <dimen name="options_btn_size">20dp</dimen>
+    <dimen name="like_btn_size">14dp</dimen>
 
 </resources>

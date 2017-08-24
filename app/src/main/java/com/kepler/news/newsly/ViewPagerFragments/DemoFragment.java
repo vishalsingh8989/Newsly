@@ -31,9 +31,6 @@ import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
-import com.kepler.news.newsly.helper.FontsOverride;
-import com.kepler.news.newsly.helper.BounceListener;
-import com.kepler.news.newsly.helper.LoadFeedDataAsync;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -62,7 +59,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
-    private LoadFeedDataAsync loadFeedDataAsync            = null;
     private String sourceName                               = "";
     private LinkedHashMap<String, Integer> startMap         = null;
     private boolean loadImages = false;
@@ -151,13 +147,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         listView                = (ListView)view.findViewById(R.id.list1);
         foldingCellListAdapter  = new FoldingCellListAdapter(this, mContext, productsList, alldbnews, loadImages, sourceName);
 
-
-
-
         listView.setAdapter(foldingCellListAdapter);
-        loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
-
-        //loadFeedDataAsync.execute();
+//        loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
+//
+//        //loadFeedDataAsync.execute();
         startMap.put(sourceName, calledOn);
 
 
@@ -329,11 +322,16 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private List<Object> addNativeExpressAds(List<Object> result){
         for(int i = 0 ; i < result.size(); i +=1)
         {
-            if(i%12==0 && i!=0) {
+            if(i%Common.ADINTERVAL==0 && i!=0) {
                 NativeExpressAdView adView = new NativeExpressAdView(mContext);
                 adView.setAdSize(new AdSize(300, 100));
 
-                adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+                if(i%Common.ADINTERVAL*2 ==0&&i!=0) {
+                    adView.setAdUnitId("ca-app-pub-5223778660504166/2968121932");
+                }else{
+                    adView.setAdUnitId("ca-app-pub-5223778660504166/4542327317");
+                }
+
                 adView.loadAd(new AdRequest.Builder()
                         .addTestDevice("32C278BA97F2B33C41A02691587B4F29")
                         .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -358,21 +356,10 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         Log.v("DemoFrag" , "item selected :" + item.getItemId());
-
-
-        loadFeedDataAsync.execute();
         return super.onOptionsItemSelected(item);
 
 
     }
 
-    public void getFeeds() {
-        alldbnews = newsDatabase.feedModel().getAllNews();
-
-
-
-    }
 }

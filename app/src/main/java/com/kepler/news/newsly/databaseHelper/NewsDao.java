@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.kepler.news.newsly.NewsStory;
 
@@ -44,6 +45,23 @@ public interface NewsDao {
 
     @Query("delete from news where publishedat =:publishedat ")
     void delete(String publishedat);
+
+
+    /*UPDATE table_name
+    SET column1 = value1, column2 = value2, ...
+    WHERE condition;
+    */
+    @Update
+    void updateLike(News news);
+
+    @Query("select * from news where id=:id ")
+    News getLikeStatus(String id);
+
+    @Query("select * from news where id=:id ")
+    News getBookMarkStatus(String id);
+
+    @Update
+    void updateBookmark(News likeStatus);
 }
 
 

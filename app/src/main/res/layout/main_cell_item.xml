@@ -11,7 +11,7 @@
     android:layout_marginRight="@dimen/list_item_side_margin"
 
     folding-cell:animationDuration="500"
-    folding-cell:backSideColor="#bcbbbb"
+    folding-cell:backSideColor="#d4000000"
     folding-cell:additionalFlipsCount="0"
     folding-cell:cameraHeight="30">
     ​
@@ -72,54 +72,56 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+
+                    android:layout_width="@dimen/options_btn_size"
+                    android:layout_height="@dimen/options_btn_size"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:id="@+id/first"
+                    android:id="@+id/bookmark_btn"
                     android:layout_weight="1"
                     android:src="@drawable/bookmark"
                     />
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="@dimen/options_btn_size"
+                    android:layout_height="@dimen/options_btn_size"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:layout_toRightOf="@+id/first"
+                    android:layout_toRightOf="@+id/bookmark_btn"
                     android:layout_weight="1"
-                    android:id="@+id/second"
+                    android:id="@+id/share_btn"
                     android:src="@drawable/share"
                     />
                 <ImageView
-                    android:id="@+id/third"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/comment_btn"
+                    android:layout_width="@dimen/options_btn_size"
+                    android:layout_height="@dimen/options_btn_size"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:layout_toRightOf="@+id/second"
+                    android:layout_toRightOf="@+id/share_btn"
                     android:layout_weight="1"
                     android:src="@drawable/comment"
                     />
                 <RelativeLayout
+
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:layout_toRightOf="@+id/third"
+                    android:layout_toRightOf="@+id/comment_btn"
                     android:layout_weight="1"
                     android:background="#00111111">
                     <TextView
                         android:id="@+id/num_of_likes"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
+                        android:layout_width="@dimen/like_btn_size"
+                        android:layout_height="@dimen/like_btn_size"
                         android:textSize="10sp"
                         android:text="10"
                         android:layout_marginLeft="1dp"
@@ -128,7 +130,8 @@
                         android:textColor="#FFFFFF"
                         />
                     <ImageView
-                        android:id="@+id/fourth"
+
+                        android:id="@+id/like_btn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/like"

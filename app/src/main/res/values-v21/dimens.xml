@@ -4,4 +4,6 @@
     <dimen name="ad_unit_width">310dp</dimen>
     <dimen name="ad_unit_height">110dp</dimen>
     <dimen name="min_fab_width">200dp</dimen>
+    <dimen name="options_btn_size">22dp</dimen>
+    <dimen name="like_btn_size">16dp</dimen>
 </resources>

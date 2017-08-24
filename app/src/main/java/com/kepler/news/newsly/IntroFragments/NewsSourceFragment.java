@@ -22,7 +22,7 @@ import com.kepler.news.newsly.adapter.CountryAdapter;
 import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.helper.Common;
-import com.kepler.news.newsly.helper.LoadNews;
+import com.kepler.news.newsly.updateUtils.LoadNews;
 
 import java.util.ArrayList;
 import java.util.List;

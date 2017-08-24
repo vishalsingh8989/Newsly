@@ -33,6 +33,9 @@ import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
+import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
+import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.nihaskalam.progressbuttonlibrary.CircularProgressButton;
 import com.ramotion.foldingcell.FoldingCell;
@@ -100,18 +103,6 @@ public class FoldingCellListAdapter extends BaseAdapter {
         subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
 
-        int idx = 0;
-        for (Object obj: productsList) {
-            if(idx == 7)
-            {
-                break;
-            }
-            NewsStory story = (NewsStory)obj;
-            if (story.getSourceName().contains("New York Post")) {
-                Log.v(NEWSSOURCE, "in cell sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
-            }
-            idx++;
-        }
     }
 
     @Override
@@ -137,7 +128,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return position % 12 == 0 && position !=0 ? ADVIEW : FOLDINGCELLVIEW;
+        return position % Common.ADINTERVAL == 0 && position !=0 ? ADVIEW : FOLDINGCELLVIEW;
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -145,7 +136,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         int type= getItemViewType(position);
         Log.v("FoldingCell", "POS : " + position +" , "+ sourceName +" , "+ (type == ADVIEW )+ " , "+convertView);
         FoldingCell cell =null;
-        NewsStory item;
+        final NewsStory item;
         switch (type) {
 
             case ADVIEW  :
@@ -203,6 +194,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.publishedat = (TextView) cell.findViewById(R.id.publishedat);
                     viewHolder.title_back = (TextView)cell.findViewById(R.id.title_back);
                     viewHolder.num_of_likes = (TextView)cell.findViewById(R.id.num_of_likes);
+                    viewHolder.bookmark_btn = (ImageView)cell.findViewById(R.id.bookmark_btn);
+                    viewHolder.like_btn = (ImageView)cell.findViewById(R.id.like_btn);
+
 
                     viewHolder.title_back.setTypeface(mainTypeface);
                     viewHolder.title.setTypeface(mainTypeface);
@@ -227,6 +221,23 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
                 viewHolder.num_of_likes.setText(item.getNum_of_likes());
+
+
+                News status = NewsDatabase.getDatabase(mContext).feedModel().getBookMarkStatus(item.getId());
+                Log.v("BOOKMARKLIKE", "bookmark status  : " + status.bookmark);
+                if(status.bookmark  == false) {
+                    viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
+                }else{
+                    viewHolder.bookmark_btn.setImageResource(R.drawable.bookmarked);
+                }
+
+
+                Log.v("BOOKMARKLIKE", "like status  : " + status.like);
+                if(status.like  == false) {
+                    viewHolder.like_btn.setImageResource(R.drawable.like);
+                }else{
+                    viewHolder.like_btn.setImageResource(R.drawable.liked);
+                }
                 //viewHolder.author.setText("Author: " + item.getAuthor());
                 //viewHolder.category.setText(item.getCategory());
                 viewHolder.publishedat.setText(item.getPublishedat());
@@ -257,6 +268,45 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
                         Callback.onItemClicked(viewHolder.source, position);
+                    }
+                });
+
+                viewHolder.bookmark_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        News bookMarkStatus = NewsDatabase.getDatabase(mContext).feedModel().getBookMarkStatus(item.getId());
+                        Log.v("BOOKMARKLIKE", "bookmark status  : " + bookMarkStatus.bookmark);
+                        if(bookMarkStatus.bookmark  == true) {
+                            bookMarkStatus.bookmark = false;
+                            viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
+                        }else{
+                            bookMarkStatus.bookmark = true;
+                            viewHolder.bookmark_btn.setImageResource(R.drawable.bookmarked);
+                        }
+                        NewsDatabase.getDatabase(mContext).feedModel().updateBookmark(bookMarkStatus);
+                    }
+                });
+
+                viewHolder.like_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        News likeStatus = NewsDatabase.getDatabase(mContext).feedModel().getLikeStatus(item.getId());
+                        Log.v("BOOKMARKLIKE", "like status  : " + likeStatus.like);
+                        int count = Integer.parseInt((String) viewHolder.num_of_likes.getText());
+                        if(likeStatus.like  == true) {
+                            viewHolder.like_btn.setImageResource(R.drawable.like);
+                            likeStatus.like = false;
+                            count--;
+                        }else{
+                            likeStatus.like = true;
+                            viewHolder.like_btn.setImageResource(R.drawable.liked);
+                            count++;
+                        }
+                        NewsDatabase.getDatabase(mContext).feedModel().updateLike(likeStatus);
+
+                        viewHolder.num_of_likes.setText(count+"");
+
+
                     }
                 });
 
@@ -360,6 +410,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         NativeExpressAdView adView;
         ImageView image;
         TextView num_of_likes;
+        ImageView bookmark_btn;
+        ImageView like_btn;
 
 
     }
