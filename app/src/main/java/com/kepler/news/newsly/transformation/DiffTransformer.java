@@ -24,7 +24,7 @@ public class DiffTransformer implements ViewPager.PageTransformer {
         RelativeLayout rl = (RelativeLayout) page;
         mPageNumber = -2; //or 2 . same thing . 0 is diferent;
         for(int i = 0; i< rl.getChildCount(); i++) {
-            if(rl.getChildAt(i) instanceof ImageView && rl.getChildAt(i).getId() == R.id.world) {
+            if(rl.getChildAt(i) instanceof ImageView ) {
                 mPageNumber = 0;
                 break;
             }else if(rl.getChildAt(i) instanceof ListView && rl.getChildAt(i).getId() == R.id.countrylist) {
@@ -41,7 +41,7 @@ public class DiffTransformer implements ViewPager.PageTransformer {
         }else if (position <= 1) {
             if(mPageNumber == 0) {
 
-                rl.findViewById(R.id.world).setTranslationX(position*(pageWidth*1.3f));
+                //rl.findViewById(R.id.world).setTranslationX(position*(pageWidth*1.3f));
                 rl.findViewById(R.id.app_name_middle).setTranslationX(-position*(pageWidth/4));
                 rl.findViewById(R.id.details).setTranslationX(position*(pageWidth*1.3f));
 

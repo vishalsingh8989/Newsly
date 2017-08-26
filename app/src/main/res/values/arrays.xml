@@ -298,14 +298,6 @@
         <item>Log Out</item>
     </string-array>
 
-    <array name="ld_activityScreenIcons">
-        <item>@drawable/newsly_board</item>
-        <item>@drawable/language</item>
-        <item>@drawable/country</item>
-        <item>@drawable/language</item>
-        <item>@drawable/language</item>
-        <item>0</item>
-        <item>@drawable/ic_logout_grey600_24dp</item>
-    </array>
+
 
 </resources>

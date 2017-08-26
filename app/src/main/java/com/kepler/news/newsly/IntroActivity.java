@@ -125,14 +125,14 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         setProgressButtonEnabled(true);
 
 
-        setCustomTransformer(new DiffTransformer());
+        //setCustomTransformer(new DiffTransformer());
         //setFadeAnimation();
-        setIndicatorColor(R.color.colorChipBackground, R.color.n);
+        //setIndicatorColor(R.color.colorChipBackground, R.color.n);
         setColorDoneText(Color.parseColor("#111111"));
 
 
-        setSeparatorColor(Color.parseColor("#00ffffff"));
-        setNextArrowColor(Color.parseColor("#aa1133"));
+        setSeparatorColor(Color.parseColor("#01111111"));
+        setNextArrowColor(Color.parseColor("#F5F5F5"));
 
 
     }

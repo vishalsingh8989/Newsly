@@ -30,7 +30,7 @@ dependencies {
 
 
 
-
+    compile 'com.fxn769:oblique:1.0'
     compile 'com.github.medyo:fancybuttons:1.8.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 

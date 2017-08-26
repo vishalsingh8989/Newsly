@@ -1,6 +1,7 @@
 package com.kepler.news.newsly.IntroFragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kepler.news.newsly.R;
@@ -62,7 +66,64 @@ public class HelloFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_hello, container, false);
+        TextView app_name = (TextView)v.findViewById(R.id.app_name_middle);
+        TextView details = (TextView)v.findViewById(R.id.details);
+
+        Typeface tp = Typeface.createFromAsset(getActivity().getAssets(), "fonts/attic.ttf");
+        final ImageView image_bg = (ImageView)v.findViewById(R.id.image_bg);
+        app_name.setTypeface(tp);
+        details.setTypeface(tp);
+
         ///TextView app_name = (TextView) v.findViewById(R.id.app_name_middle);
+
+
+//        final Animation mZoomInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.zoom_in);
+//        final Animation mZoomOutnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.zoom_out);
+//        //mZoomInAnimation.setRepeatMode(Animation.INFINITE);
+//
+//        mZoomInAnimation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                image_bg.startAnimation(mZoomOutnimation);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//
+//
+//        mZoomOutnimation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                image_bg.startAnimation(mZoomInAnimation);
+//            }
+//
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//
+//        image_bg.startAnimation(mZoomInAnimation);
+
+
+        //Animation mZoomOutAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_out);
+        //imagePop.startAnimation(mZoomInAnimation);
+        //imagePop.startAnimation(mZoomOutAnimation);
+
         return v;
     }
 

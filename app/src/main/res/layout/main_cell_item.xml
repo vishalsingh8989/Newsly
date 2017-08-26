@@ -150,7 +150,6 @@
             android:orientation="horizontal" />
 
         <RelativeLayout
-            android:id="@+id/second_view"
             android:layout_below="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/flip_view_height">
@@ -200,7 +199,6 @@
     ​
     <LinearLayout
         android:background="@drawable/main_item_cell_bg"
-        android:id="@+id/cell_title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

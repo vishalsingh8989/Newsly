@@ -92,22 +92,26 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         newsSourcelist          = newsSourceDatabase.feedModel().getAllFeeds();
         newsDatabase            = NewsDatabase.getDatabase(mContext);
         sourceName              = mArgs.getString(Common.SOURCENAME);
-        alldbnews               = newsDatabase.feedModel().getSourceNews(sourceName);
-
-        Log.v(NEWSSOURCE       ,"***********************************");
-        Log.v(NEWSSOURCE       ,"productlist " + productsList);
 
 
         productsList            = new ArrayList<>();
-        
+
+
+        alldbnews = newsDatabase.feedModel().getSourceNews(sourceName);
+
         for (NewsStory story: alldbnews) {
-            if(story.getSourceName().contains("New York Post")) {
-                Log.v(NEWSSOURCE, "before sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
+            if(story.getSourceName().contains(Common.BOOKMARKS)) {
+                //Log.v("BOOKDEMO", "before sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
             }
             if(story.getSourceName().equals(sourceName))
-            productsList.add(story);
-
+                productsList.add(story);
         }
+
+        Log.v(NEWSSOURCE       ,"***********************************");
+
+
+
+
         //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE BF AD : " + productsList.size());
         productsList            = addNativeExpressAds(productsList);
         //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
@@ -117,11 +121,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         startMap                = new LinkedHashMap<>();
 
 
-        for (NewsStory story: alldbnews) {
-            if (story.getSourceName().contains("New York Post")) {
-                Log.v(NEWSSOURCE, "after sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
-            }
-        }
+
         for(NewsSource newsSourceObj : newsSourcelist) {
             startMap.put(newsSourceObj.newsSource, 0);
         }

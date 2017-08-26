@@ -53,6 +53,7 @@ public class Rearrange extends AppCompatActivity {
 
         int bgNumber = mPreferences.getInt("count" , 0);
 
+        bgNumber--;
         Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
         root.setBackground(backg);
 

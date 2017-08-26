@@ -45,4 +45,5 @@
     <string name="details">Faster access to different sources of news and information and topics you really care about.</string>
     <string name="title_activity_rearrange">News Source</string>
 
+    <string name="title_activity_book_mark">Book Marks</string>
 </resources>

@@ -23,7 +23,7 @@ import static android.arch.persistence.room.RoomWarnings.*;
 public interface NewsDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     void addNews(News news);
 
     @Query("select count(*) from news")
@@ -60,8 +60,12 @@ public interface NewsDao {
     @Query("select * from news where id=:id ")
     News getBookMarkStatus(String id);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateBookmark(News likeStatus);
+
+
+    @Query("select * from news where bookmark =:status")
+    List<NewsStory> getBookMarkedNews(boolean status);
 }
 
 

@@ -23,7 +23,28 @@ public class NewsStory {
     private String language         = "";
     private String country          = "";
     private String num_of_likes     = "";
+    private boolean bookmark         = false;
+    private boolean like                =false;
 
+
+
+    public  boolean getBookmark()
+    {
+        return this.bookmark;
+    }
+
+    public  boolean getLike(){
+            return this.like;
+    }
+
+
+    public void setBookmark(boolean bookmark) {
+        this.bookmark = bookmark;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
 
     public void setNum_of_likes(String num_of_likes) {
         this.num_of_likes = num_of_likes;
@@ -85,6 +106,10 @@ public class NewsStory {
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
     }
+
+
+
+
 
     public String getNum_of_likes() {
         return num_of_likes;

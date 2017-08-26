@@ -3,6 +3,8 @@ package com.kepler.news.newsly;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -68,42 +70,23 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener , BookMarkedFragement.OnFragmentInteractionListener{
 
     private List<Object> productsList               = null;
-    private List<Object> allNewslist                = null;
     private ListView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
 
     public static  int calledOn = 35;
-    private int minEntries = 30;
     private int currentScrollState;
     private String mSearchText = "";
     public int firstVisibleItem, visibleItemCount, totalItemCount;
-    private CircleRefreshLayout mCircleRefreshLayout        = null;
-    private SearchView mSearchView                          = null;
     private SharedPreferences mPreferences                  = null;
-
-    private HashMap<Integer, String> mMap                                    = null;
-    private ArrayList<HashMap<Integer, String>> hashMap     = null;
-
 
     public static int start =0;
     public static int offset = 30;
 
     int currentApiVersion = 7;
 
-
-    private static final int POS_DASHBOARD = 0;
-    private static final int POS_ACCOUNT = 1;
-    private static final int POS_MESSAGES = 2;
-    private static final int POS_CART = 3;
-    private static final int POS_SOURCE = 4;
-    private static final int POS_LOGOUT = 6;
-
-
-    private String[] screenTitles;
-    private Drawable[] screenIcons;
     private ViewPager viewPager;
     private SmartTabLayout viewPagerTab;
     private FragmentPagerItemAdapter fragmentPagerItemAdapter;
@@ -113,6 +96,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private List<NewsSource> newsSources;
     private NavigationView navigationView;
     private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
+    private FragmentPagerItem item;
+    public int loadImage;
+    private boolean loadImages;
 
     @SuppressLint("NewApi")
     @Override
@@ -208,18 +194,16 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
         newsSources = database.feedModel().getPriorityFeeds();
 
-        for (NewsSource newsSource : newsSources) {
-            Log.v("DATAFEEDS",  "Source : " + newsSource.newsSource +" , " + newsSource.priority);
-        }
+
         setContentView(R.layout.app_drawer_layout);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
-        //viewPager.setPageTransformer(false, new ParallaxTranformation() );
-
 
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -233,8 +217,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         editor.commit();
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,R.string.dummy_content, R.string.accept);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.dummy_content, R.string.accept);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -252,8 +235,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 
-        int loadImage =  mPreferences.getInt(Common.LOADIMAGE, Common.ALWAYS);
-        boolean loadImages;
+        loadImage =  mPreferences.getInt(Common.LOADIMAGE, Common.ALWAYS);
         if ((mWifi.isConnected() && loadImage == Common.ONWIFI) || (loadImage == Common.ALWAYS)){
             loadImages = true;
             Log.v("MAINWIFISTATE" , "connected");
@@ -265,6 +247,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         pages = new FragmentPagerItems(this);
 
+        Bundle bundle;
+
 
         int idx  = 0;
         Log.v("NEWSSOURCE", "size : "+ newsSources.size());
@@ -272,30 +256,31 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
             ///boolean  checked = mPreferences.getBoolean(sourceName, false);
             if(newsSourceObj.subscribed) {
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString(Common.SOURCENAME, newsSourceObj.newsSource);
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                FragmentPagerItem item = FragmentPagerItem.of(newsSourceObj.newsSource, DemoFragment.class, bundle);
+                item = FragmentPagerItem.of(newsSourceObj.newsSource, DemoFragment.class, bundle);
                 pages.add(item);
                 idx = idx + 1;
             }
         }
 
+//        bundle.putString(Common.SOURCENAME, Common.BOOKMARKS);
+//        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+//        item = FragmentPagerItem.of(Common.BOOKMARKS, DemoFragment.class, bundle);
+//        pages.add(item);
+
         fragmentPagerItemAdapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), pages);
-        viewPager.setOffscreenPageLimit(4);
-
+        viewPager.setOffscreenPageLimit(10);
         viewPager.setAdapter(fragmentPagerItemAdapter);
-
 
         viewPagerTab.setViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(this);
 
         productsList            = new ArrayList<>();
-        allNewslist             = new ArrayList<>();
-        //mCircleRefreshLayout    = (CircleRefreshLayout)findViewById(R.id.refresh_layout);
         listView                = (ListView) findViewById(R.id.list1);
-        //mSearchView             = (SearchView)findViewById(R.id.search_view);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -334,7 +319,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             }
         });
 
-
+        //viewPager.setCurrentItem(1);
 
     }
 
@@ -490,33 +475,31 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
 
-        Log.v("navigation" , " " + item.getTitle());
+        Log.v("navigation", " " + menuItem.getTitle());
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
 
-        int id = item.getItemId();
+        int id = menuItem.getItemId();
 
-        Log.v("onOptionsItemSelected" , "test");
+        Log.v("onOptionsItemSelected", "test");
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
 
             SharedPreferences.Editor editor = mPreferences.edit();
 
-            editor.putBoolean(Common.FIRSTLAUNCH , true);
+            editor.putBoolean(Common.FIRSTLAUNCH, true);
             editor.commit();
 
             drawer.closeDrawers();
             Intent intro = new Intent(this, IntroActivity.class);
             startActivity(intro);
             return true;
-        }
-        else if(id ==R.id.rate_me)
-        {
+        } else if (id == R.id.rate_me) {
             drawer.closeDrawers();
 
 
@@ -533,40 +516,50 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
             }
-            Log.v("tst" , "test");
-        }
-        else if (id == R.id.more_apps){
+            Log.v("tst", "test");
+        } else if (id == R.id.more_apps) {
 
 
             //only for debugging
 
-            NewsDatabase.getDatabase(getApplicationContext()).feedModel().delete("23-8-2017");
+            //NewsDatabase.getDatabase(getApplicationContext()).feedModel().delete("23-8-2017");
 
 
-            //original intent
-//            Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Kepler&hl=en");
-//            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-//            // To count with Play market backstack, After pressing back button,
-//            // to taken back to our application, we need to add following flags to intent.
-//            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-//                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-//                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-//
-//            try {
-//                startActivity(goToMarket);
-//            } catch (ActivityNotFoundException e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW,
-//                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
-//            }
+            ////original intent
+            Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Kepler&hl=en");
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
-        }else if(id == R.id.rearrange)
-        {
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+            }
+
+        } else if (id == R.id.rearrange) {
             Intent rearrange = new Intent(MainActivity.this, Rearrange.class);
             startActivity(rearrange);
 
+        } else if (id == R.id.bookmarks) {
+
+            Log.v("navigation", "bOOK MARKS ");
+
+            //pages1 = new FragmentPagerItems(this);
+
+
+
+           Intent bookmark = new Intent(getApplicationContext(), BookMarkActivity.class);
+            startActivity(bookmark);
+
+
+
+
         }
-
-
         return true;
     }
 
@@ -604,9 +597,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-
-
+    }
 }
 
 

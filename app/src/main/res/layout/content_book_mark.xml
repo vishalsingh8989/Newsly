@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.kepler.news.newsly.BookMarkActivity"
+    tools:showIn="@layout/activity_book_mark">
+
+
+    <ListView
+        android:id="@+id/bookmarks_list"
+        android:clickable="true"
+        android:layout_below="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:padding="25dp"
+        android:scrollbars="none"
+        android:fadingEdgeLength="10dp">></ListView>
+</android.support.constraint.ConstraintLayout>

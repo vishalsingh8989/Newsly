@@ -14,7 +14,6 @@
     ​
     <RelativeLayout
 
-        android:id="@+id/cell_title_view"
         android:layout_width="@dimen/ad_unit_width"
         android:layout_height="@dimen/ad_unit_height"
         android:orientation="horizontal"

@@ -102,6 +102,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
         subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
+        if(sourceName.equals(Common.BOOKMARKS))
+        {
+            Log.v("BOOKDEMO", "adapter : " + productsList.size());
+        }
 
     }
 
@@ -238,8 +242,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 }else{
                     viewHolder.like_btn.setImageResource(R.drawable.liked);
                 }
-                //viewHolder.author.setText("Author: " + item.getAuthor());
-                //viewHolder.category.setText(item.getCategory());
+
+
                 viewHolder.publishedat.setText(item.getPublishedat());
 
                 viewHolder.readFull.setText("Read Full Article");
@@ -310,11 +314,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     }
                 });
 
-                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
-
-                gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
-                viewHolder.side_bar.setBackground(gradientDrawable);
-                viewHolder.side_bar1.setBackground(gradientDrawable);
+//                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
+//
+//                gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
+//                viewHolder.side_bar.setBackground(gradientDrawable);
+//                viewHolder.side_bar1.setBackground(gradientDrawable);
 
 
 

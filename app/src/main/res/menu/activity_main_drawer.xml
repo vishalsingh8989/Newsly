@@ -16,6 +16,10 @@
             android:id="@+id/rearrange"
             android:icon="@drawable/rearrange"
             android:title="Rearrange"/>
+        <item
+            android:id="@+id/bookmarks"
+            android:icon="@drawable/bookmarked"
+            android:title="Book Marks"/>
     </group>
 
     <item android:title="">
@@ -25,7 +29,6 @@
                 android:icon="@drawable/rateme"
                 android:title="Rate Me"/>
             <item
-                android:id="@+id/remove_ads"
                 android:icon="@drawable/moreapps"
                 android:title="Remove Ads"
                 />
