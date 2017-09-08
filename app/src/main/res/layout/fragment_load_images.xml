@@ -20,8 +20,13 @@
         android:gravity="center_horizontal"
         android:id="@+id/title"
         android:text="Load Images"
-        android:textSize="15dp"
-        android:textColor="@color/d"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowRadius="2"
+        android:shadowDx="1"
+        android:shadowDy="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

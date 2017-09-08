@@ -11,10 +11,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RawRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
@@ -29,6 +32,9 @@ import com.kepler.news.newsly.transformation.DiffTransformer;
 import com.kepler.news.newsly.updateUtils.UpdateDBservice;
 
 import java.util.Calendar;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
@@ -88,15 +94,12 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
 //        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-//                .setDefaultFontPath("fonts/Altair.ttf")
+//                .setDefaultFontPath("fonts/attic.ttf")
 //                .setFontAttrId(R.attr.fontPath)
 //                .build()
 //        );
 
         super.onCreate(savedInstanceState);
-
-
-
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
@@ -125,10 +128,10 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         setProgressButtonEnabled(true);
 
 
-        //setCustomTransformer(new DiffTransformer());
+        setCustomTransformer(new DiffTransformer());
         //setFadeAnimation();
         //setIndicatorColor(R.color.colorChipBackground, R.color.n);
-        setColorDoneText(Color.parseColor("#111111"));
+        setColorDoneText(Color.parseColor("#ffffff"));
 
 
         setSeparatorColor(Color.parseColor("#01111111"));
@@ -200,5 +203,10 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
     public void onHelloFragmentInteraction(Uri uri, String mFrag) {
         Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction " + mFrag);
     }
+
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 }
 

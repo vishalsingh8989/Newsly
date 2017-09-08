@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -28,8 +29,8 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-
-
+    compile 'com.google.firebase:firebase-database:11.2.0'
+    compile 'com.google.firebase:firebase-core:11.2.0'
     compile 'com.fxn769:oblique:1.0'
     compile 'com.github.medyo:fancybuttons:1.8.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
@@ -63,7 +64,7 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
     compile 'com.github.nicolasjafelle:paginglistview:1.2'
-    compile 'com.google.android.gms:play-services-ads:10.2.6'
+    compile 'com.google.android.gms:play-services-ads:11.2.0'
     compile 'com.github.glomadrian:Grav:1.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -91,3 +92,4 @@ allprojects {
         maven { url "https://maven.google.com" }
     }
 }
+

@@ -2,7 +2,17 @@ package com.kepler.news.newsly.ViewPagerFragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -36,6 +46,7 @@ import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -225,9 +236,71 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
                 break;
 
 
+
+
+
         }
 
 
+
+    }
+
+
+
+    public void  onShareClicked(View v, int position, String link){
+
+        switch (v.getId()){
+            case R.id.text_data_layout:
+                Log.v("READFULL", "text_data_layout clicked");
+
+
+
+                Intent i = new Intent(Intent.ACTION_SEND);
+
+                i.setType("image/*");
+                i.putExtra(Intent.EXTRA_TEXT, "Download Newsly : \nSource :" +  link);
+
+                i.putExtra(Intent.EXTRA_STREAM, getImageUri(mContext, getBitmapFromView(v)));
+                try {
+                    startActivity(Intent.createChooser(i, "My Profile.."));
+                } catch (android.content.ActivityNotFoundException ex) {
+
+                    ex.printStackTrace();
+                }
+
+
+                break;
+
+
+    }
+
+
+    }
+    public Bitmap getBitmapFromView(View v) {
+        //Define a bitmap with the same size as the view
+        v.setDrawingCacheEnabled(true);
+        Bitmap returnedBitmap = v.getDrawingCache();
+        //Bind a canvas to it
+        Canvas canvas = new Canvas(returnedBitmap);
+        //Get the view's background
+        Drawable bgDrawable = v.getBackground();
+        Paint myPaint = new Paint();
+        myPaint.setStrokeWidth(3);
+        Bitmap backgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.main_bg4);
+        backgroundImage = Bitmap.createScaledBitmap(backgroundImage, v.getWidth(), backgroundImage.getHeight()/4, false);
+        backgroundImage = Bitmap.createBitmap(backgroundImage, 0,0,v.getWidth(), (int)(v.getHeight()*1.5));
+        if (bgDrawable != null){
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas);}
+        else {
+            //does not have background drawable, then draw white background on the canvas
+
+            canvas.drawBitmap(backgroundImage, 0, 0, myPaint);
+        }
+        // draw the view on the canvas
+        v.draw(canvas);
+        //return the bitmap
+        return returnedBitmap;
     }
 
 
@@ -360,6 +433,14 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         return super.onOptionsItemSelected(item);
 
 
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "title", null);
+        return Uri.parse(path);
     }
 
 }

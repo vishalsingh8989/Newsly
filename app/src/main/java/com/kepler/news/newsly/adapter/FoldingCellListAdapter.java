@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.icu.util.ValueIterator;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -34,6 +35,7 @@ import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDao;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.helper.RoundedTransformation;
@@ -61,6 +63,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
     private static final int ADVIEW = 0;
     private static final int FOLDINGCELLVIEW = 1;
     private final boolean loadImages;
+    private final NewsDao feedmodel;
 
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
@@ -88,6 +91,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
             R.color.b, R.color.l,R.color.m,R.color.p,
 
     };
+    private News status;
+
 
     public FoldingCellListAdapter(DemoFragment Callback, Context context, List<Object> productsList, List<NewsStory> allNewslist, boolean loadImages, String sourceName) {
         mContext = context;
@@ -99,6 +104,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         this.allNewslist = allNewslist;
         this.loadImages = loadImages;
         this.sourceName = sourceName;
+
+        feedmodel = NewsDatabase.getDatabase(mContext).feedModel();
 
         subTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         mainTypeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
@@ -199,7 +206,11 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.title_back = (TextView)cell.findViewById(R.id.title_back);
                     viewHolder.num_of_likes = (TextView)cell.findViewById(R.id.num_of_likes);
                     viewHolder.bookmark_btn = (ImageView)cell.findViewById(R.id.bookmark_btn);
-                    viewHolder.like_btn = (ImageView)cell.findViewById(R.id.like_btn);
+                    viewHolder.text_data_layout = (LinearLayout)cell.findViewById(R.id.text_data_layout);
+
+                    //viewHolder.like_btn = (ImageView)cell.findViewById(R.id.like_btn);
+
+                    viewHolder.share_btn = (ImageView)cell.findViewById(R.id.share_btn);
 
 
                     viewHolder.title_back.setTypeface(mainTypeface);
@@ -224,10 +235,10 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.title_back.setText(item.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
 
 
-                viewHolder.num_of_likes.setText(item.getNum_of_likes());
+                //viewHolder.num_of_likes.setText(item.getNum_of_likes());
 
 
-                News status = NewsDatabase.getDatabase(mContext).feedModel().getBookMarkStatus(item.getId());
+                status = feedmodel.getBookMarkStatus(item.getId());
                 Log.v("BOOKMARKLIKE", "bookmark status  : " + status.bookmark);
                 if(status.bookmark  == false) {
                     viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
@@ -236,37 +247,25 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 }
 
 
-                Log.v("BOOKMARKLIKE", "like status  : " + status.like);
-                if(status.like  == false) {
-                    viewHolder.like_btn.setImageResource(R.drawable.like);
-                }else{
-                    viewHolder.like_btn.setImageResource(R.drawable.liked);
-                }
+//                Log.v("BOOKMARKLIKE", "like status  : " + status.like);
+//                if(status.like  == false) {
+//                    viewHolder.like_btn.setImageResource(R.drawable.like);
+//                }else{
+//                    viewHolder.like_btn.setImageResource(R.drawable.liked);
+//                }
 
+
+
+                viewHolder.share_btn.setOnClickListener(onShareClickListener(position, viewHolder, item.getUrl()));
 
                 viewHolder.publishedat.setText(item.getPublishedat());
 
                 viewHolder.readFull.setText("Read Full Article");
-                viewHolder.description.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Callback.onItemClicked(view, position);
-                    }
-                });
+                viewHolder.description.setOnClickListener(onClicklistener(position));
 
-                viewHolder.title_back.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Callback.onItemClicked(view, position);
-                    }
-                });
+                viewHolder.title_back.setOnClickListener(onClicklistener(position));
 
-                viewHolder.readFull.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Callback.onItemClicked(viewHolder.readFull, position);
-                    }
-                });
+                viewHolder.readFull.setOnClickListener(onReadFullClickListener(position, viewHolder));
 
                 viewHolder.source.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -275,44 +274,9 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     }
                 });
 
-                viewHolder.bookmark_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        News bookMarkStatus = NewsDatabase.getDatabase(mContext).feedModel().getBookMarkStatus(item.getId());
-                        Log.v("BOOKMARKLIKE", "bookmark status  : " + bookMarkStatus.bookmark);
-                        if(bookMarkStatus.bookmark  == true) {
-                            bookMarkStatus.bookmark = false;
-                            viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
-                        }else{
-                            bookMarkStatus.bookmark = true;
-                            viewHolder.bookmark_btn.setImageResource(R.drawable.bookmarked);
-                        }
-                        NewsDatabase.getDatabase(mContext).feedModel().updateBookmark(bookMarkStatus);
-                    }
-                });
+                viewHolder.bookmark_btn.setOnClickListener(onBookmarkClickListener(item, viewHolder));
 
-                viewHolder.like_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        News likeStatus = NewsDatabase.getDatabase(mContext).feedModel().getLikeStatus(item.getId());
-                        Log.v("BOOKMARKLIKE", "like status  : " + likeStatus.like);
-                        int count = Integer.parseInt((String) viewHolder.num_of_likes.getText());
-                        if(likeStatus.like  == true) {
-                            viewHolder.like_btn.setImageResource(R.drawable.like);
-                            likeStatus.like = false;
-                            count--;
-                        }else{
-                            likeStatus.like = true;
-                            viewHolder.like_btn.setImageResource(R.drawable.liked);
-                            count++;
-                        }
-                        NewsDatabase.getDatabase(mContext).feedModel().updateLike(likeStatus);
-
-                        viewHolder.num_of_likes.setText(count+"");
-
-
-                    }
-                });
+//                viewHolder.like_btn.setOnClickListener(onLikeClickListener(item, viewHolder));
 
 //                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
 //
@@ -348,8 +312,81 @@ public class FoldingCellListAdapter extends BaseAdapter {
         return cell;
         }
 
+    @NonNull
+    private View.OnClickListener onLikeClickListener(final NewsStory item, final ViewHolder viewHolder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                News likeStatus = NewsDatabase.getDatabase(mContext).feedModel().getLikeStatus(item.getId());
+                Log.v("BOOKMARKLIKE", "like status  : " + likeStatus.like);
+                int count = Integer.parseInt((String) viewHolder.num_of_likes.getText());
+                if(likeStatus.like  == true) {
+                    viewHolder.like_btn.setImageResource(R.drawable.like);
+                    likeStatus.like = false;
+                    count--;
+                }else{
+                    likeStatus.like = true;
+                    viewHolder.like_btn.setImageResource(R.drawable.liked);
+                    count++;
+                }
+                NewsDatabase.getDatabase(mContext).feedModel().updateLike(likeStatus);
+
+                viewHolder.num_of_likes.setText(count+"");
 
 
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener onBookmarkClickListener(final NewsStory item, final ViewHolder viewHolder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                News bookMarkStatus = NewsDatabase.getDatabase(mContext).feedModel().getBookMarkStatus(item.getId());
+                Log.v("BOOKMARKLIKE", "bookmark status  : " + bookMarkStatus.bookmark);
+                if(bookMarkStatus.bookmark  == true) {
+                    bookMarkStatus.bookmark = false;
+                    viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
+                }else{
+                    bookMarkStatus.bookmark = true;
+                    viewHolder.bookmark_btn.setImageResource(R.drawable.bookmarked);
+                }
+                NewsDatabase.getDatabase(mContext).feedModel().updateBookmark(bookMarkStatus);
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener onReadFullClickListener(final int position, final ViewHolder viewHolder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Callback.onItemClicked(viewHolder.readFull, position);
+            }
+        };
+    }
+    @NonNull
+    private View.OnClickListener onShareClickListener(final int position, final ViewHolder viewHolder, final String link) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Callback.onShareClicked(viewHolder.text_data_layout, position, link);
+            }
+        };
+    }
+
+
+
+    @NonNull
+    private View.OnClickListener onClicklistener(final int position) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Callback.onItemClicked(view, position);
+            }
+        };
+    }
 
 
     public void registerToggle(int position) {
@@ -416,6 +453,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
         TextView num_of_likes;
         ImageView bookmark_btn;
         ImageView like_btn;
+        ImageView share_btn;
+        LinearLayout text_data_layout;
 
 
     }

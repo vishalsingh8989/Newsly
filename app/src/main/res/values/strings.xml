@@ -46,4 +46,5 @@
     <string name="title_activity_rearrange">News Source</string>
 
     <string name="title_activity_book_mark">Book Marks</string>
+    <string name="accept">Accept</string>
 </resources>

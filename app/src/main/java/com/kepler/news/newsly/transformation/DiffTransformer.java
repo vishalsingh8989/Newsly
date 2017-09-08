@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.kepler.news.newsly.R;
 
@@ -24,7 +25,7 @@ public class DiffTransformer implements ViewPager.PageTransformer {
         RelativeLayout rl = (RelativeLayout) page;
         mPageNumber = -2; //or 2 . same thing . 0 is diferent;
         for(int i = 0; i< rl.getChildCount(); i++) {
-            if(rl.getChildAt(i) instanceof ImageView ) {
+            if(rl.getChildAt(i) instanceof TextView && rl.getChildAt(i).getId() == R.id.app_name_middle) {
                 mPageNumber = 0;
                 break;
             }else if(rl.getChildAt(i) instanceof ListView && rl.getChildAt(i).getId() == R.id.countrylist) {

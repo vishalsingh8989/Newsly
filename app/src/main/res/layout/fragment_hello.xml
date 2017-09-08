@@ -2,22 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00111111"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.kepler.news.newsly.IntroFragments.HelloFragment">
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/image_bg"
-        android:src="@drawable/intro_two"
-        android:scaleType="fitXY"
-        />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#9c0e0e0e"
-        />
    <!-- <ImageView
         android:id="@+id/world"
         android:layout_width="120dp"

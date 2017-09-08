@@ -20,7 +20,7 @@
         android:id="@+id/cell_content_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="invisible">
         <LinearLayout
             android:id="@+id/side_bar1"
             android:background="@drawable/side_color_bar_bg"
@@ -72,14 +72,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-
+                    android:visibility="invisible"
                     android:layout_width="@dimen/options_btn_size"
                     android:layout_height="@dimen/options_btn_size"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:id="@+id/bookmark_btn"
+                    android:id="@+id/bookmark_btn_orig"
                     android:layout_weight="1"
                     android:src="@drawable/bookmark"
                     />
@@ -92,23 +92,23 @@
                     android:layout_marginRight="30dp"
                     android:layout_toRightOf="@+id/bookmark_btn"
                     android:layout_weight="1"
-                    android:id="@+id/share_btn"
-                    android:src="@drawable/share"
+                    android:id="@+id/bookmark_btn"
+                    android:src="@drawable/bookmark"
                     />
                 <ImageView
-                    android:id="@+id/comment_btn"
+                    android:id="@+id/share_btn"
                     android:layout_width="@dimen/options_btn_size"
                     android:layout_height="@dimen/options_btn_size"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="30dp"
-                    android:layout_toRightOf="@+id/share_btn"
+                    android:layout_toRightOf="@+id/bookmark_btn"
                     android:layout_weight="1"
-                    android:src="@drawable/comment"
+                    android:src="@drawable/share"
                     />
                 <RelativeLayout
-
+                    android:visibility="invisible"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="10dp"

@@ -8,20 +8,9 @@
 
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/back_main"
-        android:background="@drawable/intro_one"
-        android:scaleType="centerInside"
-
-        />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/intro_grad">
+
 <ImageView
     android:layout_width="120dp"
     android:layout_height="120dp"
@@ -63,4 +52,3 @@
 
 </RelativeLayout>
 
-</RelativeLayout>

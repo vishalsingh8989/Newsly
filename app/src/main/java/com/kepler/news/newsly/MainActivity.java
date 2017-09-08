@@ -11,6 +11,7 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.LocaleList;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -39,6 +41,10 @@ import android.widget.ListView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
@@ -99,6 +105,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private FragmentPagerItem item;
     public int loadImage;
     private boolean loadImages;
+    private String device_id;
+    private Context mContext;
+    private Object mDatabase;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @SuppressLint("NewApi")
     @Override
@@ -175,6 +186,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         );
         super.onCreate(savedInstanceState);
 
+        mContext = getApplicationContext();
         Calendar cal = null;
         cal = Calendar.getInstance();
 
@@ -187,8 +199,48 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         alarm.cancel(pintent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), Common.UPDATEINTERVAL, pintent);
 
-        //
+        //firebase start
 
+
+
+        Log.v("FIREBASE" , "device_id : " + device_id + " time : " + System.currentTimeMillis() / 1000L);
+
+        //FirebaseApp mFirebaseApp = FirebaseApp.initializeApp(getApplicationContext());
+
+        //"https://newsly-7354b.firebaseio.com/"
+
+        LoadData loadData = new LoadData(mContext);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        //DatabaseReference myRef = mFirebaseDatabase.getReference("message");
+
+
+//        mFirebaseDatabase = FirebaseDatabase.getInstance("https://newsly-7354b.firebaseio.com/");
+//
+//        mFirebaseDatabase.setPersistenceEnabled(true);
+//
+//        DatabaseReference myRef = mFirebaseDatabase.getReference("Newsly");
+//        myRef.child(device_id).child("LastUsed").setValue(System.currentTimeMillis() / 1000L);
+//        //myRef.child(device_id).child("Model").setValue(model);
+//        //myRef.child(device_id).child("ScreenRatio").setValue(MainActivity.dpHeight / MainActivity.dpWidth);
+//        //myRef.child(device_id).child("ScreenSize").setValue(MainActivity.dpHeight + "X" + MainActivity.dpWidth);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            LocaleList locales = mContext.getResources().getConfiguration().getLocales();
+//            myRef.child(device_id).child("Country").setValue(locales.toString());
+//            Log.v("countrylocal1", " : " + locales.get(1));
+//        } else {
+//            String country = mContext.getResources().getConfiguration().locale.getDisplayCountry();
+//            myRef.child(device_id).child("Country").setValue(country);
+//            Log.v("countrylocal2", " : " + country);
+//        }
+//
+//        myRef.child(device_id).child("Version").setValue(Build.VERSION.SDK_INT);
+        //myRef.child(device_id).child("DeviceType").setValue(isTablet(mContext));
+        //myRef.child(device_id).child("AppVersion").setValue(getAppVersion());
+
+
+        //firebase end
 
         Log.v("lifecycle" , "onCreate");
         database = NewsSourceDatabase.getDatabase(getApplicationContext());
@@ -601,6 +653,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+
 }
 
 
