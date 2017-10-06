@@ -128,7 +128,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
-        productsList            = addNativeExpressAds(productsList);
+        //productsList            = addNativeExpressAds(productsList);
         //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
         //Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
         //Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());

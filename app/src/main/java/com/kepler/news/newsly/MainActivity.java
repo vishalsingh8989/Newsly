@@ -41,6 +41,9 @@ import android.widget.ListView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
@@ -248,7 +251,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         setContentView(R.layout.app_drawer_layout);
-
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        String banner_id = "ca-app-pub-5223778660504166/7368731783";
+        MobileAds.initialize(this, banner_id);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

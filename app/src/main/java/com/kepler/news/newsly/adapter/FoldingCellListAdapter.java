@@ -124,7 +124,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -139,7 +139,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return position % Common.ADINTERVAL == 0 && position !=0 ? ADVIEW : FOLDINGCELLVIEW;
+        return FOLDINGCELLVIEW;
+        //return position % Common.ADINTERVAL == 0 && position !=0 ? ADVIEW : FOLDINGCELLVIEW;
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -277,15 +278,15 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     }
                 });
 
-                viewHolder.bookmark_btn.setOnClickListener(onBookmarkClickListener(item, viewHolder));
+                //viewHolder.bookmark_btn.setOnClickListener(onBookmarkClickListener(item, viewHolder));
 
-//                viewHolder.like_btn.setOnClickListener(onLikeClickListener(item, viewHolder));
+                //viewHolder.like_btn.setOnClickListener(onLikeClickListener(item, viewHolder));
 
-//                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
-//
-//                gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
-//                viewHolder.side_bar.setBackground(gradientDrawable);
-//                viewHolder.side_bar1.setBackground(gradientDrawable);
+                GradientDrawable gradientDrawable = (GradientDrawable) viewHolder.side_bar.getBackground();
+
+                gradientDrawable.setColor(mContext.getResources().getColor(mycolors[position % mycolors.length]));
+                viewHolder.side_bar.setBackground(gradientDrawable);
+                viewHolder.side_bar1.setBackground(gradientDrawable);
 
 
 
