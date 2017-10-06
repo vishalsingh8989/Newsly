@@ -1,8 +1,10 @@
 package com.kepler.news.newsly.ViewPagerFragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,9 +13,12 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +66,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
     public static final String NEWSSOURCE = "NEWSSOURCE";
+    private static final int SHARE_CALL = 10;
     private int currentScrollState;
     private String mSearchText = "";
     public int firstVisibleItem, visibleItemCount, totalItemCount;
@@ -262,14 +268,57 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
+    private void askforPermissions(final String[] PERMISSIONS, int calledby) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.v("PERMISSOINCHECK", "askforPermissions");
+            ActivityCompat.requestPermissions(getActivity(),PERMISSIONS, calledby);
+
+        }
+    }
+
+    private boolean hasPermissions(Context mContext, String[] permissions) {
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mContext != null && permissions != null) {
+            for (String permission : permissions) {
+                if (getActivity().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
     public void  onShareClicked(View v, int position, String link){
+
+//        final String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
+//        };
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (!hasPermissions(getActivity(), PERMISSIONS)) {
+//                Log.v("PERMISSOINCHECK", "permission missing");
+//
+//                askforPermissions(PERMISSIONS, SHARE_CALL);
+//
+//            } else {
+//                Log.v("PERMISSOINCHECK", "permission already granted");
+//                //invokeCamera();
+//                //startActivity(new Intent(this, CameraDemoActivity.class));
+//
+//            }
+//        }else{
+//            Log.v("PERMISSOINCHECK", "sdk less tha  M");
+//            //startActivity(new Intent(this, CameraDemoActivity.class));
+//            //invokeCamera();
+//        }
+
+
+
 
         switch (v.getId()){
             case R.id.text_data_layout:
-                Log.v("READFULL", "text_data_layout clicked");
-
-
-
+                Log.v("PERMISSOINCHECK", "text_data_layout clicked");
                 Intent i = new Intent(Intent.ACTION_SEND);
 
                 i.setType("image/*");
@@ -287,9 +336,20 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
                 break;
 
 
+        }
+
+
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.v("PERMISSOINCHECK",  "onRequestPermissionsResult");
+
+        if (requestCode == SHARE_CALL) {
+            Log.v("PERMISSOINCHECK",  "onRequestPermissionsResult called by share");
+        }
     }
     public Bitmap getBitmapFromView(View v) {
         //Define a bitmap with the same size as the view
@@ -457,5 +517,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "title", null);
         return Uri.parse(path);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.kepler.news.newsly;
 
+import android.*;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -11,6 +12,7 @@ import android.content.Context;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -23,6 +25,7 @@ import android.os.LocaleList;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -251,6 +254,16 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         setContentView(R.layout.app_drawer_layout);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    10);
+            Log.e("PERMISSOINCHECK", "PERMISSION NOT GRANTED");
+        } else {
+            Log.e("PERMISSOINCHECK", "PERMISSION GRANTED");
+        }
         // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
         String banner_id = "ca-app-pub-5223778660504166/7368731783";
         MobileAds.initialize(this, banner_id);
@@ -661,7 +674,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     public void onFragmentInteraction(Uri uri) {
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.v("PERMISSOINCHECK",  "onRequestPermissionsResult in parent");
 
+    }
 
 
 }
