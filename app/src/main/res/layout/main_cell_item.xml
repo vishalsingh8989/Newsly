@@ -20,7 +20,7 @@
         android:id="@+id/cell_content_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible">
+        android:visibility="gone">
         <LinearLayout
             android:id="@+id/side_bar1"
             android:background="@drawable/side_color_bar_bg"
@@ -33,6 +33,13 @@
             android:layout_height="199dp"
             android:layout_width="match_parent"
             android:orientation="vertical" >
+            <LinearLayout
+                android:id="@+id/text_data_layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
             <TextView
                 android:text="@string/title_sample"
                 android:textStyle="bold"
@@ -66,6 +73,7 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
@@ -216,7 +224,6 @@
             android:layout_weight=".31"
             android:layout_width="0dp"
             android:layout_height="@dimen/main_item_view_height" />
-
 
         <LinearLayout
             android:background="@color/transparent"
