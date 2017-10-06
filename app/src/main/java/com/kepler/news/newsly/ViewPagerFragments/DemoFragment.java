@@ -108,14 +108,18 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         productsList            = new ArrayList<>();
 
 
-        alldbnews = newsDatabase.feedModel().getSourceNews(sourceName);
+
+
+        alldbnews = newsDatabase.feedModel().getAllNews();
 
         for (NewsStory story: alldbnews) {
             if(story.getSourceName().contains(Common.BOOKMARKS)) {
                 //Log.v("BOOKDEMO", "before sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
             }
-            if(story.getSourceName().equals(sourceName))
+            if(story.getSourceName().equals(sourceName)) {
                 productsList.add(story);
+                Log.v(NEWSSOURCE, "demo sourceUrl : " + story.getSourceUrl());
+            }
         }
 
         Log.v(NEWSSOURCE       ,"***********************************");
@@ -123,7 +127,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
-        //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE BF AD : " + productsList.size());
+
         productsList            = addNativeExpressAds(productsList);
         //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
         //Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
@@ -223,7 +227,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
                 break;
             case R.id.source:
                 story = (NewsStory) productsList.get(position);
-                Log.v("SOURCEURL", "read full clicked "+ story.getSourceUrl());
+                Log.v("SOURCEURL", "source full clicked "+ story.getSourceUrl());
                 new FinestWebView.Builder(getActivity())
                         .showMenuShareVia(true)
                         .show(story.getSourceUrl());
@@ -232,8 +236,19 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
             case R.id.title_back:
                 Log.v("READFULL", "description full clicked");
                 foldingCellListAdapter.registerToggle(position);
+                ((FoldingCell) v.getParent().getParent().getParent().getParent()).toggle(false);
+                break;
+            case R.id.text_data_layout:
+                Log.v("READFULL", "text_data_layout full clicked");
+                foldingCellListAdapter.registerToggle(position);
                 ((FoldingCell) v.getParent().getParent().getParent()).toggle(false);
                 break;
+            case R.id.main_bar:
+                Log.v("READFULL", "main_bar full clicked");
+                foldingCellListAdapter.registerToggle(position);
+                ((FoldingCell) v.getParent().getParent()).toggle(false);
+                break;
+
 
 
 

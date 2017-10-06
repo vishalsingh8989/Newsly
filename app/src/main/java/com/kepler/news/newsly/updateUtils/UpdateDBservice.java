@@ -170,7 +170,7 @@ public class UpdateDBservice extends IntentService {
 
                         num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
-                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
+                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, sourceurl,urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
                     }
 
 

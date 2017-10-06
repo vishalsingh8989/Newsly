@@ -136,6 +136,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
                     title           = data.getJSONObject(i).getString(Common.TITLE);
                     urltoimage      = data.getJSONObject(i).getString(Common.IMAGEURL);
+
                     sourceName      = data.getJSONObject(i).getString(Common.SOURCENAME);
                     author          = data.getJSONObject(i).getString(Common.AUTHOR);
                     category        = data.getJSONObject(i).getString(Common.CATEGORY);
@@ -147,7 +148,10 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
                     num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false));
+                    Log.v("HYHTTP", "**************************************");
+                    Log.v("HYHTTP", "2source Url : " + sourceurl);
+                    Log.v("HYHTTP", "2url : " + url);
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName, sourceName, url, sourceurl, urltoimage,  author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false));
                 }
 
 

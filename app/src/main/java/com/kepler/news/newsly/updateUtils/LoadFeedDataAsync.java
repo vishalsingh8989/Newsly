@@ -146,7 +146,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         List<Object> newList               = new ArrayList<>();
         String result   = "";
         int count = database.feedModel().getNewsCount();
-        Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
+        //Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
         try {
 
 
@@ -157,7 +157,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     +"&sourceName="+sourceName.replace(" ", "%20");
 
             URL url1 = new URL(mUrl); // here is your URL path
-            Log.v("MYURL",url1 + "");
+            //Log.v("MYURL",url1 + "");
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());
@@ -174,7 +174,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
             OutputStream os = conn.getOutputStream();
-            Log.v("HYHTTP" , "os length : " + os.toString().length());
+            //Log.v("HYHTTP" , "os length : " + os.toString().length());
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
 
@@ -182,28 +182,28 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
             writer.flush();
             writer.close();
             os.close();
-            Log.v("HYHTTP", "after close " + writer.toString().length());
+            //Log.v("HYHTTP", "after close " + writer.toString().length());
             int responseCode=conn.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
+                //Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
 
                 StringBuffer response = new StringBuffer("");
                 String inputLine = "";
 
-                Log.v("HYHTTP", "response");
+                //Log.v("HYHTTP", "response");
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                     //break;
                 }
 
 
-                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
+                //Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
                 result = response.toString();
                 in.close();
                 JSONObject jObject = new JSONObject(result);
                 JSONArray data = jObject.getJSONArray("articles");
-                Log.v("HYHTTP", "articles " + data.length());
+                //Log.v("HYHTTP", "articles " + data.length());
                 for (int i = 0; i < data.length(); i++) {
                     NewsStory story = new NewsStory();
 
@@ -231,7 +231,9 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
                     num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
-
+                    Log.v("HYHTTP", "*************************************");
+                    Log.v("HYHTTP", "1source Url" + sourceurl);
+                    Log.v("HYHTTP", "1url" + url);
 
                     story.setId(id);
 
@@ -250,7 +252,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
                     newList.add(story);
 
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, sourceurl,urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
                 }
 
 

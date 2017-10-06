@@ -29,11 +29,14 @@ public interface NewsDao {
     @Query("select count(*) from news")
     int getNewsCount();
 
-    @SuppressWarnings(CURSOR_MISMATCH)
+    //@SuppressWarnings(CURSOR_MISMATCH)
     @Query("select * from news where sourceName =:sourceName order by addtime DESC")
     List<NewsStory> getSourceNews(String sourceName);
 
-    //@SuppressWarnings(CURSOR_MISMATCH)
+    //@Query("select * from news")
+    //List<NewsStory> getAllNews();
+
+    @SuppressWarnings(CURSOR_MISMATCH)
     @Query("select * from news ORDER BY addtime  DESC limit 0, 200 ")
     List<NewsStory> getAllNews();
 

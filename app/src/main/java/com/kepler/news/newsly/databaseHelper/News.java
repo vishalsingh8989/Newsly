@@ -2,6 +2,7 @@ package com.kepler.news.newsly.databaseHelper;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.util.Log;
 
 /**
  * Created by vishaljasrotia on 8/19/17.
@@ -17,6 +18,7 @@ public class News {
     public  String source;
     public  String sourceName;
     public  String url;
+    public  String sourceurl;
     public  String urltoimage;
     public  String author;
     public  String language;
@@ -35,6 +37,7 @@ public class News {
                 String source,
                 String sourceName,
                 String url,
+                String sourceurl,
                 String urltoimage,
                 String author,
                 String language,
@@ -45,7 +48,7 @@ public class News {
                 boolean bookmark,
                 boolean like
     ) {
-
+        Log.v("HYHTTP", "constr Url : " + sourceurl);
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,6 +56,7 @@ public class News {
         this.source = source;
         this.sourceName = sourceName;
         this.url = url;
+        this.sourceurl = sourceurl;
         this.urltoimage = urltoimage;
         this.author =author;
         this.language= language;
@@ -79,6 +83,7 @@ public class News {
         public  String source;
         public  String sourceName;
         public  String url;
+        public  String sourceurl;
         public  String urltoimage;
         public  String author;
         public  String language;
@@ -90,7 +95,7 @@ public class News {
 
 
         public News build() {
-            return new News(id,title, description, publishedat,source,sourceName,url,urltoimage,author,language,country,category, addtime, num_of_likes, false, false);
+            return new News(id,title, description, publishedat,source,sourceName,url,sourceurl,urltoimage,author,language,country,category, addtime, num_of_likes, false, false);
         }
     }
 

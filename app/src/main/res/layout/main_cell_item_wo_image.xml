@@ -21,7 +21,7 @@
         android:id="@+id/cell_content_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
         <LinearLayout
             android:id="@+id/side_bar1"
             android:background="@drawable/side_color_bar_bg"
@@ -212,7 +212,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_item_view_height"
         android:orientation="horizontal"
-        android:visibility="invisible">
+        android:visibility="visible">
         <LinearLayout
             android:id="@+id/side_bar"
             android:background="@drawable/side_color_bar_bg"

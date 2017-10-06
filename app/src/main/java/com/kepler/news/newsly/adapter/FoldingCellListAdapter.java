@@ -207,6 +207,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     viewHolder.num_of_likes = (TextView)cell.findViewById(R.id.num_of_likes);
                     viewHolder.bookmark_btn = (ImageView)cell.findViewById(R.id.bookmark_btn);
                     viewHolder.text_data_layout = (LinearLayout)cell.findViewById(R.id.text_data_layout);
+                    viewHolder.main_bar = (RelativeLayout)cell.findViewById(R.id.main_bar);
 
                     //viewHolder.like_btn = (ImageView)cell.findViewById(R.id.like_btn);
 
@@ -239,7 +240,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
                 status = feedmodel.getBookMarkStatus(item.getId());
-                Log.v("BOOKMARKLIKE", "bookmark status  : " + status.bookmark);
+                Log.v("SOURCEURL", "URL1  : " + item.getSourceUrl());
+                Log.v("SOURCEURL", "URL2  : " + item.getUrltoimage());
                 if(status.bookmark  == false) {
                     viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);
                 }else{
@@ -264,7 +266,8 @@ public class FoldingCellListAdapter extends BaseAdapter {
                 viewHolder.description.setOnClickListener(onClicklistener(position));
 
                 viewHolder.title_back.setOnClickListener(onClicklistener(position));
-
+                viewHolder.text_data_layout.setOnClickListener(onClicklistener(position));
+                viewHolder.main_bar.setOnClickListener(onClicklistener(position));
                 viewHolder.readFull.setOnClickListener(onReadFullClickListener(position, viewHolder));
 
                 viewHolder.source.setOnClickListener(new View.OnClickListener() {
@@ -455,6 +458,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
         ImageView like_btn;
         ImageView share_btn;
         LinearLayout text_data_layout;
+        RelativeLayout main_bar;
 
 
     }
