@@ -50,7 +50,7 @@
         app:stl_indicatorThickness="2px"
         app:stl_underlineColor="@color/transparent"
         app:stl_dividerColor="#97ffffff"
-        app:stl_dividerThickness="1dp"
+        app:stl_dividerThickness="2dp"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="false"
         app:stl_defaultTabTextSize="@dimen/tab_text_size"

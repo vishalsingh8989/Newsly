@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private Context mContext;
     private Object mDatabase;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseDatabase mFirebaseDatabase;
+    private boolean rateme = true;
 
 
     @SuppressLint("NewApi")
@@ -242,9 +244,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 //        }
 //
 //        myRef.child(device_id).child("Version").setValue(Build.VERSION.SDK_INT);
-        //myRef.child(device_id).child("DeviceType").setValue(isTablet(mContext));
-        //myRef.child(device_id).child("AppVersion").setValue(getAppVersion());
-
+//        //myRef.child(device_id).child("DeviceType").setValue(isTablet(mContext));
+//        //myRef.child(device_id).child("AppVersion").setValue(getAppVersion());
+//
 
         //firebase end
 
@@ -254,6 +256,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
         setContentView(R.layout.app_drawer_layout);
+        this.setFinishOnTouchOutside(false);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -282,6 +285,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         int bgNumber = mPreferences.getInt("count" , 0);
+        rateme =  mPreferences.getBoolean("rateme", true);
 
         Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
         drawer.setBackground(backg);
@@ -298,10 +302,6 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         //navigationViewRight.setNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.home);
-
-
-
-
 
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -394,9 +394,12 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         //viewPager.setCurrentItem(1);
 
-
-
-
+        Log.v("RATEMEAPP", "RATED " + rateme);
+        if(bgNumber >=2 ) {
+            if(rateme && bgNumber%3==0) {
+                rateMe();
+            }
+        }
 
     }
 
@@ -438,9 +441,70 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
     }
 
+    private void rateMe() {
+
+
+        final FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(MainActivity.this)
+                //.setImageRecourse(R.drawable.happy) // not working on small resolution
+                .setTextTitle("Rate me.")
+                .setTextSubTitle("If you like this app.")
+                .setBody("Rate us on play store.")
+                .setNegativeColor(R.color.n)
+                .setNegativeButtonText("Rate me")
+                .setOnNegativeClicked(new FancyAlertDialog.OnNegativeClicked() {
+                    @Override
+                    public void OnClick(View view, Dialog dialog) {
+                        SharedPreferences.Editor editor = mPreferences.edit();
+                        editor.putBoolean("rateme", false);
+                        editor.commit();
+                        Log.v("RATEMEAPP", "dialog : " + rateme);
+                        dialog.dismiss();
+
+                        Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        // To count with Play market backstack, After pressing back button,
+                        // to taken back to our application, we need to add following flags to intent.
+                        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        try {
+                            startActivity(goToMarket);
+                        } catch (ActivityNotFoundException e) {
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+                        }
+
+
+                    }
 
 
 
+
+                })
+                .setPositiveButtonText("Rate me later.")
+                .setPositiveColor(R.color.n)
+                .setOnPositiveClicked(new FancyAlertDialog.OnPositiveClicked() {
+                    @Override
+                    public void OnClick(View view, Dialog dialog) {
+                        dialog.dismiss();
+
+                    }
+                })
+
+                .setAutoHide(false)
+                .build();
+
+
+        alert.show();
+
+    }
+
+
+
+
+    private void setRateMe(boolean b) {
+        rateme = false;
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {

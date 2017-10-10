@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
+import com.google.firebase.FirebaseApp;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
@@ -104,6 +105,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
 
+        FirebaseApp.initializeApp(this);
         if(!firstLaunch)
         {
             Intent intent = new Intent(this, MainActivity.class);

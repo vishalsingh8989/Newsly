@@ -46,6 +46,7 @@ import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.updateUtils.LoadFeedDataAsync;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
@@ -95,6 +96,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private NewsDatabase database;
     private List<NewsStory> alldbnews;
     private Bundle mArgs;
+    private LoadFeedDataAsync loadFeedDataAsync;
 
 
     @Override
@@ -111,8 +113,17 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         sourceName              = mArgs.getString(Common.SOURCENAME);
         productsList            = new ArrayList<>();
 
+        startMap                = new LinkedHashMap<>();
+
+
+
+        for(NewsSource newsSourceObj : newsSourcelist) {
+            startMap.put(newsSourceObj.newsSource, 0);
+        }
+
         if (!sourceName.contains(Common.BOOKMARKS)) {
             alldbnews = newsDatabase.feedModel().getSourceNews(sourceName);
+
         }else{
             alldbnews = newsDatabase.feedModel().getBookMarkedNews(true);
         }
@@ -129,13 +140,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 //        Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
 //        Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
 //        Log.v(NEWSSOURCE       ,"***********************************");
-        startMap                = new LinkedHashMap<>();
 
-
-
-        for(NewsSource newsSourceObj : newsSourcelist) {
-            startMap.put(newsSourceObj.newsSource, 0);
-        }
 
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.demo_fragment, container, false);
@@ -153,18 +158,19 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         sourceName = mArgs.getString(Common.SOURCENAME);
         loadImages = mArgs.getBoolean(Common.LOADIMAGE);
 
-        Log.v("onViewCreated", position + " : " + sourceName);
+        Log.v("onViewCreated", position + " : " + sourceName + ", " +alldbnews.isEmpty());
 
         listView                = (ListView)view.findViewById(R.id.list1);
         foldingCellListAdapter  = new FoldingCellListAdapter(this, mContext, productsList, alldbnews, loadImages, sourceName);
 
+
+        if(alldbnews.isEmpty()){
+            loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
+            loadFeedDataAsync.execute();
+        }
         listView.setAdapter(foldingCellListAdapter);
-//        loadFeedDataAsync = new LoadFeedDataAsync(this , mContext, foldingCellListAdapter, true, getActivity().getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE), sourceName, startMap, newsDatabase);
-//
-//        //loadFeedDataAsync.execute();
+
         startMap.put(sourceName, calledOn);
-
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

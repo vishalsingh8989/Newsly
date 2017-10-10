@@ -11,7 +11,7 @@
     android:layout_marginRight="@dimen/list_item_side_margin"
 
     folding-cell:animationDuration="500"
-    folding-cell:backSideColor="#d4000000"
+    folding-cell:backSideColor="#000000"
     folding-cell:additionalFlipsCount="0"
     folding-cell:cameraHeight="30">
     ​
@@ -125,7 +125,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_toRightOf="@+id/comment_btn"
                     android:layout_weight="1"
-                    android:background="#00111111">
+                    android:background="#111111">
                     <TextView
                         android:id="@+id/num_of_likes"
                         android:layout_width="@dimen/like_btn_size"

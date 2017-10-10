@@ -76,10 +76,10 @@ public class HelloFragment extends Fragment{
         app_name.setTypeface(tp);
         details.setTypeface(tp);
 
-        NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
-        LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
+        //NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
 
-        loadNewSourceAsync.execute();
+        //LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
+        //loadNewSourceAsync.execute();
 
 
 //        Animation mZoomOutAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_out);

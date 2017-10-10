@@ -142,22 +142,23 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
     @Override
     protected List<Object> doInBackground(Void... voids) {
+        database = NewsDatabase.getDatabase(mContext);
 
         List<Object> newList               = new ArrayList<>();
         String result   = "";
         int count = database.feedModel().getNewsCount();
-        //Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
+        Log.v("LOADINSETTING","COUNT : " + count);
         try {
 
 
             String baseUrl = "http://13.58.159.13/";
             String mUrl = baseUrl+ "?addtime=14955596"
-                    +"&start="+String.valueOf(startFrom)
-                    +"&offset="+String.valueOf(MainActivity.offset)
+                    +"&start="+String.valueOf(0)
+                    +"&offset="+String.valueOf(500)
                     +"&sourceName="+sourceName.replace(" ", "%20");
 
             URL url1 = new URL(mUrl); // here is your URL path
-            //Log.v("MYURL",url1 + "");
+            Log.v("LOADINSETTING",mUrl);
             JSONObject postDataParams = new JSONObject();
             postDataParams.put("addtime", "1495955972");
             Log.e("params",postDataParams.toString());
@@ -174,7 +175,7 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
 
 
             OutputStream os = conn.getOutputStream();
-            //Log.v("HYHTTP" , "os length : " + os.toString().length());
+            Log.v("HYHTTP" , "os length : " + os.toString().length());
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
 
@@ -182,43 +183,35 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
             writer.flush();
             writer.close();
             os.close();
-            //Log.v("HYHTTP", "after close " + writer.toString().length());
+            Log.v("HYHTTP", "after close " + writer.toString().length());
             int responseCode=conn.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                //Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
+                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
 
                 StringBuffer response = new StringBuffer("");
                 String inputLine = "";
 
-                //Log.v("HYHTTP", "response");
+                Log.v("HYHTTP", "response");
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                     //break;
                 }
 
 
-                //Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
+                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
                 result = response.toString();
                 in.close();
                 JSONObject jObject = new JSONObject(result);
                 JSONArray data = jObject.getJSONArray("articles");
-                //Log.v("HYHTTP", "articles " + data.length());
+                Log.v("HYHTTP", "articles " + data.length());
                 for (int i = 0; i < data.length(); i++) {
-                    NewsStory story = new NewsStory();
-
-//                    Log.v("HYHTTP", "*************************************");
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.DESCRIPTION));
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.SOURCENAME));
-//                    Log.v("HYHTTP", "" + data.getJSONObject(i).getString(Common.CATEGORY));
-//                    Log.v("HYHTTP", "*************************************");
-
-
                     id = data.getJSONObject(i).getString(Common.ID);
 
                     description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
                     title           = data.getJSONObject(i).getString(Common.TITLE);
                     urltoimage      = data.getJSONObject(i).getString(Common.IMAGEURL);
+
                     sourceName      = data.getJSONObject(i).getString(Common.SOURCENAME);
                     author          = data.getJSONObject(i).getString(Common.AUTHOR);
                     category        = data.getJSONObject(i).getString(Common.CATEGORY);
@@ -228,48 +221,29 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
                     language        = data.getJSONObject(i).getString(Common.LANGUAGE);
                     country         = data.getJSONObject(i).getString(Common.COUNTRY);
                     addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
-
                     num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
 
-                    Log.v("HYHTTP", "*************************************");
-                    Log.v("HYHTTP", "1source Url" + sourceurl);
-                    Log.v("HYHTTP", "1url" + url);
-
-                    story.setId(id);
-
-                    story.setDescription(description);
-                    story.setTitle(title);
-                    story.setSourceName(sourceName);
-                    story.setUrltoimage(urltoimage);
-                    story.setAuthor(author);
-                    story.setCategory(category);
-                    story.setUrl(url);
-                    story.setSourceUrl(sourceurl);
-                    story.setPublishedat(publishedat);
-                    story.setLanguage(language);
-                    story.setCountry(country);
-                    story.setNum_of_likes(num_of_likes);
-
-                    newList.add(story);
-
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, sourceurl,urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
+                   // Log.v("HYHTTP", "**************************************");
+//                    Log.v("HYHTTP", "" + sourceurl);
+//                    Log.v("HYHTTP", "" + url);
+                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName, sourceName, url, sourceurl, urltoimage,  author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false));
                 }
 
 
             }
             count = database.feedModel().getNewsCount();
-            Log.v("NEWSSOURCEDATABASE","COUNT : " + count);
+            Log.v("HYHTTP","source : " + sourceName + " , "+  "COUNT : " + count);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "MalformedURLException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
 
         } catch (IOException e) {
             e.printStackTrace();
             Log.v("HYHTTP", "IOException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -279,13 +253,13 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
         {
             e.printStackTrace();
             Log.v("HYHTTP", "NetworkErrorException");
-            isNetworkAvailable = false;
+            //isNetworkAvailable = false;
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("HYHTTP", "Exception");
-            isNetworkAvailable = false;
+            Log.v("HYHTTP", "ExceptionHello");
+            //isNetworkAvailable = false;
         }
 
         return newList;
@@ -297,24 +271,19 @@ public class LoadFeedDataAsync  extends AsyncTask<Void, Void, List<Object>> {
     @Override
     protected void onPostExecute(List<Object> result) {
         super.onPostExecute(result);
-        result = addNativeExpressAds(result);
-        //startMap.put(sourceName , foldingCellListAdapter.getProductsList().size());
-        Random rn = new Random(15L);
-        //Collections.shuffle(result, rn);
-
-        //foldingCellListAdapter.upDateEntries(result , onRefresh);
+        //result = addNativeExpressAds(result);
 
 
-        //DemoFragment.avLoadingIndicatorView.smoothToHide();
-        //MainActivity.calledOn = foldingCellListAdapter.getProductsList().size();
 
-        Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName));
+
+        Log.v("LOADASYNC" , "size onPost : " + sourceName + " " + startMap.get(sourceName) + ", " + result.size());
 
         try {
             fragment.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     AVLoadingIndicatorView progressbar = (AVLoadingIndicatorView) fragment.getActivity().findViewById(R.id.progress_bar);
+                    //foldingCellListAdapter.
                     progressbar.smoothToHide();
 
 
