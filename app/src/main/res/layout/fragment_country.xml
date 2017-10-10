@@ -50,5 +50,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/newssource_load"
+        android:layout_centerInParent="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:indicatorName="BallClipRotatePulseIndicator"
+
+        />
+
+
 </RelativeLayout>
 

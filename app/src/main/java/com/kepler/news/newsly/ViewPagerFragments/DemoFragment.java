@@ -109,36 +109,26 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         newsSourcelist          = newsSourceDatabase.feedModel().getAllFeeds();
         newsDatabase            = NewsDatabase.getDatabase(mContext);
         sourceName              = mArgs.getString(Common.SOURCENAME);
-
-
         productsList            = new ArrayList<>();
 
-
-
-
-        alldbnews = newsDatabase.feedModel().getAllNews();
-
-        for (NewsStory story: alldbnews) {
-            if(story.getSourceName().contains(Common.BOOKMARKS)) {
-                //Log.v("BOOKDEMO", "before sourceName : " + sourceName + " , " + story.getUrltoimage() + "");
-            }
-            if(story.getSourceName().equals(sourceName)) {
-                productsList.add(story);
-                Log.v(NEWSSOURCE, "demo sourceUrl : " + story.getSourceUrl());
-            }
+        if (!sourceName.contains(Common.BOOKMARKS)) {
+            alldbnews = newsDatabase.feedModel().getSourceNews(sourceName);
+        }else{
+            alldbnews = newsDatabase.feedModel().getBookMarkedNews(true);
         }
 
-        Log.v(NEWSSOURCE       ,"***********************************");
 
+        Log.v(NEWSSOURCE ,"***********************************");
+        Log.v(NEWSSOURCE , sourceName + " : " + alldbnews.size());
 
 
 
 
         //productsList            = addNativeExpressAds(productsList);
-        //Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
-        //Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
-        //Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
-        //Log.v(NEWSSOURCE       ,"***********************************");
+//        Log.v(NEWSSOURCE       ,"ALL OBJS SIZE AF AD : " + productsList.size());
+//        Log.v(NEWSSOURCE       ,"SOURCE : " +sourceName);
+//        Log.v(NEWSSOURCE       ,"ALL NEWS SIZE : " + alldbnews.size());
+//        Log.v(NEWSSOURCE       ,"***********************************");
         startMap                = new LinkedHashMap<>();
 
 

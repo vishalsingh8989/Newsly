@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
@@ -23,6 +24,8 @@ import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.updateUtils.LoadNews;
+import com.nihaskalam.progressbuttonlibrary.CircularProgressButton;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +70,7 @@ public class NewsSourceFragment extends Fragment{
     private List<NewsSource> allfeeds;
     private String TAG = "";
     private int priority = 0;
+    private AVLoadingIndicatorView newssource_load;
 
     public NewsSourceFragment() {
         // Required empty public constructor
@@ -114,23 +118,34 @@ public class NewsSourceFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_country, container, false);
-
-        countryListView = (ListView) v.findViewById(R.id.countrylist);
-
-        //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
-
         database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
         newsSources = database.feedModel().getAllFeeds();
-        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+        countryListView = (ListView) v.findViewById(R.id.countrylist);
         CountryAdapter adapter = new CountryAdapter(getActivity(), newsSources);
-
         countryListView.setAdapter(adapter);
 
-        countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         loadNewSourceAsync = new LoadNewSourceAsync(this, adapter, database);
 
         loadNewSourceAsync.execute();
+        newssource_load = (AVLoadingIndicatorView)v.findViewById(R.id.newssource_load);
+        newssource_load.hide();
+
+        //String[] countryList = new String[] {"Global","United States of America","United Kingdom","India", "Australia"};
+
+
+
+        if(newsSources.size() == 0){
+            newssource_load.show();
+        }else{
+            Log.v("SOURCESLOAD", "count : " + newsSources.size());
+        }
+        mPreferences = mContext.getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
+
+
+        countryListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+
 
 
         countryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -207,6 +222,10 @@ public class NewsSourceFragment extends Fragment{
         super.onDetach();
         Log.v("FRAGMENT" , "Country onDetach");
         mListener = null;
+    }
+
+    public void setProgress(boolean b) {
+        newssource_load.smoothToHide();
     }
 
 

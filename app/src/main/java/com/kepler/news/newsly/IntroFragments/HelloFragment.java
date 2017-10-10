@@ -14,7 +14,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 
 public class HelloFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
@@ -70,59 +72,19 @@ public class HelloFragment extends Fragment{
         TextView details = (TextView)v.findViewById(R.id.details);
 
         Typeface tp = Typeface.createFromAsset(getActivity().getAssets(), "fonts/attic.ttf");
-        final ImageView image_bg = (ImageView)v.findViewById(R.id.image_bg);
+
         app_name.setTypeface(tp);
         details.setTypeface(tp);
 
-        ///TextView app_name = (TextView) v.findViewById(R.id.app_name_middle);
+        NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
+        LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
+
+        loadNewSourceAsync.execute();
 
 
-//        final Animation mZoomInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.zoom_in);
-//        final Animation mZoomOutnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.zoom_out);
-//        //mZoomInAnimation.setRepeatMode(Animation.INFINITE);
-//
-//        mZoomInAnimation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                image_bg.startAnimation(mZoomOutnimation);
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
-//
-//
-//        mZoomOutnimation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                image_bg.startAnimation(mZoomInAnimation);
-//            }
-//
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
-//
-//        image_bg.startAnimation(mZoomInAnimation);
-
-
-        //Animation mZoomOutAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_out);
-        //imagePop.startAnimation(mZoomInAnimation);
-        //imagePop.startAnimation(mZoomOutAnimation);
+//        Animation mZoomOutAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_out);
+//        imagePop.startAnimation(mZoomInAnimation);
+//        imagePop.startAnimation(mZoomOutAnimation);
 
         return v;
     }

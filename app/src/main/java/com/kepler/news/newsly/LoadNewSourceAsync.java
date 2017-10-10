@@ -152,12 +152,14 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<New
     protected void onPostExecute(ArrayList<NewsSource> objects) {
         super.onPostExecute(objects);
 
-        if(mFragment!=null)
+        if (mFragment != null)
             mAdapter.upDateEntries(objects);
-        //mAdapter.notifyDataSetChanged();
-        if(mFragment!=null)
-            mFragment.setChecked(objects);
 
+        //mAdapter.notifyDataSetChanged();
+        if (mFragment != null){
+            mFragment.setChecked(objects);
+            mFragment.setProgress(false);
+        }
         //Common.update(objects);
     }
 

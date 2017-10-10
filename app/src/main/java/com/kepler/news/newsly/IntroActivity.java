@@ -103,6 +103,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
+
         if(!firstLaunch)
         {
             Intent intent = new Intent(this, MainActivity.class);

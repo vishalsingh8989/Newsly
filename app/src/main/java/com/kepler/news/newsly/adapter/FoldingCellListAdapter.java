@@ -118,7 +118,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return productsList.size();
+        return allNewslist.size();
     }
 
 
@@ -129,7 +129,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return productsList.get(i);
+        return allNewslist.get(i);
     }
 
     @Override
@@ -278,7 +278,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     }
                 });
 
-                //viewHolder.bookmark_btn.setOnClickListener(onBookmarkClickListener(item, viewHolder));
+                viewHolder.bookmark_btn.setOnClickListener(onBookmarkClickListener(item, viewHolder));
 
                 //viewHolder.like_btn.setOnClickListener(onLikeClickListener(item, viewHolder));
 
@@ -295,7 +295,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                     try {                //&&productsList.get(position).getUrltoimage().trim() !=null && productsList.get(position).getUrltoimage().trim() != ""){
                         Picasso.with(mContext)
                                 .load(item.getUrltoimage()+"")
-                                .resize(180, 180)
+                                .resize(250, 250)
                                 .centerCrop()
                                 .error(errorItem[position%errorItem.length])
                                 .into(viewHolder.image);
@@ -304,7 +304,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
                         Log.v("NEWSSOURCE" ,item.getSourceName() + " : " + item.getUrltoimage()+" " +e.toString());
                         Picasso.with(mContext)
                                 .load(errorItem[position%errorItem.length])
-                                .resize(180, 180)
+                                .resize(250, 250)
                                 .centerCrop()
                                 .into(viewHolder.image);
                     }

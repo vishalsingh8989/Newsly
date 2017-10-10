@@ -394,6 +394,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         //viewPager.setCurrentItem(1);
 
+
+
+
+
     }
 
     private void showNetworkNotAvailableDialog() {
