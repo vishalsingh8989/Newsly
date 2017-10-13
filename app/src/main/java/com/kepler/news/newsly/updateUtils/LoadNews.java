@@ -72,7 +72,7 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
 
         database = NewsDatabase.getDatabase(mContext);
 
-        List<Object> newList               = new ArrayList<>();
+        //List<Object> newList               = new ArrayList<>();
         String result   = "";
         int count = database.feedModel().getNewsCount();
         Log.v("LOADINSETTING","COUNT : " + count);
@@ -196,11 +196,6 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
         }
 
 
-        List<NewsStory> allnews = database.feedModel().getAllNews();
-        for (NewsStory story: allnews) {
-            Log.v("DBTEST", " URL : "  + story.getUrl() );
-            Log.v("DBTEST", "SURL : "  + story.getSourceurl());
-        }
 
         return null;
 

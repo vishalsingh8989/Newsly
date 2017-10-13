@@ -32,8 +32,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
@@ -50,6 +52,7 @@ import com.kepler.news.newsly.updateUtils.LoadFeedDataAsync;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ramotion.foldingcell.FoldingCell;
 import com.thefinestartist.finestwebview.FinestWebView;
+import com.thefinestartist.finestwebview.listeners.WebViewListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.ByteArrayOutputStream;
@@ -219,20 +222,81 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     public void onItemClicked(View v, int position) {
         Log.v("READFULL", "" +position);
         NewsStory story = null;
+        String adId = "ca-app-pub-5223778660504166/4060245429";
+
+
+        final InterstitialAd interstitialAd= new InterstitialAd(mContext);
+        interstitialAd.setAdUnitId(adId);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                }
+
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+
+
+            }
+
+
+        });
+
+
         switch (v.getId()){
             case R.id.read_full:
+
                 story = (NewsStory) alldbnews.get(position);
                 Log.v("READFULL", "read full clicked "+ story.getUrl() );
-                new FinestWebView.Builder(getActivity())
+                new FinestWebView.Builder(getActivity()).addWebViewListener(new WebViewListener() {
+                    @Override
+                    public void onPageFinished(String url) {
+                        super.onPageFinished(url);
+                        Log.v("FinestWebView", "back from web onPageFinished1");
+                    }
+
+
+                })
                         .showMenuShareVia(true)
                         .show(story.getUrl());
+
                 break;
             case R.id.source:
+
                 story = (NewsStory) alldbnews.get(position);
-                Log.v("SOURCEURL", "source full clicked "+ story.getSourceurl());
-                new FinestWebView.Builder(getActivity())
+                Log.v("FinestWebView", "source full clicked "+ story.getSourceurl());
+                new FinestWebView.Builder(getActivity()).removeWebViewListener(new WebViewListener() {
+                    @Override
+                    public void onPageFinished(String url) {
+                        super.onPageFinished(url);
+                        Log.v("FinestWebView", "back from web onPageFinished2");
+                    }
+
+                }).addWebViewListener(new WebViewListener() {
+                    @Override
+                    public void onPageFinished(String url) {
+                        super.onPageFinished(url);
+                        Log.v("FinestWebView", "back from web onPageFinished3");
+                    }
+
+                    @Override
+                    public void onLoadResource(String url) {
+                        super.onLoadResource(url);
+                        Log.v("FinestWebView", "back from web onLoadResource2");
+                    }
+                }).setWebViewListener(new WebViewListener() {
+                })
                         .showMenuShareVia(true)
                         .show(story.getSourceurl());
+
                 break;
             case R.id.description:
             case R.id.title_back:
@@ -250,9 +314,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
                 foldingCellListAdapter.registerToggle(position);
                 ((FoldingCell) v.getParent().getParent()).toggle(false);
                 break;
-
-
-
 
 
 
