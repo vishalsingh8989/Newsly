@@ -23,12 +23,11 @@ import static android.arch.persistence.room.RoomWarnings.*;
 public interface NewsDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addNews(News news);
 
     @Query("select count(*) from news")
     int getNewsCount();
-
     //@SuppressWarnings(CURSOR_MISMATCH)
     @Query("select * from news where sourceName =:sourceName order by addtime DESC")
     List<NewsStory> getSourceNews(String sourceName);

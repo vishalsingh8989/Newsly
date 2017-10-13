@@ -115,10 +115,10 @@ public class BookMarkActivity extends AppCompatActivity implements FoldingCellIt
                 break;
             case R.id.source:
                 story = (NewsStory) productsList.get(position);
-                Log.v("SOURCEURL", "read full clicked "+ story.getSourceUrl());
+                Log.v("SOURCEURL", "read full clicked "+ story.getSourceurl());
                 new FinestWebView.Builder(mContext)
                         .showMenuShareVia(true)
-                        .show(story.getSourceUrl());
+                        .show(story.getSourceurl());
                 break;
             case R.id.description:
             case R.id.title_back:

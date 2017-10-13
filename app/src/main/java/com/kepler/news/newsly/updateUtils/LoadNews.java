@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDao;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.Common;
 
@@ -58,6 +59,8 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
     private String id;
     private String addtime;
     private String  num_of_likes;
+    private News news;
+
     public LoadNews(String newsSource, Context mContext) {
 
         this.newsSource = newsSource;
@@ -151,7 +154,12 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
                     Log.v("HYHTTP", "**************************************");
                     Log.v("HYHTTP", "2source Url : " + sourceurl);
                     Log.v("HYHTTP", "2url : " + url);
-                    database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName, sourceName, url, sourceurl, urltoimage,  author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false));
+
+
+                    news = new News(id , title, description, publishedat ,sourceName, sourceName, url, sourceurl, urltoimage,  author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false , false);
+                    Log.v("HYHTTP", "news  : " + news.toString());
+
+                    database.feedModel().addNews(news);
                 }
 
 
@@ -185,6 +193,13 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
             Log.v("HYHTTP", "Exception");
             //isNetworkAvailable = false;
+        }
+
+
+        List<NewsStory> allnews = database.feedModel().getAllNews();
+        for (NewsStory story: allnews) {
+            Log.v("DBTEST", " URL : "  + story.getUrl() );
+            Log.v("DBTEST", "SURL : "  + story.getSourceurl());
         }
 
         return null;

@@ -221,18 +221,18 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         NewsStory story = null;
         switch (v.getId()){
             case R.id.read_full:
-                story = (NewsStory) productsList.get(position);
+                story = (NewsStory) alldbnews.get(position);
                 Log.v("READFULL", "read full clicked "+ story.getUrl() );
                 new FinestWebView.Builder(getActivity())
                         .showMenuShareVia(true)
                         .show(story.getUrl());
                 break;
             case R.id.source:
-                story = (NewsStory) productsList.get(position);
-                Log.v("SOURCEURL", "source full clicked "+ story.getSourceUrl());
+                story = (NewsStory) alldbnews.get(position);
+                Log.v("SOURCEURL", "source full clicked "+ story.getSourceurl());
                 new FinestWebView.Builder(getActivity())
                         .showMenuShareVia(true)
-                        .show(story.getSourceUrl());
+                        .show(story.getSourceurl());
                 break;
             case R.id.description:
             case R.id.title_back:

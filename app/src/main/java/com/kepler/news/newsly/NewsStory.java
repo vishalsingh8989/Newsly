@@ -17,7 +17,7 @@ public class NewsStory {
     private String category    = "";
     private String url         = "";
     private String publishedat = "";
-    private String sourceUrl   = "";
+    private String sourceurl   = "";
     private String addtime     = "";
     private String source           = "";
     private String language         = "";
@@ -103,8 +103,8 @@ public class NewsStory {
         this.url = url;
     }
 
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+    public void setSourceurl(String sourceurl) {
+        this.sourceurl = sourceurl;
     }
 
 
@@ -163,8 +163,8 @@ public class NewsStory {
         return url;
     }
 
-    public String getSourceUrl() {
-        return sourceUrl;
+    public String getSourceurl() {
+        return sourceurl;
     }
 
     public String getPublishedat() {

@@ -9,7 +9,7 @@ import android.content.Context;
  * Created by vishaljasrotia on 8/19/17.
  */
 
-@Database(entities = {News.class}, version = 2, exportSchema = false)
+@Database(entities = {News.class}, version = 1, exportSchema = false)
 public abstract class NewsDatabase extends RoomDatabase {
 
     private static NewsDatabase NEWSDBINSTANCE;

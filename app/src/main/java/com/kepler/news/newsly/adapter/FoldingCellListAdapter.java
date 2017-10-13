@@ -241,7 +241,7 @@ public class FoldingCellListAdapter extends BaseAdapter {
 
 
                 status = feedmodel.getBookMarkStatus(item.getId());
-                Log.v("SOURCEURL", "URL1  : " + item.getSourceUrl());
+                Log.v("SOURCEURL", "URL1  : " + item.getSourceurl());
                 Log.v("SOURCEURL", "URL2  : " + item.getUrltoimage());
                 if(status.bookmark  == false) {
                     viewHolder.bookmark_btn.setImageResource(R.drawable.bookmark);

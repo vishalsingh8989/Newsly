@@ -542,8 +542,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 break;
             case R.id.source:
                 story = (NewsStory) productsList.get(position);
-                Log.v("READFULL", "read full clicked "+ story.getSourceUrl());
-                new FinestWebView.Builder(this).show("http://"+story.getSourceUrl());
+                Log.v("READFULL", "read full clicked "+ story.getSourceurl());
+                new FinestWebView.Builder(this).show("http://"+story.getSourceurl());
                 break;
             case R.id.description:
                 Log.v("READFULL", "description full clicked");
