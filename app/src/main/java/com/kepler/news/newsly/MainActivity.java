@@ -269,7 +269,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         }
         // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
         String banner_id = "ca-app-pub-5223778660504166/7368731783";
-        MobileAds.initialize(this, banner_id);
+
+        String testid = "ca-app-pub-3940256099942544/6300978111";// test id . Do not use this in production.
+        MobileAds.initialize(this, testid);
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);

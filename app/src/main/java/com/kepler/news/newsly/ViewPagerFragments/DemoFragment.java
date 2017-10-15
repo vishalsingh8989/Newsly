@@ -100,6 +100,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private List<NewsStory> alldbnews;
     private Bundle mArgs;
     private LoadFeedDataAsync loadFeedDataAsync;
+    private boolean showadd  = false;
+
 
 
     @Override
@@ -224,19 +226,23 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         NewsStory story = null;
         String adId = "ca-app-pub-5223778660504166/4060245429";
 
-
+        String testid = "ca-app-pub-3940256099942544/1033173712"; // do not use in production.
         final InterstitialAd interstitialAd= new InterstitialAd(mContext);
-        interstitialAd.setAdUnitId(adId);
+        interstitialAd.setAdUnitId(testid);
+
         AdRequest adRequest = new AdRequest.Builder().build();
-        interstitialAd.loadAd(adRequest);
+        adRequest.isTestDevice(mContext);
+
 
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
 
-                if (interstitialAd.isLoaded()) {
+
+                if (interstitialAd.isLoaded() && showadd) {
                     interstitialAd.show();
                 }
+                showadd = !showadd;
 
             }
 
@@ -249,7 +255,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
         });
-
+        interstitialAd.loadAd(adRequest);
 
         switch (v.getId()){
             case R.id.read_full:
