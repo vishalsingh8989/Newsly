@@ -26,6 +26,7 @@ import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
+import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.helper.MyAppIntro;
@@ -105,7 +106,14 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
 
-        FirebaseApp.initializeApp(this);
+//        Context mContext = getApplicationContext();
+//        NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getApplicationContext());
+//        LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
+//
+//        loadNewSourceAsync.execute();
+
+
+        //FirebaseApp.initializeApp(this);
         if(!firstLaunch)
         {
             Intent intent = new Intent(this, MainActivity.class);
@@ -114,6 +122,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         Fragment helloFragment = new HelloFragment();
 
 

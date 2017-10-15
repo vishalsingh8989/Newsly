@@ -1,6 +1,7 @@
 package com.kepler.news.newsly.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class CountryAdapter extends BaseAdapter {
     }
     public void upDateEntries(List<NewsSource> entries) {
 
+        Log.v("NEWSLIST", "upDateEntries : " + entries.size());
         countryList.addAll(entries);
 
         this.notifyDataSetChanged();

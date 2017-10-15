@@ -196,6 +196,8 @@ public class NewsSourceFragment extends Fragment{
         });
 
         setChecked(null);
+
+
         return v;
     }
 

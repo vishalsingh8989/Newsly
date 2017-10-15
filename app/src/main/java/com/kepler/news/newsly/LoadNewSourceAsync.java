@@ -155,6 +155,7 @@ public class LoadNewSourceAsync  extends AsyncTask<Object, Object, ArrayList<New
         if (mFragment != null)
             mAdapter.upDateEntries(objects);
 
+
         //mAdapter.notifyDataSetChanged();
         if (mFragment != null){
             mFragment.setChecked(objects);
