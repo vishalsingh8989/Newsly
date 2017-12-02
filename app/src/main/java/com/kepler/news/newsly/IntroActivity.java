@@ -105,15 +105,6 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
-
-//        Context mContext = getApplicationContext();
-//        NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getApplicationContext());
-//        LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
-//
-//        loadNewSourceAsync.execute();
-
-
-        //FirebaseApp.initializeApp(this);
         if(!firstLaunch)
         {
             Intent intent = new Intent(this, MainActivity.class);
@@ -121,11 +112,8 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
             finish();
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
         Fragment helloFragment = new HelloFragment();
-
-
         Fragment newsSourceFragment = new NewsSourceFragment();
         Fragment loadImagesFragment = new LoadImagesFragment();
 
@@ -141,8 +129,6 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
 
         setCustomTransformer(new DiffTransformer());
-        //setFadeAnimation();
-        //setIndicatorColor(R.color.colorChipBackground, R.color.n);
         setColorDoneText(Color.parseColor("#ffffff"));
 
 
@@ -152,11 +138,7 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
 
     }
 
-    @Override
-    public void onSkipPressed(Fragment currentFragment) {
-        super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
-    }
+
 
     @Override
     public void onDonePressed(Fragment currentFragment) {

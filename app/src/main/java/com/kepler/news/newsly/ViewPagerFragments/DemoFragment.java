@@ -226,9 +226,9 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         NewsStory story = null;
         String adId = "ca-app-pub-5223778660504166/4060245429";
 
-        String testid = "ca-app-pub-3940256099942544/1033173712"; // do not use in production.
+        //String testid = "ca-app-pub-3940256099942544/1033173712"; // do not use in production.
         final InterstitialAd interstitialAd= new InterstitialAd(mContext);
-        interstitialAd.setAdUnitId(testid);
+        interstitialAd.setAdUnitId(adId);
 
         AdRequest adRequest = new AdRequest.Builder().build();
         adRequest.isTestDevice(mContext);

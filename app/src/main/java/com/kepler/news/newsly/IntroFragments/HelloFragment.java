@@ -76,51 +76,15 @@ public class HelloFragment extends Fragment{
         app_name.setTypeface(tp);
         details.setTypeface(tp);
 
-        //NewsSourceDatabase database = NewsSourceDatabase.getDatabase(getActivity().getApplicationContext());
-
-        //LoadNewSourceAsync loadNewSourceAsync = new LoadNewSourceAsync(null, null, database);
-        //loadNewSourceAsync.execute();
-
-
-//        Animation mZoomOutAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_out);
-//        imagePop.startAnimation(mZoomInAnimation);
-//        imagePop.startAnimation(mZoomOutAnimation);
 
         return v;
+
+
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onHelloFragmentInteraction(uri, TAG);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.v("FRAGMENT" , "Hello onDetach");
-        mListener = null;
-    }
-
-    public String getTAG() {
-        return TAG;
-    }
-
-    public void setTAG(String TAG) {
-        this.TAG = TAG;
-    }
 
 
     /**

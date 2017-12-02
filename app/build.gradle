@@ -9,8 +9,8 @@ android {
         applicationId "com.kepler.news.newsly"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.0.6"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -78,7 +78,7 @@ dependencies {
     compile 'com.github.woxthebox:draglistview:1.4.6'
    // apt "android.arch.persistence.room:compiler:1.0.0-alpha1"
 
-
+    compile 'com.airbnb.android:lottie:2.2.5'
 
     compile project(path: ':library')
 }

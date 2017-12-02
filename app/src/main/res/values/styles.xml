@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/p</item>
         <item name="actionBarPopupTheme">@style/ToolbarTheme</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
