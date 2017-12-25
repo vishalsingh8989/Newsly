@@ -289,6 +289,26 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
                 item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
                 pages.add(item);
+
+        bundle = new Bundle();
+        bundle.putString("USA", "USA");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("USA", DemoFragment.class, bundle);
+        pages.add(item);
+
+
+        bundle = new Bundle();
+        bundle.putString("ENTERTAINMENT", "ENTERTAINMENT");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("ENTERTAINMENT", DemoFragment.class, bundle);
+        pages.add(item);
+
+        bundle = new Bundle();
+        bundle.putString("SPORTS", "SPORTS");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("SPORTS", DemoFragment.class, bundle);
+        pages.add(item);
+
         bundle = new Bundle();
         bundle.putString("BUSINESS", "BUSINESS");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);

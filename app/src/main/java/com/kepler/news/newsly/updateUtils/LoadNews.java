@@ -154,17 +154,17 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
 
             }
             count = database.feedModel().getNewsCount();
-            //Log.v("LOADINSETTING","source : " + sourceName + " , "+  "COUNT : " + count);
+            Log.v("LOADINSETTING","database count: " + count);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.v("HYHTTP", "MalformedURLException");
+            Log.v("LOADINSETTING", "MalformedURLException");
             //isNetworkAvailable = false;
 
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.v("HYHTTP", "IOException");
+            Log.v("LOADINSETTING", "IOException");
             //isNetworkAvailable = false;
 
         } catch (JSONException e) {

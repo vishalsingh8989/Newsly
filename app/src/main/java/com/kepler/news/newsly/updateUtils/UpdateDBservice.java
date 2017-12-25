@@ -72,6 +72,9 @@ public class UpdateDBservice extends IntentService {
     }
 
     public void updateDB() {
+
+            LoadNews loadNews = new LoadNews(getApplicationContext());
+            loadNews.execute();
 //        database = NewsDatabase.getDatabase(getApplicationContext());
 //
 //        //List<Object> newList               = new ArrayList<>();

@@ -12,25 +12,23 @@ import android.util.Log;
 public class News {
 
     @PrimaryKey
-    public static String id  = "" ;
-    public static String title;
-    public static String summary;
-    public static String language;
-    public static String country;
-    public static String category;
-    public static String tags;
-    public static String article_url;
-    public static String source_url;
-    public static String source_name;
-    public static String top_image;
-    public static String publish_date;
-    public static String authors;
-    public static String meta_favicon;
-    public static String trending;
+    public  String id ;
+    public  String title;
+    public  String summary;
+    public  String language;
+    public  String country;
+    public  String category;
+    public  String tags;
+    public  String article_url;
+    public  String source_url;
+    public  String source_name;
+    public  String top_image;
+    public  String publish_date;
+    public  String authors;
+    public  String meta_favicon;
+    public  String trending;
 
-    public News(){
 
-    }
 
     public News(String id ,
             String title,
