@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.NativeExpressAdView;
 import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
@@ -71,8 +70,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType){
                 case AD_VIEW_TYPE:
-                    View nativeExpressAdView = LayoutInflater.from(mContext).inflate(R.layout.native_ad_adapter, parent, false);
-                    return  new NativeExpressAdViewHolder(nativeExpressAdView);
+                    //View nativeExpressAdView = LayoutInflater.from(mContext).inflate(R.layout.native_ad_adapter, parent, false);
+                    return  null;//new NativeExpressAdViewHolder(nativeExpressAdView);
                 case MENU_ITEM_VIEW_TYPE:
                     default:
                         FoldingCell newsItemLayoutView = (FoldingCell)LayoutInflater.from(mContext).inflate(R.layout.main_cell_item, parent, false);
@@ -90,17 +89,17 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch(viewType){
             case AD_VIEW_TYPE:
-                NativeExpressAdViewHolder nativeExpressAdViewHolder = (NativeExpressAdViewHolder)holder;
-                NativeExpressAdView adView  = (NativeExpressAdView)productsList.get(position);
-                ViewGroup adCardView = (ViewGroup)nativeExpressAdViewHolder.itemView;
-                adCardView.removeAllViews();
-                if(adView.getParent()!=null)
-                {
-                    ((ViewGroup)adView.getParent()).removeView(adView);
-
-                }
-
-                adCardView.addView(adView);
+//                NativeExpressAdViewHolder nativeExpressAdViewHolder = (NativeExpressAdViewHolder)holder;
+//                NativeExpressAdView adView  = (NativeExpressAdView)productsList.get(position);
+//                ViewGroup adCardView = (ViewGroup)nativeExpressAdViewHolder.itemView;
+//                adCardView.removeAllViews();
+//                if(adView.getParent()!=null)
+//                {
+//                    ((ViewGroup)adView.getParent()).removeView(adView);
+//
+//                }
+//
+//                adCardView.addView(adView);
                 break;
             case MENU_ITEM_VIEW_TYPE:
                 default:
@@ -108,13 +107,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     NewsStory story = (NewsStory)productsList.get(position);
 
 
-                    newsItemViewHolder.title.setText(story.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                    newsItemViewHolder.description.setText(story.getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                    newsItemViewHolder.sourceMini.setText(" " + position);
-                    newsItemViewHolder.source.setText(story.getSourceName());
-                    newsItemViewHolder.publishedat.setText(story.getPublishedat());
-                    //newsItemViewHolder.author.setText(story.getAuthor());
-                    //newsItemViewHolder.category.setText(story.getCategory());
+//                    newsItemViewHolder.title.setText(story.getTitle().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+//                    newsItemViewHolder.description.setText(story.getDescription().replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+//                    newsItemViewHolder.sourceMini.setText(" " + position);
+//                    newsItemViewHolder.source.setText(story.getSourceName());
+//                    newsItemViewHolder.publishedat.setText(story.getPublishedat());
+//                    //newsItemViewHolder.author.setText(story.getAuthor());
+//                    //newsItemViewHolder.category.setText(story.getCategory());
 
 
 
@@ -142,14 +141,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     });
 
 
-
-                    try {
-                        Picasso.with(mContext)
-                                .load(story.getUrltoimage())
-                                .error(R.drawable.sample)
-                                .into(newsItemViewHolder.image);
-                    } catch (Exception e) {
-                    }
+//
+//                    try {
+//                        Picasso.with(mContext)
+//                                .load(story.getUrltoimage())
+//                                .error(R.drawable.sample)
+//                                .into(newsItemViewHolder.image);
+//                    } catch (Exception e) {
+//                    }
 
 
 
@@ -196,7 +195,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView category;
         TextView readFull;
         TextView publishedat;
-        NativeExpressAdView adView;
+        //NativeExpressAdView adView;
         ImageView image;
         
         NewsItemViewHolder(FoldingCell cell) {
@@ -206,13 +205,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             description = (TextView) cell.findViewById(R.id.description);
             //author = (TextView) cell.findViewById(R.id.author);
             title = (TextView) cell.findViewById(R.id.title);
-            source = (TextView) cell.findViewById(R.id.source);
+            //source = (TextView) cell.findViewById(R.id.source);
             sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
             image = (ImageView) cell.findViewById(R.id.urltoimage);
             side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
             side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
             //category = (TextView) cell.findViewById(R.id.category);
-            readFull = (TextView) cell.findViewById(R.id.read_full);
+            //readFull = (TextView) cell.findViewById(R.id.read_full);
             publishedat = (TextView) cell.findViewById(R.id.publishedat);
             
 

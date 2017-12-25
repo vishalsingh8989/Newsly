@@ -1,31 +1,29 @@
 package com.kepler.news.newsly.updateUtils;
 
+import android.accounts.NetworkErrorException;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
-import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.databaseHelper.News;
-import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 import com.kepler.news.newsly.helper.Common;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -36,32 +34,26 @@ import javax.net.ssl.HttpsURLConnection;
 public class UpdateDBservice extends IntentService {
     
     private static String TAG = "UpdateDBservice";
-    private NewsSourceDatabase sourcesDB;
-    private List<NewsSource> allSources;
-    
+    //private NewsDatabase database;
 
 
+    public static String ID                                 = "id" ;
+    public static String TITLE                              = "title";
+    public static String SUMMARY                            = "summary";
+    public static String LANGUAGE                           = "language" ;
+    public static String COUNTRY                            = "country";
+    public static String CATEGORY                           = "category";
+    public static String TAGS                               = "tags";
+    public static String ARTICLE_URL                        = "artilce_url" ;
+    public static String SOURCE_URL                         = "source_url";
+    public static String SOURCE_NAME                        = "source_name";
+    public static String TOP_IMAGE                          = "top_image";
+    public static String PUBLISH_DATE                       = "publish_date";
+    public static String AUTHORS                            = "authors";
+    public static String META_FAVICON                       = "meta_favicon";
+    public static String TRENDING                           = "trending";
 
-    private DemoFragment fragment = null;
-    private boolean isNetworkAvailable  = true;
-    private  NewsDatabase database = null;
-    private String description;
-    private String title;
-    private String urltoimage;
-    private String sourceName                       = "";
-    private String author;
-    private String category;
-    private String url;
-    private String sourceurl;
-    private String publishedat;
-    private String name = "";
-    private String language;
-    private String country;
-    private String id;
-    private String addtime;
-    private int count = 0;
-    private String num_of_likes;
-
+    private News news;
     public UpdateDBservice(){
         super("");
     }
@@ -73,118 +65,153 @@ public class UpdateDBservice extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.v(TAG, "UpdateDBservice : onHandleIntent");
 
-        List<Object> newList               = new ArrayList<>();
+
         updateDB();
 
 
     }
 
     public void updateDB() {
-        String result   = "";
+//        database = NewsDatabase.getDatabase(getApplicationContext());
+//
+//        //List<Object> newList               = new ArrayList<>();
+//        String result   = "";
+//        int count = database.feedModel().getNewsCount();
+//        Log.v("LOADINSETTING","COUNT : " + count);
+//        try {
+//
+//
+//            String baseUrl = "http://13.58.159.13/";
+//            String mUrl = baseUrl;
+//
+//            URL url1 = new URL(mUrl); // here is your URL path
+//            Log.v("LOADINSETTING",mUrl);
+//            JSONObject postDataParams = new JSONObject();
+//            postDataParams.put("addtime", "1495955972");
+//            Log.e("params",postDataParams.toString());
+//
+//
+//            HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
+//            conn.setReadTimeout(15000 /* milliseconds */);
+//            conn.setConnectTimeout(15000 /* milliseconds */);
+//            conn.setRequestMethod("POST");
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//
+//
+//
+//
+//            OutputStream os = conn.getOutputStream();
+//            Log.v("HYHTTP" , "os length : " + os.toString().length());
+//
+//            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
+//
+//            writer.write(getPostDataString(postDataParams));
+//            writer.flush();
+//            writer.close();
+//            os.close();
+//            Log.v("HYHTTP", "after close " + writer.toString().length());
+//            int responseCode=conn.getResponseCode();
+//            if (responseCode == HttpsURLConnection.HTTP_OK) {
+//                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
+//
+//                StringBuffer response = new StringBuffer("");
+//                String inputLine = "";
+//
+//                Log.v("HYHTTP", "response");
+//                while ((inputLine = in.readLine()) != null) {
+//                    response.append(inputLine);
+//                    //break;
+//                }
+//
+//
+//                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
+//                result = response.toString();
+//                in.close();
+//                JSONObject jObject = new JSONObject(result);
+//                JSONArray data = jObject.getJSONArray("articles");
+//                Log.v("HYHTTP", "articles " + data.length());
+//                for (int i = 0; i < data.length(); i++) {
+//                    news= new News();
+//
+//                    /*
+//                    public static String id ;
+//                    public static String title;
+//                    public static String summary;
+//                    public static String language;
+//                    public static String country;
+//                    public static String category;
+//                    public static String tags;
+//                    public static String article_url;
+//                    public static String source_url;
+//                    public static String source_name;
+//                    public static String top_image;
+//                    public static String publish_date;
+//                    public static String authors;
+//                    public static String meta_favicon;
+//                    public static String trending;
+//                    */
+//
+//                    news.id         = data.getJSONObject(i).getString(Common.ID);
+//
+//                    news.title      = data.getJSONObject(i).getString(Common.TITLE);
+//                    news.summary    = data.getJSONObject(i).getString(Common.SUMMARY);
+//                    news.language   = data.getJSONObject(i).getString(Common.LANGUAGE);
+//
+//                    news.country    = data.getJSONObject(i).getString(Common.COUNTRY);
+//                    news.category   = data.getJSONObject(i).getString(Common.CATEGORY);
+//                    news.tags       = data.getJSONObject(i).getString(Common.TAGS);
+//                    news.article_url        = data.getJSONObject(i).getString(Common.ARTICLE_URL);
+//                    news.source_url         = data.getJSONObject(i).getString(Common.SOURCE_URL);
+//                    news.source_name        = data.getJSONObject(i).getString(Common.SOURCE_NAME);
+//                    news.top_image          = data.getJSONObject(i).getString(Common.TOP_IMAGE);
+//                    news.publish_date       = data.getJSONObject(i).getString(Common.PUBLISH_DATE);
+//                    news.authors         = data.getJSONObject(i).getString(Common.AUTHORS);
+//                    news. meta_favicon   = data.getJSONObject(i).getString(Common.META_FAVICON);
+//                    news.trending        = data.getJSONObject(i).getString(Common.TRENDING);
+//
+//                    Log.v("HYHTTP", "**************************************");
+//                    Log.v("HYHTTP", "Loadnews source Url : " + news.title);
+//                    Log.v("HYHTTP", "Loadnews url : " + news.source_name);
+//                    database.feedModel().addNews(news);
+//                }
+//
+//
+//            }
+//            count = database.feedModel().getNewsCount();
+//            //Log.v("LOADINSETTING","source : " + sourceName + " , "+  "COUNT : " + count);
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//            Log.v("HYHTTP", "MalformedURLException");
+//            //isNetworkAvailable = false;
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.v("HYHTTP", "IOException");
+//            //isNetworkAvailable = false;
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Log.v("HYHTTP", "JSONException");
+//
+//        } catch (NetworkErrorException e)
+//        {
+//            e.printStackTrace();
+//            Log.v("HYHTTP", "NetworkErrorException");
+//            //isNetworkAvailable = false;
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.v("HYHTTP", "Exception");
+//            //isNetworkAvailable = false;
+//        }
+//
 
-        database =  NewsDatabase.getDatabase(getApplicationContext());
-        int count = database.feedModel().getNewsCount();
-        Log.v(TAG,"COUNT : " + count);
-        sourcesDB = NewsSourceDatabase.getDatabase(getApplicationContext());
-        allSources = sourcesDB.feedModel().getAllFeeds();
 
-        for (NewsSource newsSource : allSources) {
-
-            if(!newsSource.subscribed)
-            {
-                continue;
-            }
-            try{
-
-
-                String baseUrl = "http://13.58.159.13/";
-                String mUrl = baseUrl+ "?addtime=14955596"
-                        +"&start="+String.valueOf(0)
-                        +"&offset="+String.valueOf(100)
-                        +"&sourceName="+ newsSource.newsSource.replace(" ", "%20");
-
-                URL url1 = new URL(mUrl); // here is your URL path
-                //Log.v(TAG,url1 + "");
-                JSONObject postDataParams = new JSONObject();
-                postDataParams.put("addtime", "1495955972");
-                //Log.e("params",postDataParams.toString());
-
-
-                HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
-                conn.setReadTimeout(15000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-
-
-
-                OutputStream os = conn.getOutputStream();
-                //Log.v(TAG , "os length : " + os.toString().length());
-
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
-
-                writer.write(getPostDataString(postDataParams));
-                writer.flush();
-                writer.close();
-                os.close();
-                //Log.v(TAG, "after close " + writer.toString().length());
-                int responseCode=conn.getResponseCode();
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    //Log.v(TAG, "BufferedReader : " +in.toString().length());
-
-                    StringBuffer response = new StringBuffer("");
-                    String inputLine = "";
-
-                    //Log.v(TAG, "response");
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                        //break;
-                    }
-
-
-                    //Log.v(TAG, "after append "+response.length()+ " , " +in);
-                    result = response.toString();
-                    in.close();
-                    JSONObject jObject = new JSONObject(result);
-                    JSONArray data = jObject.getJSONArray("articles");
-                    //Log.v(TAG, "articles " + data.length());
-                    for (int i = 0; i < data.length(); i++) {
-
-                        id = data.getJSONObject(i).getString(Common.ID);
-
-                        description     = data.getJSONObject(i).getString(Common.DESCRIPTION);
-                        title           = data.getJSONObject(i).getString(Common.TITLE);
-                        urltoimage      = data.getJSONObject(i).getString(Common.IMAGEURL);
-                        sourceName      = data.getJSONObject(i).getString(Common.SOURCENAME);
-                        author          = data.getJSONObject(i).getString(Common.AUTHOR);
-                        category        = data.getJSONObject(i).getString(Common.CATEGORY);
-                        url             = data.getJSONObject(i).getString(Common.URL);
-                        sourceurl       = data.getJSONObject(i).getString(Common.SOURCEURL);
-                        publishedat     = data.getJSONObject(i).getString(Common.PUBLISHEDAT);
-                        language        = data.getJSONObject(i).getString(Common.LANGUAGE);
-                        country         = data.getJSONObject(i).getString(Common.COUNTRY);
-                        addtime         = data.getJSONObject(i).getString(Common.ADDTIME);
-
-                        num_of_likes    = data.getJSONObject(i).getString(Common.LIKES);
-
-                        database.feedModel().addNews(new News(id , title, description, publishedat ,sourceName,sourceName, url, sourceurl,urltoimage, author, language, country, category, Integer.parseInt(addtime), Integer.parseInt(num_of_likes), false, false));
-                    }
-
-
-                }
-                count = database.feedModel().getSourceNews(newsSource.newsSource).size();
-                Log.v(TAG,"COUNT : " + newsSource.newsSource + " ,  "+ count );
-            }catch (Exception e)
-            {
-                Log.v(TAG,"error:" + e.toString());
-
-            }
-
-
-        }
     }
 
 

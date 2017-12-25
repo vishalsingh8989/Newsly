@@ -1,22 +1,15 @@
 package com.kepler.news.newsly.IntroFragments;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kepler.news.newsly.LoadNewSourceAsync;
 import com.kepler.news.newsly.R;
-import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
 
 public class HelloFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match

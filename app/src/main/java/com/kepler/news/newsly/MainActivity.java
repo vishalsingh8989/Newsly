@@ -1,11 +1,8 @@
 package com.kepler.news.newsly;
 
-import android.*;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -13,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.os.LocaleList;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -31,7 +26,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,23 +38,14 @@ import android.widget.ListView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
-import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.databaseHelper.NewsSource;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
+import com.kepler.news.newsly.updateUtils.LoadNews;
 import com.kepler.news.newsly.updateUtils.UpdateDBservice;
-import com.kepler.news.newsly.views.CircleRefreshLayout;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
@@ -73,7 +58,6 @@ import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -104,8 +88,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private FragmentPagerItemAdapter fragmentPagerItemAdapter;
     private FragmentPagerItems pages;
     private DrawerLayout drawer;
-    private NewsSourceDatabase database = null;
-    private List<NewsSource> newsSources;
+    //private NewsSourceDatabase database = null;
+    //private List<NewsSource> newsSources;
     private NavigationView navigationView;
     private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
     private FragmentPagerItem item;
@@ -114,8 +98,8 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     private String device_id;
     private Context mContext;
     private Object mDatabase;
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseDatabase mFirebaseDatabase;
+
+    //private FirebaseDatabase mFirebaseDatabase;
     private boolean rateme = true;
 
 
@@ -213,46 +197,14 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
         Log.v("FIREBASE" , "device_id : " + device_id + " time : " + System.currentTimeMillis() / 1000L);
 
-        //FirebaseApp mFirebaseApp = FirebaseApp.initializeApp(getApplicationContext());
-
-        //"https://newsly-7354b.firebaseio.com/"
-
-        LoadData loadData = new LoadData(mContext);
-        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //DatabaseReference myRef = mFirebaseDatabase.getReference("message");
 
 
-//        mFirebaseDatabase = FirebaseDatabase.getInstance("https://newsly-7354b.firebaseio.com/");
-//
-//        mFirebaseDatabase.setPersistenceEnabled(true);
-//
-//        DatabaseReference myRef = mFirebaseDatabase.getReference("Newsly");
-//        myRef.child(device_id).child("LastUsed").setValue(System.currentTimeMillis() / 1000L);
-//        //myRef.child(device_id).child("Model").setValue(model);
-//        //myRef.child(device_id).child("ScreenRatio").setValue(MainActivity.dpHeight / MainActivity.dpWidth);
-//        //myRef.child(device_id).child("ScreenSize").setValue(MainActivity.dpHeight + "X" + MainActivity.dpWidth);
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            LocaleList locales = mContext.getResources().getConfiguration().getLocales();
-//            myRef.child(device_id).child("Country").setValue(locales.toString());
-//            Log.v("countrylocal1", " : " + locales.get(1));
-//        } else {
-//            String country = mContext.getResources().getConfiguration().locale.getDisplayCountry();
-//            myRef.child(device_id).child("Country").setValue(country);
-//            Log.v("countrylocal2", " : " + country);
-//        }
-//
-//        myRef.child(device_id).child("Version").setValue(Build.VERSION.SDK_INT);
-//        //myRef.child(device_id).child("DeviceType").setValue(isTablet(mContext));
-//        //myRef.child(device_id).child("AppVersion").setValue(getAppVersion());
-//
+        //LoadData loadData = new LoadData(mContext);
 
-        //firebase end
 
         Log.v("lifecycle" , "onCreate");
-        database = NewsSourceDatabase.getDatabase(getApplicationContext());
-        newsSources = database.feedModel().getPriorityFeeds();
+       // database = NewsSourceDatabase.getDatabase(getApplicationContext());
+        //newsSources = database.feedModel().getPriorityFeeds();
 
 
         setContentView(R.layout.app_drawer_layout);
@@ -271,10 +223,10 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         String banner_id = "ca-app-pub-5223778660504166/7368731783";
 
         String testid = "ca-app-pub-3940256099942544/6300978111";// test id . Do not use this in production.
-        MobileAds.initialize(this, banner_id);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+//        MobileAds.initialize(this, banner_id);
+//        AdView mAdView = (AdView) findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -323,22 +275,23 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         pages = new FragmentPagerItems(this);
 
         Bundle bundle;
-
+        LoadNews  loadnews = new LoadNews(mContext);
+        loadnews.execute();
 
         int idx  = 0;
-        Log.v("NEWSSOURCE", "size : "+ newsSources.size());
-        for (NewsSource newsSourceObj : newsSources) {
-            Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
+        //Log.v("NEWSSOURCE", "size : "+ newsSources.size());
+        //for (NewsSource newsSourceObj : newsSources) {
+          //  Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
             ///boolean  checked = mPreferences.getBoolean(sourceName, false);
-            if(newsSourceObj.subscribed) {
+            //if(newsSourceObj.subscribed) {
                 bundle = new Bundle();
-                bundle.putString(Common.SOURCENAME, newsSourceObj.newsSource);
+                bundle.putString("TOP STORIES", "TOP STORIES");
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                item = FragmentPagerItem.of(newsSourceObj.newsSource, DemoFragment.class, bundle);
+                item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
                 pages.add(item);
-                idx = idx + 1;
-            }
-        }
+              //  idx = idx + 1;
+            //}
+        //}
 
 //        bundle.putString(Common.SOURCENAME, Common.BOOKMARKS);
 //        bundle.putBoolean(Common.LOADIMAGE , loadImages);
@@ -357,15 +310,15 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         listView                = (ListView) findViewById(R.id.list1);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                // toggle clicked cell state
-                ((FoldingCell) view).toggle(false);
-                // register in adapter that state for selected cell is toggled
-                foldingCellListAdapter.registerToggle(pos);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+//                // toggle clicked cell state
+//                ((FoldingCell) view).toggle(false);
+//                // register in adapter that state for selected cell is toggled
+//                foldingCellListAdapter.registerToggle(pos);
+//            }
+//        });
 
 
 
@@ -376,7 +329,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 currentScrollState = scrollState;
 
                 Log.v("ONSCROLL", " " + firstVisibleItem + " , " + visibleItemCount + " , "+totalItemCount);
-                isScrollCompleted(firstVisibleItem, visibleItemCount , productsList.size(), currentScrollState);
+                //isScrollCompleted(firstVisibleItem, visibleItemCount , productsList.size(), currentScrollState);
 
 
             }
@@ -512,22 +465,22 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-    private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
-        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
-        if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
-                ||(calledOn == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE)) {
-            Log.v("LOADASYNCFEED", "END REACHED" );
-            loadMore();
-        }
-    }
-
-    private void loadMore() {
-//        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
-//        loadFeedDataAsync.execute();
-//        calledOn=foldingCellListAdapter.getProductsList().size();
-//        Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
-    }
+//
+//    private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
+//        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);
+//        if ((!mSearchText.trim().equals("")&&foldingCellListAdapter.getProductsList().size() == firstVisibleItem+visibleItemCount)
+//                ||(calledOn == firstVisibleItem+visibleItemCount  && currentScrollState==SCROLL_STATE_IDLE)) {
+//            Log.v("LOADASYNCFEED", "END REACHED" );
+//            loadMore();
+//        }
+//    }
+//
+//    private void loadMore() {
+////        loadFeedDataAsync = new LoadFeedDataAsync(MainActivity.this, foldingCellListAdapter, true, mPreferences);
+////        loadFeedDataAsync.execute();
+////        calledOn=foldingCellListAdapter.getProductsList().size();
+////        Log.v("LOADASYNCFEED", "END REACHED : " + calledOn );
+//    }
 
 
 
@@ -537,21 +490,21 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         Log.v("READFULL", "" +position);
         NewsStory story = null;
         switch (v.getId()){
-            case R.id.read_full:
-                story = (NewsStory) productsList.get(position);
-                Log.v("READFULL", "read full clicked "+ story.getUrl() );
-                new FinestWebView.Builder(this).show(story.getUrl());
-                break;
-            case R.id.source:
-                story = (NewsStory) productsList.get(position);
-                Log.v("READFULL", "read full clicked "+ story.getSourceurl());
-                new FinestWebView.Builder(this).show("http://"+story.getSourceurl());
-                break;
-            case R.id.description:
-                Log.v("READFULL", "description full clicked");
-                foldingCellListAdapter.registerToggle(position);
-                ((FoldingCell) v.getParent().getParent()).toggle(false);
-                break;
+//            case R.id.read_full:
+//                story = (NewsStory) productsList.get(position);
+//                //Log.v("READFULL", "read full clicked "+ story.getUrl() );
+//                //new FinestWebView.Builder(this).show(story.getUrl());
+//                break;
+//            case R.id.source:
+//                story = (NewsStory) productsList.get(position);
+//                //Log.v("READFULL", "read full clicked "+ story.getSourceurl());
+//                //new FinestWebView.Builder(this).show("http://"+story.getSourceurl());
+//                break;
+//            case R.id.description:
+//                Log.v("READFULL", "description full clicked");
+//                //foldingCellListAdapter.registerToggle(position);
+//                ((FoldingCell) v.getParent().getParent()).toggle(false);
+//                break;
 
         }
     }

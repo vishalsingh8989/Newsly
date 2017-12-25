@@ -10,99 +10,114 @@ import android.util.Log;
 
 @Entity
 public class News {
+
     @PrimaryKey
-    public  String id;
-    public  String title;
-    public  String description;
-    public  String publishedat;
-    public  String source;
-    public  String sourceName;
-    public  String url;
-    public  String sourceurl;
-    public  String urltoimage;
-    public  String author;
-    public  String language;
-    public  String country;
-    public  String category;
-    public  int  addtime;
-    public  int  num_of_likes;
-    public boolean bookmark;
-    public boolean like;
+    public static String id  = "" ;
+    public static String title;
+    public static String summary;
+    public static String language;
+    public static String country;
+    public static String category;
+    public static String tags;
+    public static String article_url;
+    public static String source_url;
+    public static String source_name;
+    public static String top_image;
+    public static String publish_date;
+    public static String authors;
+    public static String meta_favicon;
+    public static String trending;
 
+    public News(){
 
-    public News(String id,
-                String title,
-                String description,
-                String publishedat,
-                String source,
-                String sourceName,
-                String url,
-                String sourceurl,
-                String urltoimage,
-                String author,
-                String language,
-                String country,
-                String category,
-                int addtime,
-                int num_of_likes,
-                boolean bookmark,
-                boolean like
-    ) {
-        Log.v("HYHTTP", "constr Url : " + sourceurl);
+    }
+
+    public News(String id ,
+            String title,
+            String summary,
+            String language,
+             String country,
+             String category,
+             String tags,
+             String article_url,
+             String source_url,
+             String source_name,
+             String top_image,
+             String publish_date,
+             String authors,
+             String meta_favicon,
+             String trending)
+    {
+
         this.id = id;
         this.title = title;
-        this.description = description;
-        this.publishedat = publishedat;
-        this.source = source;
-        this.sourceName = sourceName;
-        this.url = url;
-        this.sourceurl = sourceurl;
-        this.urltoimage = urltoimage;
-        this.author =author;
-        this.language= language;
+        this.summary = summary;
+        this.language = language;
         this.country = country;
         this.category = category;
-        this.addtime = addtime;
-        this.num_of_likes = num_of_likes;
-        this.bookmark = bookmark;
-        this.like = like;
+        this.tags = tags;
+        this.article_url = article_url;
+        this.source_url = source_url;
+        this.source_name = source_name;
+        this.top_image = top_image;
+        this.publish_date = publish_date;
+        this.authors = authors;
+        this.meta_favicon = meta_favicon;
+        this.trending= trending;
+
 
     }
 
 
 
-    public static NewsBuilder builder(){
+    public static NewsBuilder builder() {
         return new NewsBuilder();
     }
 
     public static class NewsBuilder {
-        public  String id;
-        public  String title;
-        public  String description;
-        public  String publishedat;
-        public  String source;
-        public  String sourceName;
-        public  String url;
-        public  String sourceurl;
-        public  String urltoimage;
-        public  String author;
-        public  String language;
-        public  String country;
-        public  String name;
-        public  String category;
-        public  int addtime;
-        public  int num_of_likes;
+
+        public static String id ;
+        public static String title;
+        public static String summary;
+        public static String language;
+        public static String country;
+        public static String category;
+        public static String tags;
+        public static String article_url;
+        public static String source_url;
+        public static String source_name;
+        public static String top_image;
+        public static String publish_date;
+        public static String authors;
+        public static String meta_favicon;
+        public static String trending;
 
 
         public News build() {
-            return new News(id,title, description, publishedat,source,sourceName,url,sourceurl,urltoimage,author,language,country,category, addtime, num_of_likes, false, false);
+            return new News( id ,
+                     title,
+                     summary,
+                     language,
+                     country,
+                     category,
+                     tags,
+                     article_url,
+                     source_url,
+                     source_name,
+                     top_image,
+                     publish_date,
+                     authors,
+                     meta_favicon,
+                     trending);
+
+
         }
     }
 
     @Override
     public String toString() {
         return "News{" +
-                "source=" + source +
+                "source=" + source_name +
                 ", title=" + title +
                 '}';
     }

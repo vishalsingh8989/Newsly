@@ -6,41 +6,27 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RawRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
-import com.google.firebase.FirebaseApp;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
 import com.kepler.news.newsly.IntroFragments.NewsSourceFragment;
-import com.kepler.news.newsly.databaseHelper.NewsSourceDatabase;
-import com.kepler.news.newsly.helper.ABaseTransformer;
 import com.kepler.news.newsly.helper.Common;
-import com.kepler.news.newsly.helper.MyAppIntro;
-import com.kepler.news.newsly.transformation.DiffTransformer;
 import com.kepler.news.newsly.updateUtils.UpdateDBservice;
 
 import java.util.Calendar;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-
-public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFragmentInteractionListener,HelloFragment.OnFragmentInteractionListener, NewsSourceFragment.OnFragmentInteractionListener , LanguageFragment.OnFragmentInteractionListener{
-
+public class IntroActivity extends AppIntro {
     int currentApiVersion = 0;
     private SharedPreferences mPreferences;
 
@@ -105,35 +91,35 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         mPreferences = getSharedPreferences(Common.PREFERENCES , MODE_PRIVATE);
         boolean firstLaunch = mPreferences.getBoolean(Common.FIRSTLAUNCH , true);
 
-        if(!firstLaunch)
-        {
+        //if(!firstLaunch)
+       // {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        }
+        //}
 
 
-        Fragment helloFragment = new HelloFragment();
-        Fragment newsSourceFragment = new NewsSourceFragment();
-        Fragment loadImagesFragment = new LoadImagesFragment();
-
-
-        addSlide(helloFragment);
-        addSlide(newsSourceFragment);
-        addSlide(loadImagesFragment);
-
-
-
-        showSkipButton(false);
-        setProgressButtonEnabled(true);
-
-
-        setCustomTransformer(new DiffTransformer());
-        setColorDoneText(Color.parseColor("#ffffff"));
-
-
-        setSeparatorColor(Color.parseColor("#01111111"));
-        setNextArrowColor(Color.parseColor("#F5F5F5"));
+//        Fragment helloFragment = new HelloFragment();
+//        Fragment newsSourceFragment = new NewsSourceFragment();
+//        Fragment loadImagesFragment = new LoadImagesFragment();
+//
+//
+//        addSlide(helloFragment);
+//        addSlide(newsSourceFragment);
+//        addSlide(loadImagesFragment);
+//
+//
+//
+//        showSkipButton(false);
+//        setProgressButtonEnabled(true);
+//
+//
+//        setCustomTransformer(new DiffTransformer());
+//        setColorDoneText(Color.parseColor("#ffffff"));
+//
+//
+//        setSeparatorColor(Color.parseColor("#01111111"));
+//        setNextArrowColor(Color.parseColor("#F5F5F5"));
 
 
     }
@@ -177,26 +163,22 @@ public class IntroActivity extends AppIntro implements LoadImagesFragment.OnFrag
         Log.v("FRAGMENTInteraction",oldFragment + "  to " + newFragment);
 
     }
-    @Override
-    public void onLanguageFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENTInteraction", "onLanguageFragmentInteraction");
 
-    }
 
-    @Override
-    public void onFragmentLoadImagesFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENTInteraction", "onFragmentLoadImagesFragmentInteraction");
-    }
-
-    @Override
-    public void onNewsSourceFragmentInteraction(Uri uri) {
-        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction");
-    }
-
-    @Override
-    public void onHelloFragmentInteraction(Uri uri, String mFrag) {
-        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction " + mFrag);
-    }
+//    @Override
+//    public void onFragmentLoadImagesFragmentInteraction(Uri uri) {
+//        Log.v("FRAGMENTInteraction", "onFragmentLoadImagesFragmentInteraction");
+//    }
+//
+//    @Override
+//    public void onNewsSourceFragmentInteraction(Uri uri) {
+//        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction");
+//    }
+//
+//    @Override
+//    public void onHelloFragmentInteraction(Uri uri, String mFrag) {
+//        Log.v("FRAGMENTInteraction", "onNewsSourceFragmentInteraction " + mFrag);
+//    }
 
 //    @Override
 //    protected void attachBaseContext(Context newBase) {

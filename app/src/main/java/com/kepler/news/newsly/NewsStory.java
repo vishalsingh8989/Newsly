@@ -7,47 +7,32 @@ package com.kepler.news.newsly;
 public class NewsStory {
 
 
+    public  String id ;
+    public  String title;
+    public  String summary;
+    public  String language;
+    public String country;
+    public  String category;
+    public  String tags;
+    public  String article_url;
+    public  String source_url;
+    public  String source_name;
+    public  String top_image;
+    public  String publish_date;
+    public  String authors;
+    public  String meta_favicon;
+    public  String trending;
 
-    private String id          = "";
-    private String sourceName  = "";
-    private String description = "";
-    private String title       = "";
-    private String urltoimage  = "";
-    private String author      = "";
-    private String category    = "";
-    private String url         = "";
-    private String publishedat = "";
-    private String sourceurl   = "";
-    private String addtime     = "";
-    private String source           = "";
-    private String language         = "";
-    private String country          = "";
-    private String num_of_likes     = "";
-    private boolean bookmark         = false;
-    private boolean like                =false;
-
-
-
-    public  boolean getBookmark()
-    {
-        return this.bookmark;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public  boolean getLike(){
-            return this.like;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-
-    public void setBookmark(boolean bookmark) {
-        this.bookmark = bookmark;
-    }
-
-    public void setLike(boolean like) {
-        this.like = like;
-    }
-
-    public void setNum_of_likes(String num_of_likes) {
-        this.num_of_likes = num_of_likes;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public void setCountry(String country) {
@@ -58,61 +43,58 @@ public class NewsStory {
         this.language = language;
     }
 
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public void setAddtime(String addtime) {
-        this.addtime = addtime;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
-    }
-
-    public void setUrltoimage(String urltoimage) {
-        this.urltoimage = urltoimage;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
 
-    public void setPublishedat(String publishedat) {
-        this.publishedat = publishedat;
+    public void setArticle_url(String article_url) {
+        this.article_url = article_url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSource_url(String source_url) {
+        this.source_url = source_url;
     }
 
-    public void setSourceurl(String sourceurl) {
-        this.sourceurl = sourceurl;
+    public void setSource_name(String source_name) {
+        this.source_name = source_name;
+    }
+
+    public void setTop_image(String top_image) {
+        this.top_image = top_image;
+    }
+
+    public void setPublish_date(String publish_date) {
+        this.publish_date = publish_date;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void setTrending(String trending) {
+        this.trending = trending;
     }
 
 
+    public void setMeta_favicon(String meta_favicon) {
+        this.meta_favicon = meta_favicon;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
 
 
+    public String getId() {
+        return id;
+    }
 
-    public String getNum_of_likes() {
-        return num_of_likes;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
     }
 
     public String getCountry() {
@@ -123,53 +105,45 @@ public class NewsStory {
         return language;
     }
 
-    public String getSource() {
-        return source;
+    public String getArticle_url() {
+        return article_url;
     }
 
-    public String getId() {
-        return id;
+    public String getSource_name() {
+        return source_name;
     }
 
-    public String getAddtime() {
-        return addtime;
+    public String getSource_url() {
+        return source_url;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAuthors() {
+        return authors;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getMeta_favicon() {
+        return meta_favicon;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTags() {
+        return tags;
     }
 
-    public String getSourceName() {
-        return sourceName;
+    public String getPublish_date() {
+        return publish_date;
     }
 
-    public String getUrltoimage() {
-        return urltoimage;
+    public String getTop_image() {
+        return top_image;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTrending() {
+        return trending;
     }
-
-    public String getSourceurl() {
-        return sourceurl;
-    }
-
-    public String getPublishedat() {
-        return publishedat;
-    }
-
-
 }
+
+

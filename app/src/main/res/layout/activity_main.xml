@@ -82,29 +82,29 @@
         </ListView>
 
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/AVLoadingIndicatorView"
-        android:visibility="invisible"
-        app:indicatorName="BallClipRotatePulseIndicator"
-        app:indicatorColor="@color/p"
+    <!--<com.wang.avi.AVLoadingIndicatorView-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="30dp"-->
+        <!--android:id="@+id/progress_bar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--style="@style/AVLoadingIndicatorView"-->
+        <!--android:visibility="invisible"-->
+        <!--app:indicatorName="BallClipRotatePulseIndicator"-->
+        <!--app:indicatorColor="@color/p"-->
 
-    />
+    <!--/>-->
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-5223778660504166/7368731783">
-    </com.google.android.gms.ads.AdView>
+    <!--<com.google.android.gms.ads.AdView-->
+        <!--xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/adView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="0dp"-->
+        <!--ads:adSize="BANNER"-->
+        <!--ads:adUnitId="ca-app-pub-5223778660504166/7368731783">-->
+    <!--</com.google.android.gms.ads.AdView>-->
 </RelativeLayout>

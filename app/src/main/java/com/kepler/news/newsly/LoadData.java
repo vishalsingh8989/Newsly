@@ -9,8 +9,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-
 /**
  * Created by vishaljasrotia on 8/26/17.
  */
@@ -18,7 +16,7 @@ import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 class LoadData  extends AsyncTask<Void, Void, Void>{
 
     private Context mContext;
-    private NewsDatabase database;
+    //private NewsDatabase database;
     private String device_id;
     private long last_used;
     private int sdk_int;
@@ -34,7 +32,7 @@ class LoadData  extends AsyncTask<Void, Void, Void>{
     @Override
     protected Void doInBackground(Void... voids) {
 
-        database = NewsDatabase.getDatabase(mContext);
+        //database = NewsDatabase.getDatabase(mContext);
 
         device_id = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
         last_used = System.currentTimeMillis() / 1000L;

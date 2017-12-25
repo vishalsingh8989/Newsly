@@ -165,42 +165,7 @@
             android:layout_height="@dimen/flip_view_height">
 
 
-            <mehdi.sakout.fancybuttons.FancyButton
-                android:layout_centerHorizontal="true"
-                android:id="@+id/source"
-                android:textSize="@dimen/read_artciel_button_text_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:padding="5dp"
-                android:layout_margin="10dp"
-                android:minWidth="200dp"
-                fancy:fb_borderColor="@color/n"
-                fancy:fb_borderWidth="1dp"
-                fancy:fb_defaultColor="@color/black"
-                fancy:fb_focusColor="@color/n"
-                fancy:fb_radius="10dp"
-                fancy:fb_text="The New York Times"
-                fancy:fb_textColor="#FFFFFF" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/read_full"
-                android:textSize="@dimen/read_artciel_button_text_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_margin="10dp"
-                android:minWidth="200dp"
-
-                fancy:fb_borderColor="@color/n"
-                fancy:fb_borderWidth="1dp"
-                fancy:fb_defaultColor="@color/black"
-                fancy:fb_focusColor="@color/n"
-                fancy:fb_radius="10dp"
-                fancy:fb_text="The New York Times"
-                fancy:fb_textColor="#FFFFFF" />
 
         </RelativeLayout>
 

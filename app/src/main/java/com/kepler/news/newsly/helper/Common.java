@@ -1,7 +1,5 @@
 package com.kepler.news.newsly.helper;
 
-import com.kepler.news.newsly.databaseHelper.NewsSource;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -25,21 +23,28 @@ public class Common {
 
 
     public static String ID                                 = "id" ;
+    public static String TITLE                              = "title";
+    public static String SUMMARY                            = "summary";
     public static String LANGUAGE                           = "language" ;
     public static String COUNTRY                            = "country";
-    public static String SOURCEURL                          = "sourceUrl" ;
-    public static String PUBLISHEDAT                        = "publishedat";
+    public static String CATEGORY                           = "category";
+    public static String TAGS                               = "tags";
+    public static String ARTICLE_URL                        = "article_url" ;
+    public static String SOURCE_URL                         = "source_url";
+    public static String SOURCE_NAME                        = "source_name";
+    public static String TOP_IMAGE                          = "top_image";
+    public static String PUBLISH_DATE                       = "publish_date";
+    public static String AUTHORS                            = "authors";
+    public static String META_FAVICON                       = "meta_favicon";
+    public static String TRENDING                           = "trending";
+
+
     public static String PREFERENCES                        = "newslyPreferences";
 
-    public static String  DESCRIPTION                       = "description";
-    public static String  TITLE                             = "title";
-    public static String  AUTHOR                            = "author";
-    public static String  SOURCENAME                        = "sourceName";
-    public static String  IMAGEURL                          = "urltoimage";
-    public static String  ADDTIME                           = "addtime";
-    public static String  CATEGORY                          = "category";
-    public static String  URL                               = "url";
-    public static String  LIKES                             = "likes";
+
+
+
+
 
 
 
@@ -73,20 +78,7 @@ public class Common {
 
     public static  LinkedHashMap<String, String> mNewsSources = new LinkedHashMap<>();
 
-    public static void update(ArrayList<NewsSource> objects)
-    {
-//        LinkedHashMap<String, String> mNewsSources = new LinkedHashMap<>();
-//        Log.v("NEWSSOURCE","update : " + objects.size());
-//        for(int i=0;i < objects.size();i++)
-//        {
-//            mNewsSources.put((String)objects.get(i), (String)objects.get(i));
-//
-//        }
 
-
-
-
-    }
 
     public  static  LinkedHashMap<String, String> getNewsSources()
     {
