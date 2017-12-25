@@ -20,7 +20,7 @@ public class BookMarkActivity extends AppCompatActivity implements FoldingCellIt
     private ListView bookmark_list;
     private SharedPreferences mPreferences;
 
-    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
+   // private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
     private List<NewsStory> alldbnews;
    // private NewsDatabase newsDatabase;
     private List<Object> productsList               = null;

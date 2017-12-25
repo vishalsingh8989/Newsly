@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.Common;
 
 import org.json.JSONArray;
@@ -64,125 +65,125 @@ public class LoadNews  extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
 
-//        database = NewsDatabase.getDatabase(mContext);
-//
-//        //List<Object> newList               = new ArrayList<>();
-//        String result   = "";
-//        int count = database.feedModel().getNewsCount();
-//        Log.v("LOADINSETTING","COUNT : " + count);
-//        try {
-//
-//
-//            String baseUrl = "http://13.58.159.13/";
-//            String mUrl = baseUrl;
-//
-//            URL url1 = new URL(mUrl); // here is your URL path
-//            Log.v("LOADINSETTING",mUrl);
-//            JSONObject postDataParams = new JSONObject();
-//            postDataParams.put("addtime", "1495955972");
-//            Log.e("params",postDataParams.toString());
-//
-//
-//            HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
-//            conn.setReadTimeout(15000 /* milliseconds */);
-//            conn.setConnectTimeout(15000 /* milliseconds */);
-//            conn.setRequestMethod("POST");
-//            conn.setDoInput(true);
-//            conn.setDoOutput(true);
-//
-//
-//
-//
-//            OutputStream os = conn.getOutputStream();
-//            Log.v("HYHTTP" , "os length : " + os.toString().length());
-//
-//            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
-//
-//            writer.write(getPostDataString(postDataParams));
-//            writer.flush();
-//            writer.close();
-//            os.close();
-//            Log.v("HYHTTP", "after close " + writer.toString().length());
-//            int responseCode=conn.getResponseCode();
-//            if (responseCode == HttpsURLConnection.HTTP_OK) {
-//                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
-//
-//                StringBuffer response = new StringBuffer("");
-//                String inputLine = "";
-//
-//                Log.v("HYHTTP", "response");
-//                while ((inputLine = in.readLine()) != null) {
-//                    response.append(inputLine);
-//                    //break;
-//                }
-//
-//
-//                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
-//                result = response.toString();
-//                in.close();
-//                JSONObject jObject = new JSONObject(result);
-//                JSONArray data = jObject.getJSONArray("articles");
-//                Log.v("HYHTTP", "articles " + data.length());
-//                for (int i = 0; i < data.length(); i++) {
-//
-//
-//
-//                    news = new News(data.getJSONObject(i).getString(Common.ID),
-//                            data.getJSONObject(i).getString(Common.TITLE),
-//                            data.getJSONObject(i).getString(Common.SUMMARY),
-//                            data.getJSONObject(i).getString(Common.LANGUAGE),
-//                            data.getJSONObject(i).getString(Common.COUNTRY),
-//                            data.getJSONObject(i).getString(Common.CATEGORY),
-//                            data.getJSONObject(i).getString(Common.TAGS),
-//                            data.getJSONObject(i).getString(Common.ARTICLE_URL),
-//                            data.getJSONObject(i).getString(Common.SOURCE_URL),
-//                            data.getJSONObject(i).getString(Common.SOURCE_NAME),
-//                            data.getJSONObject(i).getString(Common.TOP_IMAGE),
-//                            data.getJSONObject(i).getString(Common.PUBLISH_DATE),
-//                            data.getJSONObject(i).getString(Common.AUTHORS),
-//                            data.getJSONObject(i).getString(Common.META_FAVICON),
-//                            data.getJSONObject(i).getString(Common.TRENDING));
-//
-//                    Log.v("HYHTTP", "**************************************");
-//                    //Log.v("HYHTTP", "Loadnews source Url : " + news.title);
-//                    //Log.v("HYHTTP", "Loadnews url : " + news.source_name);
-//                    database.feedModel().addNews(news);
-//                }
-//
-//
-//            }
-//            count = database.feedModel().getNewsCount();
-//            //Log.v("LOADINSETTING","source : " + sourceName + " , "+  "COUNT : " + count);
-//
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            Log.v("HYHTTP", "MalformedURLException");
-//            //isNetworkAvailable = false;
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Log.v("HYHTTP", "IOException");
-//            //isNetworkAvailable = false;
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            Log.v("HYHTTP", "JSONException");
-//
-//        } catch (NetworkErrorException e)
-//        {
-//            e.printStackTrace();
-//            Log.v("HYHTTP", "NetworkErrorException");
-//            //isNetworkAvailable = false;
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.v("HYHTTP", "Exception");
-//            //isNetworkAvailable = false;
-//        }
-//
+        NewsDatabase database = NewsDatabase.getAppDatabase(mContext);
+
+        //List<Object> newList               = new ArrayList<>();
+        String result   = "";
+        int count = database.feedModel().getNewsCount();
+        Log.v("LOADINSETTING","COUNT : " + count);
+        try {
+
+
+            String baseUrl = "http://13.58.159.13/";
+            String mUrl = baseUrl;
+
+            URL url1 = new URL(mUrl); // here is your URL path
+            Log.v("LOADINSETTING",mUrl);
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("addtime", "1495955972");
+            Log.e("params",postDataParams.toString());
+
+
+            HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+
+
+
+            OutputStream os = conn.getOutputStream();
+            Log.v("HYHTTP" , "os length : " + os.toString().length());
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os , "UTF-8"));
+
+            writer.write(getPostDataString(postDataParams));
+            writer.flush();
+            writer.close();
+            os.close();
+            Log.v("HYHTTP", "after close " + writer.toString().length());
+            int responseCode=conn.getResponseCode();
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                Log.v("HYHTTP", "BufferedReader : " +in.toString().length());
+
+                StringBuffer response = new StringBuffer("");
+                String inputLine = "";
+
+                Log.v("HYHTTP", "response");
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                    //break;
+                }
+
+
+                Log.v("HYHTTP", "after append "+response.length()+ " , " +in);
+                result = response.toString();
+                in.close();
+                JSONObject jObject = new JSONObject(result);
+                JSONArray data = jObject.getJSONArray("articles");
+                Log.v("HYHTTP", "articles " + data.length());
+                for (int i = 0; i < data.length(); i++) {
+
+
+
+                    news = new News(data.getJSONObject(i).getString(Common.ID),
+                            data.getJSONObject(i).getString(Common.TITLE),
+                            data.getJSONObject(i).getString(Common.SUMMARY),
+                            data.getJSONObject(i).getString(Common.LANGUAGE),
+                            data.getJSONObject(i).getString(Common.COUNTRY),
+                            data.getJSONObject(i).getString(Common.CATEGORY),
+                            data.getJSONObject(i).getString(Common.TAGS),
+                            data.getJSONObject(i).getString(Common.ARTICLE_URL),
+                            data.getJSONObject(i).getString(Common.SOURCE_URL),
+                            data.getJSONObject(i).getString(Common.SOURCE_NAME),
+                            data.getJSONObject(i).getString(Common.TOP_IMAGE),
+                            data.getJSONObject(i).getString(Common.PUBLISH_DATE),
+                            data.getJSONObject(i).getString(Common.AUTHORS),
+                            data.getJSONObject(i).getString(Common.META_FAVICON),
+                            data.getJSONObject(i).getString(Common.TRENDING));
+
+                    Log.v("HYHTTP", "**************************************");
+                    //Log.v("HYHTTP", "Loadnews source Url : " + news.title);
+                    //Log.v("HYHTTP", "Loadnews url : " + news.source_name);
+                    database.feedModel().addNews(news);
+                }
+
+
+            }
+            count = database.feedModel().getNewsCount();
+            //Log.v("LOADINSETTING","source : " + sourceName + " , "+  "COUNT : " + count);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Log.v("HYHTTP", "MalformedURLException");
+            //isNetworkAvailable = false;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.v("HYHTTP", "IOException");
+            //isNetworkAvailable = false;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.v("HYHTTP", "JSONException");
+
+        } catch (NetworkErrorException e)
+        {
+            e.printStackTrace();
+            Log.v("HYHTTP", "NetworkErrorException");
+            //isNetworkAvailable = false;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v("HYHTTP", "Exception");
+            //isNetworkAvailable = false;
+        }
+
 
 
         return null;

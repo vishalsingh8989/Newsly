@@ -8,7 +8,7 @@ import android.util.Log;
  * Created by vishaljasrotia on 8/19/17.
  */
 
-@Entity
+@Entity(tableName = "newsly")
 public class News {
 
     @PrimaryKey

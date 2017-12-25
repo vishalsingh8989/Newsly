@@ -50,7 +50,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private static final int SHARE_CALL = 10;
     private int currentScrollState;
     private String mSearchText = "";
-    public int firstVisibleItem, visibleItemCount, totalItemCount;
+    
 
     private static final int MODE_PRIVATE = 0;
     private List<Object> productsList               = null;
@@ -63,21 +63,18 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private static Activity parent = null;
     private int calledOn = 0;
 
-    //public  static AVLoadingIndicatorView avLoadingIndicatorView = null;
+
 
     private boolean paused = false;
     private Animation animFadein;
     private BounceScroller scroller;
-    //private NewsSourceDatabase newsSourceDatabase;
-    //private List<NewsSource> newsSourcelist;
-    //private NewsDatabase newsDatabase;
+
     private List<News> newsList;
     private Context mContext;
-    //private NewsDatabase database;
+
     private List<NewsStory> alldbnews;
     private Bundle mArgs;
-    //private LoadFeedDataAsync loadFeedDataAsync;
-    private boolean showadd  = false;
+
 
 
 
@@ -89,17 +86,9 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         mContext                = getActivity().getApplicationContext();
-        //newsSourceDatabase      = NewsSourceDatabase.getDatabase(mContext);
-        //newsSourcelist          = newsSourceDatabase.feedModel().getAllFeeds();
-        //newsDatabase            = NewsDatabase.getDatabase(mContext);
-        //sourceName              = mArgs.getString(Common.SOURCENAME);
         productsList            = new ArrayList<>();
-
         startMap                = new LinkedHashMap<>();
-
         Log.v(NEWSSOURCE ,"***********************************");
-        //Log.v(NEWSSOURCE , sourceName + " : " + alldbnews.size());
-
 
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.demo_fragment, container, false);
@@ -108,8 +97,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Log.v("fragmentLifecycle", "onViewCreated" + sourceName);
-
 
     }
 

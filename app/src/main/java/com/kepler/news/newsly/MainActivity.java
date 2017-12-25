@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     //private NewsSourceDatabase database = null;
     //private List<NewsSource> newsSources;
     private NavigationView navigationView;
-    private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
+    //private int main_bg[] = {R.drawable.main_bg,R.drawable.main_bg1,R.drawable.main_bg2,R.drawable.main_bg3,R.drawable.main_bg4, R.drawable.main_bg5  };
     private FragmentPagerItem item;
     public int loadImage;
     private boolean loadImages;
@@ -241,11 +241,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         int bgNumber = mPreferences.getInt("count" , 0);
         rateme =  mPreferences.getBoolean("rateme", true);
 
-        Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
-        drawer.setBackground(backg);
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt("count", ++bgNumber);
-        editor.commit();
+//        Drawable backg = getResources().getDrawable(main_bg[bgNumber%main_bg.length]);
+//        drawer.setBackground(backg);
+//        SharedPreferences.Editor editor = mPreferences.edit();
+//        editor.putInt("count", ++bgNumber);
+//        editor.commit();
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.dummy_content, R.string.accept);
@@ -289,6 +289,28 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
                 item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
                 pages.add(item);
+        bundle = new Bundle();
+        bundle.putString("BUSINESS", "BUSINESS");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("BUSINESS", DemoFragment.class, bundle);
+        pages.add(item);
+
+
+        bundle = new Bundle();
+        bundle.putString("TECHNOLOGY", "TECHNOLOGY");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("TECHNOLOGY", DemoFragment.class, bundle);
+        pages.add(item);
+
+
+        bundle = new Bundle();
+        bundle.putString("LIFESTYLE", "LIFESTYLE");
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("LIFESTYLE", DemoFragment.class, bundle);
+        pages.add(item);
+
+
+
               //  idx = idx + 1;
             //}
         //}
