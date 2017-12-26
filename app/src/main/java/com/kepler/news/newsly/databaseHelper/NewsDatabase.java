@@ -24,7 +24,7 @@ public abstract class NewsDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), NewsDatabase.class, "newsly-database")
-                            //.allowMainThreadQueries()
+                            .allowMainThreadQueries()
                             .build();
         }
         return INSTANCE;

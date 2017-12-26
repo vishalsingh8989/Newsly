@@ -35,12 +35,18 @@ public interface NewsDao {
 //    //@Query("select * from news")
 //    //List<NewsStory> getAllNews();
 //
-//    @SuppressWarnings(CURSOR_MISMATCH)
-//    @Query("select * from newsly ORDER BY publish_date  DESC limit 0, 200 ")
-//    List<NewsStory> getAllNews();
+    @SuppressWarnings(CURSOR_MISMATCH)
+    @Query("select * from newsly ORDER BY publish_date  DESC limit 0, 200 ")
+    List<News> getAllNews();
+
+    @Query("select * from newsly where category =:category")
+    List<News> getCategoryNews(String category);
+
+    @Query("select * from newsly where trending = \'True\'")
+    List<News> getTopStoriesNews();
 //
 //
-//
+//`
 //    @Query("select MAX(addtime) from news")
 //    int getLastFetchTime();
 //

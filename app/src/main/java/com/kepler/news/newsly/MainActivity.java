@@ -59,6 +59,7 @@ import com.thefinestartist.finestwebview.FinestWebView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -285,46 +286,49 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
             ///boolean  checked = mPreferences.getBoolean(sourceName, false);
             //if(newsSourceObj.subscribed) {
                 bundle = new Bundle();
-                bundle.putString("TOP STORIES", "TOP STORIES");
+                bundle.putString("category", Common.TOP_STORIES);
                 bundle.putBoolean(Common.LOADIMAGE , loadImages);
                 item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
                 pages.add(item);
 
+
+        String country = Locale.getDefault().getCountry();
+        Log.v("COUNTRY_CODE", "CODE: " + country);
         bundle = new Bundle();
-        bundle.putString("USA", "USA");
+        bundle.putString("category", "USA");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
-        item = FragmentPagerItem.of("USA", DemoFragment.class, bundle);
+        item = FragmentPagerItem.of(country.toUpperCase(), DemoFragment.class, bundle);
         pages.add(item);
 
 
         bundle = new Bundle();
-        bundle.putString("ENTERTAINMENT", "ENTERTAINMENT");
+        bundle.putString("category", Common.ENTERTAINMENT);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("ENTERTAINMENT", DemoFragment.class, bundle);
         pages.add(item);
 
         bundle = new Bundle();
-        bundle.putString("SPORTS", "SPORTS");
+        bundle.putString("category", "SPORTS");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("SPORTS", DemoFragment.class, bundle);
         pages.add(item);
 
         bundle = new Bundle();
-        bundle.putString("BUSINESS", "BUSINESS");
+        bundle.putString("category", "BUSINESS");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("BUSINESS", DemoFragment.class, bundle);
         pages.add(item);
 
 
         bundle = new Bundle();
-        bundle.putString("TECHNOLOGY", "TECHNOLOGY");
+        bundle.putString("category", "TECHNOLOGY");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("TECHNOLOGY", DemoFragment.class, bundle);
         pages.add(item);
 
 
         bundle = new Bundle();
-        bundle.putString("LIFESTYLE", "LIFESTYLE");
+        bundle.putString("category", "LIFESTYLE");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("LIFESTYLE", DemoFragment.class, bundle);
         pages.add(item);

@@ -11,6 +11,8 @@ public class Common {
 
 
     public static final String BOOKMARKS = "Book Marks";
+    public static final String ENTERTAINMENT = "Entertainment";
+    public static final String TOP_STORIES = "trending";
     //5*1000 means 5 seconds.
     public static int UPDATEINTERVAL = 2*1000;
     public static int ADINTERVAL     = 7;

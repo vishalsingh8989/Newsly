@@ -14,6 +14,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,11 +26,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ListView;
 
+import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
+import com.kepler.news.newsly.adapter.RecycleViewAdapter;
 import com.kepler.news.newsly.databaseHelper.News;
+import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
@@ -55,7 +60,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
     private static final int MODE_PRIVATE = 0;
     private List<Object> productsList               = null;
     private List<Object> allNewslist                = null;
-    private ListView listView                               = null;
+    private RecyclerView listView                               = null;
     private FoldingCellListAdapter foldingCellListAdapter   = null;
     private String sourceName                               = "";
     private LinkedHashMap<String, Integer> startMap         = null;
@@ -74,8 +79,8 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     private List<NewsStory> alldbnews;
     private Bundle mArgs;
-
-
+    private NewsDatabase database;
+    private String category ;
 
 
     @Override
@@ -83,6 +88,7 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         Log.v("fragmentLifecycle", "onCreateView " + sourceName);
 
         mArgs                   = getArguments();
+        category                = mArgs.getString("category");
         productsList            = new ArrayList<>();
         allNewslist             = new ArrayList<>();
         mContext                = getActivity().getApplicationContext();
@@ -90,13 +96,39 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
         startMap                = new LinkedHashMap<>();
         Log.v(NEWSSOURCE ,"***********************************");
 
+
+
         setHasOptionsMenu(true);
+
         return inflater.inflate(R.layout.demo_fragment, container, false);
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        listView                = view.findViewById(R.id.list1);
+        database                = NewsDatabase.getAppDatabase(mContext);
+
+
+        RecycleViewAdapter recycleViewAdapter ;
+
+        if(category.equals(Common.TRENDING)){
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getTopStoriesNews());
+        }else if(category.equals(Common.ENTERTAINMENT)) {
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getCategoryNews(category));
+        }else{
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getAllNews());
+        }
+
+        listView.setAdapter(recycleViewAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listView.setHasFixedSize(true);
+
+
+
+
+
 
     }
 

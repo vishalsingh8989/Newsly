@@ -48,4 +48,5 @@
 
     <string name="title_activity_book_mark">Book Marks</string>
     <string name="accept">Accept</string>
+    <string name="summary_sample">Lorem Ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.</string>
 </resources>
