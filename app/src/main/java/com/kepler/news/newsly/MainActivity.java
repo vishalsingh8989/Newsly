@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/RobotoCondensed-Regular.ttf")
+                .setDefaultFontPath("fonts/attic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

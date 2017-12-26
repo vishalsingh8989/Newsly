@@ -36,13 +36,13 @@ public interface NewsDao {
 //    //List<NewsStory> getAllNews();
 //
     @SuppressWarnings(CURSOR_MISMATCH)
-    @Query("select * from newsly ORDER BY publish_date  DESC limit 0, 200 ")
+    @Query("select * from newsly ORDER BY publish_date DESC, id DESC  limit 0, 200 ")
     List<News> getAllNews();
 
-    @Query("select * from newsly where category =:category")
+    @Query("select * from newsly where category =:category ORDER BY publish_date DESC, id DESC limit 0, 200")
     List<News> getCategoryNews(String category);
 
-    @Query("select * from newsly where trending = \'True\'")
+    @Query("select * from newsly where trending = \'True\'  ORDER BY publish_date DESC, id DESC limit 0, 200")
     List<News> getTopStoriesNews();
 //
 //

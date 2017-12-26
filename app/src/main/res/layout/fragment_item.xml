@@ -9,6 +9,7 @@
         android:id="@+id/title"
         android:textColor="#111111"
         android:lines="2"
+        android:layout_marginTop="5dp"
         android:text="@string/title_sample"
         android:textSize="18sp"
         android:layout_marginLeft="5dp"
@@ -16,8 +17,46 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_below="@+id/title"
+        android:id="@+id/source_name_header_layout"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="30dp">
+
+        <ImageView
+            android:id="@+id/meta_favicon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/sample"/>
+
+        <TextView
+            android:id="@+id/source_name"
+            android:text=" CNN "
+            android:textColor="#1565C0"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+
+            android:text=" ◉ "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:id="@+id/authors"
+            android:text="Ellen Hams/Nicolas Cage"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/source_name_header_layout"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_margin="5dp"
@@ -26,10 +65,14 @@
         <TextView
             android:id="@+id/summary"
             android:text="@string/summary_sample"
-            android:paddingLeft="4dp"
+            android:paddingLeft="2dp"
             android:textColor="#000"
             android:textSize="13sp"
-            android:lines="7"
+            android:textAlignment="textStart"
+            android:paddingRight="5dp"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="7"
             android:layout_toLeftOf="@+id/top_image"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
@@ -43,9 +86,28 @@
             />
     </RelativeLayout>
 
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/headerdatelayout"
         android:layout_below="@+id/headerLinearLay"
-        android:layout_margin="3dp"
+        >
+
+        <TextView
+            android:id="@+id/publish_date"
+            android:text=" 3h "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:textColor="#1565C0"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/headerdatelayout"
+        android:layout_margin="7dp"
         android:layout_height="1px"
         android:layout_width="match_parent"
         android:background="#555"

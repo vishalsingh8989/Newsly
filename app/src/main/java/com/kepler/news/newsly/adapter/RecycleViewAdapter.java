@@ -2,6 +2,8 @@ package com.kepler.news.newsly.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,10 +26,14 @@ import com.kepler.news.newsly.helper.RoundedTransformation;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * Created by vishaljasrotia on 06/06/17.
@@ -50,6 +56,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int AD_VIEW_TYPE        = 1;
     public static int test = 10;
     private NewsDatabase database = null;
+    private Typeface custom_font1;
+    private Typeface custom_font2;
     
 
 
@@ -74,6 +82,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         this.newslist = newslist;
         Log.v("RecycleViewAdapter" , "COUNT : " + newslist.size());
+        custom_font1 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
+        custom_font2 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
 
 
 
@@ -125,12 +135,32 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     News story = newslist.get(position);
 
 
+                    long t = Long.parseLong(story.publish_date)*1000;
+
+                    Date date = new Date(t);
+
+                    DateFormat format = new SimpleDateFormat("dd MMM, yyyy hh:mm a");
+                    format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+                    String formatted = format.format(date);
+                    System.out.println(formatted);
+
                     newsItemViewHolder.title.setText(story.title.replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                    newsItemViewHolder.summary.setText(story.summary.replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                    newsItemViewHolder.summary.setText(story.summary.trim().replaceAll(" +", " ").replace("\n", "").replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                    newsItemViewHolder.source_name.setText(story.source_name);
+                    newsItemViewHolder.author.setText(story.authors);
+                    newsItemViewHolder.publish_date.setText(formatted);
+
+
+//                format.setTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
+//                formatted = format.format(date);
+//                System.out.println(formatted);
                     Log.v("NEWSDATA", "TITLE :" + story.title);
                     Log.v("NEWSDATA", "SUMMARY :" + story.summary);
-                    Log.v("NEWSDATA", "*************************************************");
+                    Log.v("NEWSDATA", "META FAVICON :" + story.meta_favicon);
+                    Log.v("NEWSDATA", "PUBLISH DATE :" + formatted);
+                    Log.v("NEWSDATA", "t :" + t);
 
+                    Log.v("NEWSDATA", "*************************************************");
 
 //                    newsItemViewHolder.sourceMini.setText(" " + position);
 //                    newsItemViewHolder.source.setText(story.getSourceName());
@@ -176,6 +206,17 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         Log.v("GLIDELOG" , "ERROR : " + e.toString());
                     }
 
+                try {
+
+                    Picasso.with(mContext)
+                            .load(story.meta_favicon.replace("\"",""))
+                            .error(R.drawable.sample)
+                            //.transform(new RoundedTransformation(5, 2))
+                            .into(newsItemViewHolder.meta_favicon);
+                } catch (Exception e) {
+                    Log.v("GLIDELOG" , "ERROR : " + e.toString());
+                }
+
 
 
         }
@@ -217,13 +258,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView summary;
         TextView title;
         TextView author;
-        TextView source;
+        TextView source_name;
         TextView sourceMini;
         TextView category;
         TextView readFull;
-        TextView publishedat;
+        TextView publish_date;
         //NativeExpressAdView adView;
         ImageView top_image;
+        ImageView meta_favicon;
         
         NewsItemViewHolder(RelativeLayout cell) {
             super(cell);
@@ -233,6 +275,17 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //            //author = (TextView) cell.findViewById(R.id.author);
             title = (TextView) cell.findViewById(R.id.title);
             top_image = (ImageView) cell.findViewById(R.id.top_image);
+            meta_favicon = cell.findViewById(R.id.meta_favicon);
+            author = cell.findViewById(R.id.authors);
+            source_name = cell.findViewById(R.id.source_name);
+            publish_date = cell.findViewById(R.id.publish_date);
+
+
+            title.setTypeface(custom_font1);
+            summary.setTypeface(custom_font2);
+            author.setTypeface(custom_font2);
+            source_name.setTypeface(custom_font2);
+            publish_date.setTypeface(custom_font2);
             //source = (TextView) cell.findViewById(R.id.source);
 //            sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
 //            image = (ImageView) cell.findViewById(R.id.urltoimage);
