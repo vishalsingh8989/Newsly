@@ -38,8 +38,6 @@ public class DrawerAdapter extends BaseAdapter {
     };
 
     public DrawerAdapter(Context context, ArrayList<String> countryList) {
-
-
         this.mContext = context;
         this.countryList = countryList;
         mLayoutInflater = LayoutInflater.from(mContext);

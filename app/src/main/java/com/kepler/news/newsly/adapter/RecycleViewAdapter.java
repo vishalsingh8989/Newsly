@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,12 +55,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private RoundedTransformation transformation = null;
     private DemoFragment Callback                = null;
     private static final int MENU_ITEM_VIEW_TYPE = 0;
-    private static final int AD_VIEW_TYPE        = 1;
+    private static final int FULL_ITEM_VIEW_TYPE = 1;
     public static int test = 10;
     private NewsDatabase database = null;
     private Typeface custom_font1;
     private Typeface custom_font2;
     private String Category;
+    Animation animation_in, animation_out;
     
 
 
@@ -87,6 +90,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         custom_font1 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
         custom_font2 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
 
+        animation_in = AnimationUtils.loadAnimation(mContext, R.anim.zoom_in);
+        animation_out = AnimationUtils.loadAnimation(mContext, R.anim.zoom_out);
 
 
 
@@ -95,17 +100,18 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.v("RecycleViewAdapter" , "onCreateViewHolder : ");
-//            switch (viewType){
-//                case AD_VIEW_TYPE:
-//                    //View nativeExpressAdView = LayoutInflater.from(mContext).inflate(R.layout.native_ad_adapter, parent, false);
-//                    return  null;//new NativeExpressAdViewHolder(nativeExpressAdView);
-//                case MENU_ITEM_VIEW_TYPE:
-//                    Log.v("RecycleViewAdapter" , "MENU_ITEM_VIEW_TYPE : ");
-//                    LinearLayout list_item = (LinearLayout)LayoutInflater.from(mContext).inflate(R.layout.fragment_item, parent, false);
-//                    return new NewsItemViewHolder(list_item);
-//            }
-        RelativeLayout list_item = (RelativeLayout)LayoutInflater.from(mContext).inflate(R.layout.fragment_item, parent, false);
-        return new NewsItemViewHolder(list_item);
+            switch (viewType){
+                case FULL_ITEM_VIEW_TYPE:
+                    RelativeLayout list_item_full = (RelativeLayout)LayoutInflater.from(mContext).inflate(R.layout.fragment_item_full, parent, false);
+                    return new NewsFullItemViewHolder(list_item_full);
+                case MENU_ITEM_VIEW_TYPE:
+                default:
+                    Log.v("RecycleViewAdapter" , "MENU_ITEM_VIEW_TYPE : ");
+                    RelativeLayout list_item = (RelativeLayout)LayoutInflater.from(mContext).inflate(R.layout.fragment_item, parent, false);
+                    return new NewsItemViewHolder(list_item);
+            }
+       // RelativeLayout list_item1 = (RelativeLayout)LayoutInflater.from(mContext).inflate(R.layout.fragment_item, parent, false);
+        //return new NewsItemViewHolder(list_item1);
 
     }
 
@@ -116,41 +122,99 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         int viewType = getItemViewType(position);
 
         Log.v("RecycleViewAdapter",  "position :"+position+" View Type : " +viewType +  "  " + holder);
+        News story;
+        long t;
+        Date date;
+        DateFormat format;
+
+        String formatted;
 
         switch(viewType){
-            case AD_VIEW_TYPE:
-//                NativeExpressAdViewHolder nativeExpressAdViewHolder = (NativeExpressAdViewHolder)holder;
-//                NativeExpressAdView adView  = (NativeExpressAdView)productsList.get(position);
-//                ViewGroup adCardView = (ViewGroup)nativeExpressAdViewHolder.itemView;
-//                adCardView.removeAllViews();
-//                if(adView.getParent()!=null)
-//                {
-//                    ((ViewGroup)adView.getParent()).removeView(adView);
-//
-//                }
-//
-//                adCardView.addView(adView);
+            case FULL_ITEM_VIEW_TYPE:
+                final NewsFullItemViewHolder newsFullItemViewHolder = (NewsFullItemViewHolder)holder;
+                story = newslist.get(position);
+
+
+                t = Long.parseLong(story.publish_date)*1000;
+
+                date = new Date(t);
+
+                format = new SimpleDateFormat("dd MMM, yyyy hh:mm a");
+                format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+                formatted = format.format(date);
+
+
+                newsFullItemViewHolder.title.setText(story.title.replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                //newsFullItemViewHolder.summary.setText(story.summary.trim().replaceAll(" +", " ").replace("\n", "").replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                newsFullItemViewHolder.source_name.setText(story.source_name);
+                newsFullItemViewHolder.author.setText(story.authors);
+                //newsItemViewHolder.publish_date.setText(formatted);
+                try {
+
+                    Picasso.with(mContext)
+                            .load(story.top_image)
+                            .error(R.drawable.sample)
+                            .into(newsFullItemViewHolder.top_image);
+                } catch (Exception e) {
+                    Log.v("GLIDELOG" , "ERROR : " + e.toString());
+                }
+
+                newsFullItemViewHolder.top_image.startAnimation(animation_in);
+                animation_in.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        newsFullItemViewHolder.top_image.startAnimation(animation_out);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                animation_out.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        newsFullItemViewHolder.top_image.startAnimation(animation_in);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 break;
             case MENU_ITEM_VIEW_TYPE:
+            default:
 
-                    final NewsItemViewHolder newsItemViewHolder = (NewsItemViewHolder)holder;
-                    News story = newslist.get(position);
+                final NewsItemViewHolder newsItemViewHolder = (NewsItemViewHolder)holder;
+                story = newslist.get(position);
 
 
-                    long t = Long.parseLong(story.publish_date)*1000;
+                t = Long.parseLong(story.publish_date)*1000;
 
-                    Date date = new Date(t);
+                date = new Date(t);
 
-                    DateFormat format = new SimpleDateFormat("dd MMM, yyyy hh:mm a");
-                    format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
-                    String formatted = format.format(date);
-                    System.out.println(formatted);
+                format = new SimpleDateFormat("dd MMM, yyyy hh:mm a");
+                format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+                formatted = format.format(date);
 
-                    newsItemViewHolder.title.setText(story.title.replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                    newsItemViewHolder.summary.setText(story.summary.trim().replaceAll(" +", " ").replace("\n", "").replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
-                    newsItemViewHolder.source_name.setText(story.source_name);
-                    newsItemViewHolder.author.setText(story.authors);
-                    newsItemViewHolder.publish_date.setText(formatted);
+
+                newsItemViewHolder.title.setText(story.title.replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                newsItemViewHolder.summary.setText(story.summary.trim().replaceAll(" +", " ").replace("\n", "").replaceAll("^\"|\"$", "").replace("&amp;", "&").replace("&quot;", "\"").replace("&#039;", "\'").replace("&rdquo;", "\"").replace("&ldquo;", "\""));
+                newsItemViewHolder.source_name.setText(story.source_name);
+                newsItemViewHolder.author.setText(story.authors);
+                newsItemViewHolder.publish_date.setText(formatted);
 
 
 //                format.setTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
@@ -245,8 +309,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        //return (position % 8 == 0  )?AD_VIEW_TYPE:
-          return      MENU_ITEM_VIEW_TYPE;
+//        if(position == 0) {
+//            return FULL_ITEM_VIEW_TYPE;
+//        }
+//          return      MENU_ITEM_VIEW_TYPE;
+
+        return (position  == 0  )?FULL_ITEM_VIEW_TYPE:MENU_ITEM_VIEW_TYPE;
     }
 
     public void upDateEntries(List<News> entries, boolean onRefresh) {
@@ -308,6 +376,56 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
         
+    }
+
+
+    public class NewsFullItemViewHolder extends RecyclerView.ViewHolder{
+
+
+
+        TextView summary;
+        TextView title;
+        TextView author;
+        TextView source_name;
+        TextView sourceMini;
+        TextView category;
+        TextView readFull;
+        //TextView publish_date;
+        //NativeExpressAdView adView;
+        ImageView top_image;
+        //ImageView meta_favicon;
+
+        NewsFullItemViewHolder(RelativeLayout cell) {
+            super(cell);
+
+//            parent = (FoldingCell)cell.findViewById(R.id.folding_cell);
+            //summary = (TextView) cell.findViewById(R.id.summary);
+//            //author = (TextView) cell.findViewById(R.id.author);
+            title = (TextView) cell.findViewById(R.id.title);
+            top_image = (ImageView) cell.findViewById(R.id.top_image);
+            //meta_favicon = cell.findViewById(R.id.meta_favicon);
+            author = cell.findViewById(R.id.authors);
+            source_name = cell.findViewById(R.id.source_name);
+            //publish_date = cell.findViewById(R.id.publish_date);
+
+
+            title.setTypeface(custom_font1);
+            //summary.setTypeface(custom_font2);
+            author.setTypeface(custom_font2);
+            source_name.setTypeface(custom_font2);
+            //publish_date.setTypeface(custom_font2);
+            //source = (TextView) cell.findViewById(R.id.source);
+//            sourceMini = (TextView) cell.findViewById(R.id.sourceMini);
+//            image = (ImageView) cell.findViewById(R.id.urltoimage);
+//            side_bar = (LinearLayout) cell.findViewById(R.id.side_bar);
+//            side_bar1 = (LinearLayout) cell.findViewById(R.id.side_bar1);
+//            //category = (TextView) cell.findViewById(R.id.category);
+//            //readFull = (TextView) cell.findViewById(R.id.read_full);
+//            publishedat = (TextView) cell.findViewById(R.id.publishedat);
+
+
+        }
+
     }
 
 

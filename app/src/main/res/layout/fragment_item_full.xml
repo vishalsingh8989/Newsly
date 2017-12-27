@@ -2,16 +2,18 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativelayout"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="230dp" >
 
     <ImageView
-        android:id="@+id/myImageView"
+        android:id="@+id/top_image"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="210dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/sample"
-
-        android:scaleType="centerCrop"/>
+        />
 
     <TextView
         android:id="@+id/title"
@@ -20,10 +22,12 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:shadowColor="#111"
+        android:shadowRadius="2"
         android:layout_above="@+id/source_name"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:gravity="center"
+        android:gravity="left"
+        android:textSize="18sp"
         android:text="@string/title_sample"
         android:textColor="#ffff" />
     <TextView
@@ -31,27 +35,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
+        android:shadowColor="#111"
+        android:shadowRadius="2"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/full_view_item_text_bmargin"
         android:text=" The New York Times"
         android:textColor="#ffff" />
 
     <TextView
         android:id="@+id/dot1"
+        android:shadowColor="#111"
+        android:shadowRadius="2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/full_view_item_text_bmargin"
         android:text=" ◉ "
         android:layout_toRightOf="@id/source_name"
         android:textColor="#ffff" />
     <TextView
+        android:shadowColor="#111"
+        android:shadowRadius="2"
         android:id="@+id/authors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +69,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/full_view_item_text_bmargin"
         android:text=" Ellen Smith"
         android:textColor="#ffff" />
 

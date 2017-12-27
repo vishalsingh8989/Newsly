@@ -32,5 +32,6 @@
     <dimen name="list_item_side_margin">7dp</dimen>
     <dimen name="options_btn_size">20dp</dimen>
     <dimen name="like_btn_size">14dp</dimen>
+    <dimen name="full_view_item_text_bmargin">25dp</dimen>
 
 </resources>
