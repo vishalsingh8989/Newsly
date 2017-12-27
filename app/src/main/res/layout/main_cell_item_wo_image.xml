@@ -11,10 +11,7 @@
     android:layout_marginLeft="@dimen/list_item_side_margin"
     android:layout_marginRight="@dimen/list_item_side_margin"
 
-    folding-cell:animationDuration="500"
-    folding-cell:backSideColor="#d4000000"
-    folding-cell:additionalFlipsCount="0"
-    folding-cell:cameraHeight="30">
+   >
     ​
     <RelativeLayout
         android:background="@drawable/main_item_cell_bg"
@@ -204,7 +201,7 @@
                 android:textStyle="bold"
                 android:padding="2dp"
                 android:text="@string/title_sample"
-                android:textAppearance="@style/TextAppearance.FontPath"
+
                 android:textColor="@color/white"
                 android:shadowColor="@color/black"
                 android:shadowRadius="1"

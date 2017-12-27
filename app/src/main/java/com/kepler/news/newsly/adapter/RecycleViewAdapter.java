@@ -23,7 +23,7 @@ import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.RoundedTransformation;
-import com.ramotion.foldingcell.FoldingCell;
+
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -262,7 +262,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public class NewsItemViewHolder extends RecyclerView.ViewHolder{
 
 
-        FoldingCell parent;
+        //FoldingCell parent;
         LinearLayout side_bar;
         LinearLayout side_bar1;
         TextView summary;

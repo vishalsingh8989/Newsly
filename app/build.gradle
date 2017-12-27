@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
+
 }
 
 configurations.all {
@@ -37,20 +41,20 @@ dependencies {
     compile 'com.thefinestartist:finestwebview:1.2.7'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
-    compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
-    compile 'com.github.nicolasjafelle:paginglistview:1.2'
+    //compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    //compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
+    //compile 'com.github.nicolasjafelle:paginglistview:1.2'
     //compile 'com.google.android.gms:play-services-ads:11.2.0'
-    compile 'com.github.glomadrian:Grav:1.1'
+    //compile 'com.github.glomadrian:Grav:1.1'
 
 
-    testCompile 'junit:junit:4.12'
+    //testCompile 'junit:junit:4.12'
     //compile 'com.github.ugurcany:InfiniteListView:1.1.1'
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha1'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha1'
-    compile 'com.github.woxthebox:draglistview:1.4.6'
+    //compile 'com.github.woxthebox:draglistview:1.4.6'
     // apt "android.arch.persistence.room:compiler:1.0.0-alpha1"
 
     //compile 'com.airbnb.android:lottie:2.2.5'

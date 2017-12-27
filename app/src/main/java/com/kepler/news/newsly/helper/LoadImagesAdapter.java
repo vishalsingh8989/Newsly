@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
-import com.ramotion.foldingcell.FoldingCell;
+
 
 import java.util.ArrayList;
 

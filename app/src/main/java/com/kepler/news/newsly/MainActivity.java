@@ -49,8 +49,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.ramotion.foldingcell.FoldingCell;
-import com.thefinestartist.finestwebview.FinestWebView;
+
 
 
 
@@ -61,10 +60,6 @@ import java.util.List;
 import java.util.Locale;
 
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
 public class MainActivity extends AppCompatActivity  implements ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener , BookMarkedFragement.OnFragmentInteractionListener{
 
@@ -171,11 +166,11 @@ public class MainActivity extends AppCompatActivity  implements ViewPager.OnPage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/attic.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
+//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+//                .setDefaultFontPath("fonts/attic.ttf")
+//                .setFontAttrId(R.attr.fontPath)
+//                .build()
+//        );
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
@@ -512,10 +507,10 @@ public class MainActivity extends AppCompatActivity  implements ViewPager.OnPage
         rateme = false;
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 //
 //    private void isScrollCompleted(int firstVisibleItem, int visibleItemCount , int totalItemCount, int currentScrollState) {
 //        Log.v("LOADASYNCFEED", "END REACHED CHECK ,"+foldingCellListAdapter.getProductsList().size()+ " , "+calledOn  + " , " + firstVisibleItem+ " , "+ visibleItemCount +" , " +totalItemCount);

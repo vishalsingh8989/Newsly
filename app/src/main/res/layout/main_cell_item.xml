@@ -1,4 +1,5 @@
-<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
 
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
@@ -10,10 +11,7 @@
     android:layout_marginLeft="@dimen/list_item_side_margin"
     android:layout_marginRight="@dimen/list_item_side_margin"
 
-    folding-cell:animationDuration="500"
-    folding-cell:backSideColor="#000000"
-    folding-cell:additionalFlipsCount="0"
-    folding-cell:cameraHeight="30">
+   >
     ​
     <RelativeLayout
         android:background="@drawable/main_item_cell_bg"
@@ -61,7 +59,7 @@
                 android:layout_below="@+id/title_back"
                 android:textSize="13dp"
                 android:background="@color/transparent"
-                android:textAppearance="@style/TextAppearance.FontPath"
+
                 android:textColor="@color/white"
                 android:shadowColor="@color/black"
                 android:shadowRadius="1"
@@ -206,7 +204,7 @@
                 android:textStyle="bold"
                 android:padding="2dp"
                 android:text="@string/title_sample"
-                android:textAppearance="@style/TextAppearance.FontPath"
+
                 android:textColor="@color/white"
                 android:shadowColor="@color/black"
                 android:shadowRadius="1"
@@ -229,7 +227,7 @@
                     android:textStyle="bold"
                     android:text="Source : ABC news"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.FontPath"
+
                     android:textColor="@color/white" />
                 <TextView
                     android:id="@+id/publishedat"
@@ -243,11 +241,11 @@
                     android:textStyle="bold"
                     android:text="12/02/2017"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.FontPath"
+
                     android:textColor="@color/white" />
 
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     ​
-</com.ramotion.foldingcell.FoldingCell>
+</RelativeLayout>

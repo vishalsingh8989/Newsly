@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:id="@+id/rearrange_root"
-    android:background="@drawable/main_bg"
+    android:background="@drawable/sample"
     xmlns:dslv="http://schemas.android.com/apk/res-auto"
     tools:context="com.kepler.news.newsly.Rearrange">
 

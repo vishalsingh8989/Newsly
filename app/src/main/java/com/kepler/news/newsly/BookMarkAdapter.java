@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.helper.RoundedTransformation;
-import com.ramotion.foldingcell.FoldingCell;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.HashSet;

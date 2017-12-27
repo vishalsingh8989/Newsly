@@ -14,8 +14,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
-import com.github.paolorotolo.appintro.AppIntro;
 
+import com.github.paolorotolo.appintro.AppIntro;
 import com.kepler.news.newsly.IntroFragments.HelloFragment;
 import com.kepler.news.newsly.IntroFragments.LanguageFragment;
 import com.kepler.news.newsly.IntroFragments.LoadImagesFragment;
