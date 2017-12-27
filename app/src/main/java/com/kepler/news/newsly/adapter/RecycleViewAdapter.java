@@ -230,6 +230,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     Log.v("NEWSDATA", "*************************************************");
 
+
 //                    newsItemViewHolder.sourceMini.setText(" " + position);
 //                    newsItemViewHolder.source.setText(story.getSourceName());
 //                    newsItemViewHolder.publishedat.setText(story.getPublishedat());
