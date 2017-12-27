@@ -13,6 +13,10 @@ public class Common {
     public static final String BOOKMARKS = "Book Marks";
     public static final String ENTERTAINMENT = "Entertainment";
     public static final String TOP_STORIES = "trending";
+    public static final String SPORTS = "Sports";
+    public static final String BUSINESS =  "Business" ;
+    public static final String TECHINOLOGY =  "Technology";
+    public static final String LIFESTYLE = "Lifestyle";
     //5*1000 means 5 seconds.
     public static int UPDATEINTERVAL = 2*1000;
     public static int ADINTERVAL     = 7;

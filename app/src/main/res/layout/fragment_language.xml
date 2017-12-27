@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#02282828"
-    tools:context="com.kepler.news.newsly.IntroFragments.CountryFragment">
+   >
 
 
 

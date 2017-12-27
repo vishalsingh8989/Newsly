@@ -9,12 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 
 import java.util.List;
 
-public class BookMarkActivity extends AppCompatActivity implements FoldingCellItemClickListener {
+public class BookMarkActivity extends AppCompatActivity  {
 
 
     private ListView bookmark_list;
@@ -88,9 +87,9 @@ public class BookMarkActivity extends AppCompatActivity implements FoldingCellIt
     }
 
 
-    @Override
-    public void onItemClicked(View v, int position) {
-        Log.v("READFULL", "" +position);
+//    @Override
+//    public void onItemClicked(View v, int position) {
+//        Log.v("READFULL", "" +position);
 //        NewsStory story = null;
 //        switch (v.getId()){
 //            case R.id.read_full:
@@ -127,5 +126,5 @@ public class BookMarkActivity extends AppCompatActivity implements FoldingCellIt
 //
 //
 //        }
-    }
+//    }
 }

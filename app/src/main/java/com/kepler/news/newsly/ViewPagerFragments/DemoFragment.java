@@ -24,14 +24,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
-import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
+
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.adapter.RecycleViewAdapter;
+import com.kepler.news.newsly.adapter.RecyclerItemClickListener;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
 import com.kepler.news.newsly.helper.BounceListener;
@@ -48,7 +50,7 @@ import java.util.List;
  * Created by vishaljasrotia on 16/06/17.
  */
 
-public class DemoFragment extends Fragment implements FoldingCellItemClickListener {
+public class DemoFragment extends Fragment implements RecyclerItemClickListener {
 
 
     public static final String NEWSSOURCE = "NEWSSOURCE";
@@ -113,17 +115,23 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
         RecycleViewAdapter recycleViewAdapter ;
 
+        RecyclerView.LayoutManager mLayoutManager =
+                new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+
+        listView.setLayoutManager(mLayoutManager);
+        listView.setHasFixedSize(true);
+
         if(category.equals(Common.TRENDING)){
-            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getTopStoriesNews());
-        }else if(category.equals(Common.ENTERTAINMENT)) {
-            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getCategoryNews(category));
-        }else{
-            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getAllNews());
+            Log.v("DEMOFRAGMENT" , " trending count : " + database.feedModel().getTopStoriesNews().size());
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getTopStoriesNews(), "trending");
+        }else  {
+            Log.v("DEMOFRAGMENT" ,  category +"  count : " + database.feedModel().getCategoryNews(category).size());
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getCategoryNews(category), category);
         }
 
         listView.setAdapter(recycleViewAdapter);
-        listView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        listView.setHasFixedSize(true);
+
+
 
 
 
@@ -132,16 +140,11 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
     }
 
-    
+
     @Override
-    public void onItemClicked(View v, int position) {
-
-
-
+    public void onItemClicked(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
-
 
 
 
@@ -298,30 +301,6 @@ public class DemoFragment extends Fragment implements FoldingCellItemClickListen
 
 
 
-    private BounceListener bl = new BounceListener() {
-        @Override
-        public void onState(boolean header, BounceScroller.State state) {
-            if (header) {
-                if (state == BounceScroller.State.STATE_SHOW) {
-                    Log.v("BounceListener","STATE_SHOW");
-                } else if (state == BounceScroller.State.STATE_OVER) {
-                    Log.v("BounceListener","STATE_OVER");
-                } else if (state == BounceScroller.State.STATE_FIT_EXTRAS) {
-                    scroller.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            scroller.resetState();
-                        }
-                    }, 1000);
-                }
-            }
-        }
-
-        @Override
-        public void onOffset(boolean header, int offset) {
-
-        }
-    };
 
 
 //    private List<Object> addNativeExpressAds(List<Object> result){

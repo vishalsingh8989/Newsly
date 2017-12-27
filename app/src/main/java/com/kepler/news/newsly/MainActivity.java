@@ -41,7 +41,6 @@ import com.geniusforapp.fancydialog.FancyAlertDialog;
 
 import com.kepler.news.newsly.ViewPagerFragments.DemoFragment;
 
-import com.kepler.news.newsly.adapter.FoldingCellItemClickListener;
 import com.kepler.news.newsly.adapter.FoldingCellListAdapter;
 import com.kepler.news.newsly.helper.Common;
 import com.kepler.news.newsly.updateUtils.LoadNews;
@@ -67,7 +66,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
-public class MainActivity extends AppCompatActivity  implements FoldingCellItemClickListener, ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener , BookMarkedFragement.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity  implements ViewPager.OnPageChangeListener, NavigationView.OnNavigationItemSelectedListener , BookMarkedFragement.OnFragmentInteractionListener{
 
     private List<Object> productsList               = null;
     private ListView listView                               = null;
@@ -279,56 +278,62 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
         LoadNews  loadnews = new LoadNews(mContext);
         loadnews.execute();
 
-        int idx  = 0;
-        //Log.v("NEWSSOURCE", "size : "+ newsSources.size());
-        //for (NewsSource newsSourceObj : newsSources) {
-          //  Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
-            ///boolean  checked = mPreferences.getBoolean(sourceName, false);
-            //if(newsSourceObj.subscribed) {
-                bundle = new Bundle();
-                bundle.putString("category", Common.TOP_STORIES);
-                bundle.putBoolean(Common.LOADIMAGE , loadImages);
-                item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
-                pages.add(item);
+
+        bundle = new Bundle();
+        bundle.putString("category", Common.TOP_STORIES);
+        bundle.putBoolean(Common.LOADIMAGE , loadImages);
+        item = FragmentPagerItem.of("TOP STORIES", DemoFragment.class, bundle);
+        pages.add(item);
 
 
         String country = Locale.getDefault().getCountry();
         Log.v("COUNTRY_CODE", "CODE: " + country);
         bundle = new Bundle();
-        bundle.putString("category", "USA");
+        bundle.putString("category", "usa");
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of(country.toUpperCase(), DemoFragment.class, bundle);
         pages.add(item);
-
 
         bundle = new Bundle();
         bundle.putString("category", Common.ENTERTAINMENT);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("ENTERTAINMENT", DemoFragment.class, bundle);
         pages.add(item);
+        int idx  = 0;
+        //Log.v("NEWSSOURCE", "size : "+ newsSources.size());
+        //for (NewsSource newsSourceObj : newsSources) {
+          //  Log.v("NEWSSOURCE", "" + newsSourceObj.newsSource +" , "+ newsSourceObj.subscribed);
+            ///boolean  checked = mPreferences.getBoolean(sourceName, false);
+            //if(newsSourceObj.subscribed) {
+
+
+
+
+
+
 
         bundle = new Bundle();
-        bundle.putString("category", "SPORTS");
+        bundle.putString("category", Common.SPORTS);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("SPORTS", DemoFragment.class, bundle);
         pages.add(item);
 
         bundle = new Bundle();
-        bundle.putString("category", "BUSINESS");
+        bundle.putString("category", Common.BUSINESS);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("BUSINESS", DemoFragment.class, bundle);
         pages.add(item);
 
 
         bundle = new Bundle();
-        bundle.putString("category", "TECHNOLOGY");
+        bundle.putString("category", Common.TECHINOLOGY);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("TECHNOLOGY", DemoFragment.class, bundle);
         pages.add(item);
 
 
         bundle = new Bundle();
-        bundle.putString("category", "LIFESTYLE");
+        bundle.putString("category", Common.LIFESTYLE);
         bundle.putBoolean(Common.LOADIMAGE , loadImages);
         item = FragmentPagerItem.of("LIFESTYLE", DemoFragment.class, bundle);
         pages.add(item);
@@ -531,11 +536,11 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 
 
 
-    @Override
-    public void onItemClicked(View v, int position) {
-        Log.v("READFULL", "" +position);
-        NewsStory story = null;
-        switch (v.getId()){
+//    @Override
+//    public void onItemClicked(View v, int position) {
+//        Log.v("READFULL", "" +position);
+//        NewsStory story = null;
+//        switch (v.getId()){
 //            case R.id.read_full:
 //                story = (NewsStory) productsList.get(position);
 //                //Log.v("READFULL", "read full clicked "+ story.getUrl() );
@@ -551,9 +556,9 @@ public class MainActivity extends AppCompatActivity  implements FoldingCellItemC
 //                //foldingCellListAdapter.registerToggle(position);
 //                ((FoldingCell) v.getParent().getParent()).toggle(false);
 //                break;
-
-        }
-    }
+//
+//        }
+//    }
 
 
 

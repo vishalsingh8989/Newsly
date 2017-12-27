@@ -39,8 +39,8 @@ public interface NewsDao {
     @Query("select * from newsly ORDER BY publish_date DESC, id DESC  limit 0, 200 ")
     List<News> getAllNews();
 
-    @Query("select * from newsly where category =:category ORDER BY publish_date DESC, id DESC limit 0, 200")
-    List<News> getCategoryNews(String category);
+    @Query("select * from newsly where category =:cat ORDER BY publish_date DESC, id DESC limit 0, 200")
+    List<News> getCategoryNews(String cat);
 
     @Query("select * from newsly where trending = \'True\'  ORDER BY publish_date DESC, id DESC limit 0, 200")
     List<News> getTopStoriesNews();

@@ -58,6 +58,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private NewsDatabase database = null;
     private Typeface custom_font1;
     private Typeface custom_font2;
+    private String Category;
     
 
 
@@ -72,7 +73,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
 
-    public RecycleViewAdapter(DemoFragment Callback, Context context, List<News> newslist) {
+    public RecycleViewAdapter(DemoFragment Callback, Context context, List<News> newslist, String category) {
         this.mContext = context;
         this.mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -81,6 +82,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
         this.newslist = newslist;
+        this.Category = category;
         Log.v("RecycleViewAdapter" , "COUNT : " + newslist.size());
         custom_font1 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
         custom_font2 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
@@ -154,11 +156,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                format.setTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
 //                formatted = format.format(date);
 //                System.out.println(formatted);
-                    Log.v("NEWSDATA", "TITLE :" + story.title);
-                    Log.v("NEWSDATA", "SUMMARY :" + story.summary);
-                    Log.v("NEWSDATA", "META FAVICON :" + story.meta_favicon);
-                    Log.v("NEWSDATA", "PUBLISH DATE :" + formatted);
-                    Log.v("NEWSDATA", "t :" + t);
+                    Log.v("NEWSDATA", "******************RecyclerView***********************");
+                    Log.v("NEWSDATA", Category + " TITLE :" + story.title);
+                    Log.v("NEWSDATA", Category + " SUMMARY :" + story.summary);
+                    Log.v("NEWSDATA", Category + " META FAVICON :" + story.meta_favicon);
+                    Log.v("NEWSDATA", Category + " PUBLISH DATE :" + formatted);
+                    Log.v("NEWSDATA", Category + " TOPIMAGE :" + story.top_image);
+                    Log.v("NEWSDATA", Category + " t :" + t);
 
                     Log.v("NEWSDATA", "*************************************************");
 
@@ -225,6 +229,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
+    AdapterView.OnItemClickListener  mOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Callback.onItemClicked(parent, view, position, id);
+        }
+    };
 
     @Override
     public int getItemCount() {
