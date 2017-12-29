@@ -25,9 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.kepler.news.newsly.MainActivity;
 import com.kepler.news.newsly.NewsStory;
 import com.kepler.news.newsly.R;
 
@@ -36,7 +34,6 @@ import com.kepler.news.newsly.adapter.RecycleViewAdapter;
 import com.kepler.news.newsly.adapter.RecyclerItemClickListener;
 import com.kepler.news.newsly.databaseHelper.News;
 import com.kepler.news.newsly.databaseHelper.NewsDatabase;
-import com.kepler.news.newsly.helper.BounceListener;
 import com.kepler.news.newsly.helper.BounceScroller;
 import com.kepler.news.newsly.helper.Common;
 
@@ -100,6 +97,7 @@ public class DemoFragment extends Fragment implements RecyclerItemClickListener 
 
 
 
+
         setHasOptionsMenu(true);
 
         return inflater.inflate(R.layout.demo_fragment, container, false);
@@ -123,10 +121,10 @@ public class DemoFragment extends Fragment implements RecyclerItemClickListener 
 
         if(category.equals(Common.TRENDING)){
             Log.v("DEMOFRAGMENT" , " trending count : " + database.feedModel().getTopStoriesNews().size());
-            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getTopStoriesNews(), "trending");
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getTopStoriesNews(), "trending", getActivity());
         }else  {
             Log.v("DEMOFRAGMENT" ,  category +"  count : " + database.feedModel().getCategoryNews(category).size());
-            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getCategoryNews(category), category);
+            recycleViewAdapter = new RecycleViewAdapter(this, mContext, database.feedModel().getCategoryNews(category), category, getActivity());
         }
 
         listView.setAdapter(recycleViewAdapter);

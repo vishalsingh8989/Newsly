@@ -1,9 +1,13 @@
 package com.kepler.news.newsly.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +18,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 //import com.bumptech.glide.Glide;
 import com.kepler.news.newsly.MainActivity;
@@ -62,6 +68,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Typeface custom_font2;
     private String Category;
     Animation animation_in, animation_out;
+    private Activity mActivity;
     
 
 
@@ -76,7 +83,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
 
-    public RecycleViewAdapter(DemoFragment Callback, Context context, List<News> newslist, String category) {
+    public RecycleViewAdapter(DemoFragment Callback, Context context, List<News> newslist, String category, Activity activity) {
         this.mContext = context;
         this.mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -86,9 +93,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         this.newslist = newslist;
         this.Category = category;
+        this.mActivity = activity;
         Log.v("RecycleViewAdapter" , "COUNT : " + newslist.size());
         custom_font1 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
-        custom_font2 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
+        custom_font2 = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Light.ttf");
 
         animation_in = AnimationUtils.loadAnimation(mContext, R.anim.zoom_in);
         animation_out = AnimationUtils.loadAnimation(mContext, R.anim.zoom_out);
@@ -149,6 +157,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 newsFullItemViewHolder.source_name.setText(story.source_name);
                 newsFullItemViewHolder.author.setText(story.authors);
                 //newsItemViewHolder.publish_date.setText(formatted);
+
                 try {
 
                     Picasso.with(mContext)
@@ -392,7 +401,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView category;
         TextView readFull;
         //TextView publish_date;
-        //NativeExpressAdView adView;
+        //NmaativeExpressAdView adView;
         ImageView top_image;
         //ImageView meta_favicon;
 
@@ -403,7 +412,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             //summary = (TextView) cell.findViewById(R.id.summary);
 //            //author = (TextView) cell.findViewById(R.id.author);
             title = (TextView) cell.findViewById(R.id.title);
-            top_image = (ImageView) cell.findViewById(R.id.top_image);
+            top_image = cell.findViewById(R.id.top_image);
             //meta_favicon = cell.findViewById(R.id.meta_favicon);
             author = cell.findViewById(R.id.authors);
             source_name = cell.findViewById(R.id.source_name);

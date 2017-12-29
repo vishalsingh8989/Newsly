@@ -3,14 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativelayout"
     android:layout_width="match_parent"
-    android:layout_height="270dp" >
+    android:layout_height="240dp" >
 
     <ImageView
         android:id="@+id/top_image"
-
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_height="270dp"
+        android:layout_height="240dp"
         android:scaleType="centerCrop"
         android:src="@drawable/sample"
         />
@@ -27,7 +26,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:gravity="left"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:text="@string/title_sample"
         android:textColor="#ffff" />
     <TextView
